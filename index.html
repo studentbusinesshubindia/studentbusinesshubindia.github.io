@@ -206,11 +206,10 @@
     </div>
 </section>
 
-<!-- STEP 2: GST SUVIDHA CENTER STYLE - ADD CUSTOMER & LIVE TABLE (Initially Hidden) -->
+<!-- STEP 2: ADD CUSTOMER FORM (Initially Hidden) -->
 <section class="py-4 bg-light d-none" id="nextStepSection">
     <div class="container-fluid px-4">
         
-        <!-- CARD 1: ADD NEW CUSTOMER -->
         <div class="card shadow-sm border-0 mb-4">
             <div class="card-header bg-primary text-white fw-bold py-2">
                 Add New Customer
@@ -264,39 +263,6 @@
                         </div>
                     </div>
                 </form>
-            </div>
-        </div>
-
-        <!-- CARD 2: VIEW REGISTERED CUSTOMERS -->
-        <div class="card shadow-sm border-0">
-            <div class="card-header bg-primary text-white fw-bold py-2">
-                View Register Customers
-            </div>
-            <div class="card-body p-3">
-                <p class="text-danger fw-bold mb-2">Total Count : <span id="totalCount">0</span></p>
-
-                <div class="table-responsive">
-                    <table class="table table-bordered table-hover align-middle text-center small">
-                        <thead class="table-light">
-                            <tr>
-                                <th></th>
-                                <th>Search Invoice</th>
-                                <th>Update</th>
-                                <th>Customer Id</th>
-                                <th>Customer Name</th>
-                                <th>Contact No</th>
-                                <th>Registered Date</th>
-                                <th>Address</th>
-                                <th>Pan Card</th>
-                                <th>Pin Code</th>
-                                <th>GST No.</th>
-                            </tr>
-                        </thead>
-                        <tbody id="custTableBody">
-                            <tr><td colspan="11">डेटा लोड होत आहे...</td></tr>
-                        </tbody>
-                    </table>
-                </div>
             </div>
         </div>
 
@@ -360,26 +326,18 @@ function googleTranslateElementInit() {
 
 <!-- APPS SCRIPT CONNECTIVITY & STEP TOGGLE LOGIC -->
 <script>
-  // अपडेट केलेली नवीन Apps Script Web App URL
   const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx_S2HQwEyZOjdd8Dr__OVtZLW5YnCQlhga9XUp4JpEsAqs1rJK232C2jOVXeE7iJAHsA/exec";
 
-  // 1. Business Owner Submit (Form 1 -> Opens Step 2 Form & Table)
+  // 1. Business Owner Submit
   document.getElementById('ownerStep1Form').addEventListener('submit', function(e) {
     e.preventDefault();
 
-    // Step 1 चा डेटा ऑटोमॅटिक Step 2 फॉर्ममध्ये भरण्यासाठी
     document.getElementById('custName').value = document.getElementById('init_name').value;
     document.getElementById('custMobile').value = document.getElementById('init_mobile').value;
     document.getElementById('custCity').value = document.getElementById('init_city').value;
 
-    // Step 2 सेक्शन दाखवा
     document.getElementById('nextStepSection').classList.remove('d-none');
-    
-    // स्मूथ स्क्रोल करा
     document.getElementById('nextStepSection').scrollIntoView({ behavior: 'smooth' });
-
-    // जुना डेटा टेबलमध्ये दाखवा
-    fetchCustomers();
   });
 
   // 2. Student Executive Form Submit
@@ -404,7 +362,7 @@ function googleTranslateElementInit() {
       });
   });
 
-  // 3. Save Customer to Google Sheet (Step 2 Submit)
+  // 3. Save Customer to Google Sheet
   document.getElementById('addCustForm').addEventListener('submit', function(e) {
     e.preventDefault();
     const btn = document.getElementById('saveBtn');
@@ -425,58 +383,13 @@ function googleTranslateElementInit() {
         this.reset();
         btn.innerText = "Save customer";
         btn.disabled = false;
-        fetchCustomers();
       })
       .catch(() => {
         alert("माहिती सेव्ह झाली आहे!");
         btn.innerText = "Save customer";
         btn.disabled = false;
-        fetchCustomers();
       });
   });
-
-  // 4. Fetch Customers Data to Display in Table
-  function fetchCustomers() {
-    fetch(SCRIPT_URL)
-      .then(res => res.json())
-      .then(data => {
-        const tbody = document.getElementById('custTableBody');
-        tbody.innerHTML = '';
-
-        if(!data || data.length === 0 || !Array.isArray(data)) {
-          document.getElementById('totalCount').innerText = "0";
-          tbody.innerHTML = `<tr><td colspan="11">कोणताही डेटा उपलब्ध नाही.</td></tr>`;
-          return;
-        }
-
-        document.getElementById('totalCount').innerText = data.length;
-
-        data.reverse().forEach(item => {
-          let mob = item.mobile ? item.mobile.toString() : '';
-          let maskedMob = mob.length >= 10 ? mob.substr(0,2) + "*******" + mob.substr(-2) : mob;
-
-          let row = `
-            <tr>
-              <td><button class="btn btn-danger btn-sm py-0 px-2 fs-7">Raise Invoice</button></td>
-              <td><i class="fa-solid fa-magnifying-glass text-primary"></i></td>
-              <td><a href="#" class="text-primary text-decoration-none">Edit</a></td>
-              <td class="fw-bold">${item.id || ''}</td>
-              <td class="text-start">${item.name || ''}</td>
-              <td>${maskedMob}</td>
-              <td>${item.date || ''}</td>
-              <td class="text-start">${item.address || ''}, ${item.city || ''}</td>
-              <td>${item.pan || 'N/A'}</td>
-              <td>${item.pin || ''}</td>
-              <td>${item.gst || 'N/A'}</td>
-            </tr>
-          `;
-          tbody.innerHTML += row;
-        });
-      })
-      .catch(err => {
-        console.error("Error fetching data:", err);
-      });
-  }
 </script>
 
 </body>
