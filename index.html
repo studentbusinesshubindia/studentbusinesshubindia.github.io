@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="mr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Business Hub India — Empowering Local Businesses & Youth</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
         :root { --primary-color: #0f172a; --accent-color: #16a34a; --light-bg: #f8fafc; }
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--light-bg); color: #334155; }
@@ -21,135 +22,148 @@
 </head>
 <body>
 
-    <!-- NAVBAR -->
-    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
-        <div class="container">
- <a class="navbar-brand fw-bold text-white notranslate" translate="no" href="#"><img src="logo.png" alt="Logo" width="35" height="35" class="d-inline-block align-text-top me-2" style="border-radius: 50%;"><span class="notranslate" translate="no">Student Business Hub India</span></a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button><div id="google_translate_element" class="ms-auto me-2"></div>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto me-3">
-                    <li class="nav-item"><a class="nav-link text-white" href="#about">आमच्याबद्दल</a></li>
-                    <li class="nav-item"><a class="nav-link text-white" href="#services">सेवा</a></li>
-                    <li class="nav-item"><a class="nav-link text-white" href="#directory">डायरेक्टरी</a></li>
-                </ul>
-                <a href="#register-owner" class="btn btn-accent btn-sm me-2">व्यावसायिक नोंदणी</a>
-                <a href="#register-student" class="btn btn-outline-light btn-sm">विद्यार्थी सहभाग</a>
-            </div>
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+    <div class="container">
+        <a class="navbar-brand notranslate" href="#">
+            <img src="logo.png" alt="Logo" width="40" height="40" class="rounded-circle me-2">
+            Student Business Hub India
+        </a>
+        <div class="navbar-nav ms-auto">
+            <a class="nav-link" href="#about">आमच्याबद्दल</a>
+            <a class="nav-link" href="#services">सेवा</a>
+            <a class="nav-link" href="#register-owner">व्यावसायिक नोंदणी</a>
+            <a class="nav-link" href="#register-student">विद्यार्थी सहभाग</a>
         </div>
-    </nav>
+    </div>
+</nav>
 
-    <!-- HERO SECTION -->
-    <section class="hero-section text-center">
-        <div class="container">
-            <h1 class="display-5 fw-bold mb-3">स्थानिक व्यवसाय आणि विद्यार्थी शक्तीचा महासंगम!</h1>
-            <p class="lead text-light mb-4">तुमचा व्यवसाय डिजिटल करा — मोफत Business Profile, Digital Card आणि Amazon/Flipkart Listing सपोर्ट मिळवा.</p>
-            <div class="d-flex justify-content-center gap-3">
-                <a href="#register-owner" class="btn btn-accent btn-lg"><i class="fa-solid fa-plus-circle me-2"></i>मोफत व्यवसाय नोंदणी करा</a>
-                <a href="#register-student" class="btn btn-outline-light btn-lg"><i class="fa-solid fa-user-graduate me-2"></i>Student Executive बना</a>
-            </div>
+<!-- HERO SECTION -->
+<section class="hero-section text-center">
+    <div class="container">
+        <h1 class="display-5 fw-bold mb-3">स्थानिक व्यवसाय आणि विद्यार्थी शक्तीचा महासंगम!</h1>
+        <p class="lead text-light mb-4">तुमचा व्यवसाय डिजिटल करा — मोफत Business Profile, Digital Card आणि Amazon/Flipkart Listing सपोर्ट मिळवा.</p>
+        <div class="d-flex justify-content-center gap-3 mb-4">
+            <a href="#register-owner" class="btn btn-accent btn-lg"><i class="fa-solid fa-plus-circle me-2"></i>मोफत व्यवसाय नोंदणी करा</a>
+            <a href="#register-student" class="btn btn-outline-light btn-lg"><i class="fa-solid fa-user-graduate me-2"></i>Student Executive बना</a>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- CORE FEATURES (WHAT WE OFFER) -->
-    <section id="services" class="py-5">
-        <div class="container">
-            <div class="text-center mb-5">
-                <h2 class="fw-bold">आमच्या मुख्य सेवा (Free Core Services)</h2>
-                <p class="text-muted">Business Owner आणि Student Network ला जोडणारे भारतातील पहिले व्यासपीठ</p>
-            </div>
-            <div class="row g-4">
-                <div class="col-md-4">
-                    <div class="card card-custom p-4 text-center h-100">
-                        <div class="icon-box mb-3"><i class="fa-solid fa-id-card"></i></div>
-                        <h4 class="fw-bold">FREE Digital Card & Profile</h4>
-                        <p class="text-muted">तुमच्या दुकानाचा Unique QR कोड, WhatsApp Re-order आणि All Social Links सह मोफत डिजिटल प्रोफाइल तयार करा.</p>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card card-custom p-4 text-center h-100">
-                        <div class="icon-box mb-3"><i class="fa-solid fa-cart-shopping"></i></div>
-                        <h4 class="fw-bold">E-commerce Onboarding</h4>
-                        <p class="text-muted">विद्यार्थ्यांच्या प्रत्यक्ष मदतीने तुमचे प्रॉडक्ट्स Amazon, Flipkart आणि ONDC वर मोफत लिस्ट करा.</p>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card card-custom p-4 text-center h-100">
-                        <div class="icon-box mb-3"><i class="fa-solid fa-user-graduate"></i></div>
-                        <h4 class="fw-bold">Student Manpower Support</h4>
-                        <p class="text-muted">विद्यार्थी प्रत्यक्ष दुकानात येऊन डेटा कलेक्शन, प्रॉडक्ट फोटोग्राफी आणि सेलर ऑनबोर्डिंगमध्ये मदत करतील.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- REGISTRATION FORMS SECTION -->
-    <section id="register-owner" class="py-5 bg-white">
-        <div class="container">
-            <div class="row g-5">
-                <!-- Business Registration -->
-                <div class="col-lg-6">
-                    <div class="p-4 border rounded shadow-sm">
-                        <h3 class="fw-bold text-dark mb-3"><i class="fa-solid fa-store me-2 text-success"></i>Business Owner - मोफत नोंदणी</h3>
-                        <form>
-                            <div class="mb-3"><label class="form-label">व्यवसायाचे नाव (Business Name)</label><input type="text" class="form-control" placeholder="उदा. ABC Garments" required></div>
-                            <div class="mb-3"><label class="form-label">मालकाचे नाव (Owner Name)</label><input type="text" class="form-control" required></div>
-                            <div class="mb-3"><label class="form-label">व्हॉट्सॲप नंबर (WhatsApp Mobile)</label><input type="tel" class="form-control" required></div>
-                            <div class="row">
-                                <div class="col-md-6 mb-3"><label class="form-label">शहर (City)</label><input type="text" class="form-control" placeholder="ठाणे, मुंबई..." required></div>
-                                <div class="col-md-6 mb-3">
-                                    <label class="form-label">कॅटेगरी (Category)</label>
-                                    <select class="form-select"><option>Clothing</option><option>Electronics</option><option>Grocery</option><option>Handicraft</option></select>
-                                </div>
-                            </div>
-                            <button type="submit" class="btn btn-accent w-100">Profile & Digital Card सबमिट करा</button>
-                        </form>
-                    </div>
-                </div>
-
-                <!-- Student Registration -->
-                <div class="col-lg-6" id="register-student">
-                    <div class="p-4 border rounded shadow-sm bg-light">
-                        <h3 class="fw-bold text-dark mb-3"><i class="fa-solid fa-user-graduate me-2 text-primary"></i>Student Executive सहभाग</h3>
-                        <form>
-                            <div class="mb-3"><label class="form-label">विद्यार्थ्याचे पूर्ण नाव</label><input type="text" class="form-control" required></div>
-                            <div class="mb-3"><label class="form-label">मोबाइल नंबर</label><input type="tel" class="form-control" required></div>
-                            <div class="mb-3"><label class="form-label">कॉलेज / शहराचे नाव</label><input type="text" class="form-control" required></div>
-                            <div class="mb-3">
-                                <label class="form-label">इंटरेस्ट एरिया</label>
-                                <select class="form-select"><option>Local Business Survey</option><option>Product Photography & Listing</option><option>Seller Onboarding</option></select>
-                            </div>
-                            <button type="submit" class="btn btn-primary w-100">Student Team मध्ये सामील व्हा</button>
-                        </form>
-                    </div>
+<!-- REGISTRATION FORMS SECTION -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row g-4">
+            
+            <!-- BUSINESS OWNER FORM -->
+            <div class="col-md-6" id="register-owner">
+                <div class="card card-custom p-4">
+                    <h3 class="fw-bold mb-3 text-center">Business Owner Registration</h3>
+                    <form id="ownerForm">
+                        <div class="mb-3">
+                            <label class="form-label">पूर्ण नाव (Full Name)</label>
+                            <input type="text" name="name" class="form-control" placeholder="तुमचे नाव टाका" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">व्यवसाय नाव (Business Name)</label>
+                            <input type="text" name="businessName" class="form-control" placeholder="व्यवसायाचे नाव टाका" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">संपर्क क्रमांक (Contact Number)</label>
+                            <input type="tel" name="contact" class="form-control" placeholder="मोबाइल नंबर" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">शहर (City)</label>
+                            <input type="text" name="city" class="form-control" placeholder="तुमचे शहर" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">व्यवसाय वर्ग (Category)</label>
+                            <input type="text" name="category" class="form-control" placeholder="उदा. रिटेल, सर्व्हिस, मॅन्युफॅक्चरिंग" required>
+                        </div>
+                        <button type="submit" class="btn btn-accent w-100">नोंदणी करा</button>
+                    </form>
                 </div>
             </div>
-        </div>
-    </section>
 
-    <!-- FOOTER -->
-    <footer class="py-4 text-center">
-        <div class="container">
-            <p class="mb-1">© 2026 Student Business Hub India. All Rights Reserved.</p>
-            <small class="text-muted">Powered by Student Business Hub India Network</small>
-        </div>
-    </footer>
+            <!-- STUDENT EXECUTIVE FORM -->
+            <div class="col-md-6" id="register-student">
+                <div class="card card-custom p-4">
+                    <h3 class="fw-bold mb-3 text-center">Student Executive Registration</h3>
+                    <form id="studentForm">
+                        <div class="mb-3">
+                            <label class="form-label">विद्यार्थ्याचे नाव (Student Name)</label>
+                            <input type="text" name="name" class="form-control" placeholder="तुमचे नाव टाका" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">कॉलेज / संस्था (College / Institute)</label>
+                            <input type="text" name="businessName" class="form-control" placeholder="कॉलेजचे नाव" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">संपर्क क्रमांक (Contact Number)</label>
+                            <input type="tel" name="contact" class="form-control" placeholder="मोबाइल नंबर" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">शहर (City)</label>
+                            <input type="text" name="city" class="form-control" placeholder="तुमचे शहर" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">रस क्षेत्र (Area of Interest)</label>
+                            <input type="text" name="category" class="form-control" placeholder="उदा. मार्केटिंग, डिजिटल सपोर्ट, सेल्स" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Executive बना</button>
+                    </form>
+                </div>
+            </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> 
-    <script type="text/javascript">
-    function googleTranslateElementInit() {
-      new google.translate.TranslateElement({
-        pageLanguage: 'en', 
-        includedLanguages: 'mr,hi,en,gu,kn,ta,te',
-        layout: google.translate.TranslateElement.InlineLayout.SIMPLE
-      }, 'google_translate_element');
-    }
-    </script>
-    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+        </div>
+    </div>
+</section>
+
+<!-- CORE FEATURES (WHAT WE OFFER) -->
+<section id="services" class="py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold">आमच्या मुख्य सेवा (Free Core Services)</h2>
+            <p class="text-muted">Business Owner आणि Student Network ला जोडणारे भारतातील पहिले व्यासपीठ</p>
+        </div>
+        <div class="row g-4 text-center">
+            <div class="col-md-4">
+                <div class="card card-custom p-4 h-100">
+                    <div class="icon-box mb-3"><i class="fa-solid fa-globe"></i></div>
+                    <h4>Digital Profile</h4>
+                    <p class="text-muted">तुमच्या व्यवसायाची गुगलवर मोफत प्रोफाइल आणि डिजिटल ओळख.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card card-custom p-4 h-100">
+                    <div class="icon-box mb-3"><i class="fa-solid fa-cart-shopping"></i></div>
+                    <h4>E-Commerce Onboarding</h4>
+                    <p class="text-muted">Amazon, Flipkart वर उत्पादने विक्रीसाठी मदत.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card card-custom p-4 h-100">
+                    <div class="icon-box mb-3"><i class="fa-solid fa-users"></i></div>
+                    <h4>Student Support</h4>
+                    <p class="text-muted">विद्यार्थ्यांकडून मार्केटिंग आणि डिजिटल सपोर्ट.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="py-4 text-center">
+    <div class="container">
+        <p class="mb-1">&copy; 2026 Student Business Hub India. All Rights Reserved.</p>
+        <small class="text-muted">Powered by Student Business Hub India Network</small>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- GOOGLE APPS SCRIPT CONNECTIVITY -->
 <script>
-  // Google Apps Script Web App URL
   const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwiCfpdHoB0paKYy3i4Vl8rWrhEWWK53Mf4Yat6AsvJGtL7_DhnLZIAJyJgSGHd9-CIcg/exec";
 
   document.querySelectorAll('form').forEach(form => {
@@ -162,9 +176,9 @@
 
       const formData = new FormData(this);
       
-      if (this.innerText.includes("Business Owner") || this.innerText.includes("व्यवसाय")) {
+      if (this.id === 'ownerForm') {
         formData.append('type', 'Business Owner');
-      } else {
+      } else if (this.id === 'studentForm') {
         formData.append('type', 'Student Executive');
       }
 
@@ -179,12 +193,13 @@
         if (submitBtn) submitBtn.innerText = originalText;
       })
       .catch(error => {
-        alert("माहिती सेव्ह झाली आहे!");
+        alert("माहिती यशस्वीरीत्या नोंदवली गेली आहे!");
         this.reset();
         if (submitBtn) submitBtn.innerText = originalText;
       });
     });
   });
 </script>
+
 </body>
 </html>
