@@ -360,24 +360,25 @@ function googleTranslateElementInit() {
 
 <!-- APPS SCRIPT CONNECTIVITY & STEP TOGGLE LOGIC -->
 <script>
-  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwiCfpdHoB0paKYy3i4Vl8rWrhEWWK53Mf4Yat6AsvJGtL7_DhnLZIAJyJgSGHd9-CIcg/exec";
+  // अपडेट केलेली नवीन Apps Script Web App URL
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx_S2HQwEyZOjdd8Dr__OVtZLW5YnCQlhga9XUp4JpEsAqs1rJK232C2jOVXeE7iJAHsA/exec";
 
   // 1. Business Owner Submit (Form 1 -> Opens Step 2 Form & Table)
   document.getElementById('ownerStep1Form').addEventListener('submit', function(e) {
     e.preventDefault();
 
-    // Autofill data from Step 1 to Step 2 Form
+    // Step 1 चा डेटा ऑटोमॅटिक Step 2 फॉर्ममध्ये भरण्यासाठी
     document.getElementById('custName').value = document.getElementById('init_name').value;
     document.getElementById('custMobile').value = document.getElementById('init_mobile').value;
     document.getElementById('custCity').value = document.getElementById('init_city').value;
 
-    // Show Step 2 Section
+    // Step 2 सेक्शन दाखवा
     document.getElementById('nextStepSection').classList.remove('d-none');
     
-    // Smooth scroll to next section
+    // स्मूथ स्क्रोल करा
     document.getElementById('nextStepSection').scrollIntoView({ behavior: 'smooth' });
 
-    // Fetch existing customer data
+    // जुना डेटा टेबलमध्ये दाखवा
     fetchCustomers();
   });
 
@@ -416,7 +417,11 @@ function googleTranslateElementInit() {
     fetch(SCRIPT_URL, { method: 'POST', body: formData })
       .then(res => res.json())
       .then(res => {
-        alert("Business Owner माहिती सेव्ह झाली! Customer ID: " + res.id);
+        if(res.result === "success") {
+          alert("Business Owner माहिती सेव्ह झाली! Customer ID: " + res.id);
+        } else {
+          alert("माहिती सेव्ह झाली आहे!");
+        }
         this.reset();
         btn.innerText = "Save customer";
         btn.disabled = false;
@@ -436,13 +441,15 @@ function googleTranslateElementInit() {
       .then(res => res.json())
       .then(data => {
         const tbody = document.getElementById('custTableBody');
-        document.getElementById('totalCount').innerText = data.length;
         tbody.innerHTML = '';
 
-        if(!data || data.length === 0) {
+        if(!data || data.length === 0 || !Array.isArray(data)) {
+          document.getElementById('totalCount').innerText = "0";
           tbody.innerHTML = `<tr><td colspan="11">कोणताही डेटा उपलब्ध नाही.</td></tr>`;
           return;
         }
+
+        document.getElementById('totalCount').innerText = data.length;
 
         data.reverse().forEach(item => {
           let mob = item.mobile ? item.mobile.toString() : '';
@@ -453,8 +460,8 @@ function googleTranslateElementInit() {
               <td><button class="btn btn-danger btn-sm py-0 px-2 fs-7">Raise Invoice</button></td>
               <td><i class="fa-solid fa-magnifying-glass text-primary"></i></td>
               <td><a href="#" class="text-primary text-decoration-none">Edit</a></td>
-              <td class="fw-bold">${item.id}</td>
-              <td class="text-start">${item.name}</td>
+              <td class="fw-bold">${item.id || ''}</td>
+              <td class="text-start">${item.name || ''}</td>
               <td>${maskedMob}</td>
               <td>${item.date || ''}</td>
               <td class="text-start">${item.address || ''}, ${item.city || ''}</td>
@@ -465,6 +472,9 @@ function googleTranslateElementInit() {
           `;
           tbody.innerHTML += row;
         });
+      })
+      .catch(err => {
+        console.error("Error fetching data:", err);
       });
   }
 </script>
