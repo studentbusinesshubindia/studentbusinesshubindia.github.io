@@ -336,14 +336,24 @@ function googleTranslateElementInit() {
   // अद्ययावत वेब ॲप URL
   const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzwa7KKyarFwlP3-I-o5IyKvOhvmWGxHK705q7ghbb9mRJ46yNZI41E1v2f7OcKe6392Q/exec";
 
-  // 1. Business Owner Submit
+  // 1. Business Owner Submit (Step 1)
   document.getElementById('ownerStep1Form').addEventListener('submit', function(e) {
     e.preventDefault();
 
+    // Sheet1 मध्ये प्रथमतः माहिती पाठवण्यासाठी
+    const formData = new FormData(this);
+    formData.append('type', 'Business Owner');
+
+    fetch(SCRIPT_URL, { method: 'POST', body: formData })
+      .then(() => console.log("Step 1 saved to Sheet1"))
+      .catch((err) => console.log("Step 1 error:", err));
+
+    // ऑटोमॅटिकली डेटा दुसऱ्या फॉर्ममध्ये भरणे
     document.getElementById('custName').value = document.getElementById('init_name').value;
     document.getElementById('custMobile').value = document.getElementById('init_mobile').value;
     document.getElementById('custCity').value = document.getElementById('init_city').value;
 
+    // दुसरा फॉर्म समोर आणणे
     document.getElementById('nextStepSection').classList.remove('d-none');
     document.getElementById('nextStepSection').scrollIntoView({ behavior: 'smooth' });
   });
@@ -370,7 +380,7 @@ function googleTranslateElementInit() {
       });
   });
 
-  // 3. Save Customer to Google Sheet
+  // 3. Save Customer to Google Sheet (Customers Sheet)
   document.getElementById('addCustForm').addEventListener('submit', function(e) {
     e.preventDefault();
     const btn = document.getElementById('saveBtn');
@@ -378,7 +388,7 @@ function googleTranslateElementInit() {
     btn.disabled = true;
 
     const formData = new FormData(this);
-    formData.append('action', 'add');
+    formData.append('action', 'add'); // हे Action Customers शीट ओळखण्यासाठी महत्त्वाचे आहे
 
     fetch(SCRIPT_URL, { method: 'POST', body: formData })
       .then(res => res.json())
