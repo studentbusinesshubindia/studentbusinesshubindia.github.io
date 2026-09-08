@@ -3,207 +3,222 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Business Hub India</title>
+    <title>Student Business Hub India — Empowering Local Businesses & Youth</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         :root { --primary-color: #0f172a; --accent-color: #16a34a; --light-bg: #f8fafc; }
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--light-bg); color: #334155; }
-        .navbar { background-color: var(--primary-color) !important; }
-        .navbar-brand, .nav-link { color: #ffffff !important; }
-        .nav-link:hover { color: #38bdf8 !important; }
-        .hero-section { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: white; padding: 60px 0; }
+        .navbar { background-color: var(--primary-color); }
+        .hero-section { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: white; padding: 70px 0; }
         .btn-accent { background-color: var(--accent-color); color: white; font-weight: 600; border: none; }
         .btn-accent:hover { background-color: #15803d; color: white; }
-        .card-custom { border: 1px solid #e2e8f0; border-radius: 10px; background: white; }
+        .card-custom { border: 1px solid #e2e8f0; border-radius: 10px; transition: 0.3s; background: white; }
+        .card-custom:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.08); }
+        .icon-box { font-size: 2.5rem; color: var(--accent-color); }
+        footer { background-color: var(--primary-color); color: #94a3b8; }
+        #google_translate_element { margin-left: 15px; }
         .img-preview-thumb { width: 45px; height: 45px; object-fit: cover; border-radius: 4px; border: 1px solid #cbd5e1; }
-        
-        .hide-section {
-            display: none !important;
-        }
-
-        /* Google Translate Styling Adjustments */
-        #google_translate_element {
-            display: inline-block;
-            margin-left: 15px;
-        }
-        .goog-te-gadget {
-            color: #fff !important;
-            font-size: 13px !important;
-        }
-        .goog-te-gadget .goog-te-combo {
-            padding: 2px 5px;
-            border-radius: 4px;
-            border: 1px solid #cbd5e1;
-        }
     </style>
 </head>
 <body>
 
-<!-- NAVBAR (LOGO, AMCHYABADDAL, SERVICES & GOOGLE TRANSLATE) -->
+<!-- NAVBAR -->
 <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
     <div class="container">
-        <a class="navbar-brand fw-bold fs-4 notranslate" href="#">
-            <i class="fa-solid fa-briefcase text-warning me-2"></i>Student Business Hub India
+        <a class="navbar-brand notranslate" href="#">
+            <img src="logo.png" alt="Logo" width="40" height="40" class="rounded-circle me-2">
+            Student Business Hub India
         </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto align-items-center">
-                <li class="nav-item">
-                    <a class="nav-link px-3" href="#about">आमच्याबद्दल</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link px-3" href="#services">सेवा</a>
-                </li>
-                <li class="nav-item">
-                    <!-- GOOGLE TRANSLATE WIDGET -->
-                    <div id="google_translate_element"></div>
-                </li>
-            </ul>
+        <div class="navbar-nav ms-auto align-items-center">
+            <a class="nav-link" href="#about">आमच्याबद्दल</a>
+            <a class="nav-link" href="#services">सेवा</a>
+            <a class="nav-link" href="#register-owner">व्यावसायिक नोंदणी</a>
+            <a class="nav-link" href="#register-student">विद्यार्थी सहभाग</a>
+            <div id="google_translate_element"></div>
         </div>
     </div>
 </nav>
 
-<!-- STEP 1: MAIN REGISTRATION SCREEN -->
-<div id="mainScreen">
-    <section class="hero-section text-center">
-        <div class="container">
-            <h1 class="display-5 fw-bold mb-3">स्थानिक व्यवसाय आणि विद्यार्थी शक्तीचा महासंगम!</h1>
-            <p class="lead text-light mb-4">तुमचा व्यवसाय डिजिटल करा — मोफत Business Profile, Digital Card आणि Amazon/Flipkart Listing सपोर्ट मिळवा.</p>
+<!-- HERO SECTION -->
+<section class="hero-section text-center" id="heroSection">
+    <div class="container">
+        <h1 class="display-5 fw-bold mb-3">स्थानिक व्यवसाय आणि विद्यार्थी शक्तीचा महासंगम!</h1>
+        <p class="lead text-light mb-4">तुमचा व्यवसाय डिजिटल करा — मोफत Business Profile, Digital Card आणि Amazon/Flipkart Listing सपोर्ट मिळवा.</p>
+        <div class="d-flex justify-content-center gap-3 mb-4">
+            <a href="#register-owner" class="btn btn-accent btn-lg"><i class="fa-solid fa-plus-circle me-2"></i>मोफत व्यवसाय नोंदणी करा</a>
+            <a href="#register-student" class="btn btn-outline-light btn-lg"><i class="fa-solid fa-user-graduate me-2"></i>Student Executive बना</a>
         </div>
-    </section>
+    </div>
+</section>
 
-    <section class="py-5 bg-light" id="registrationFormsSection">
-        <div class="container">
-            <div class="row g-4">
-                <!-- BUSINESS OWNER FORM -->
-                <div class="col-md-6" id="register-owner">
-                    <div class="card card-custom p-4 shadow-sm">
-                        <h3 class="fw-bold mb-3 text-center">Business Owner Registration</h3>
-                        <form id="ownerStep1Form">
-                            <div class="mb-3">
-                                <label class="form-label">पूर्ण नाव (Full Name)</label>
-                                <input type="text" id="init_name" name="name" class="form-control" placeholder="तुमचे नाव टाका" required>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">व्यवसाय नाव (Business Name)</label>
-                                <input type="text" id="init_business" name="businessName" class="form-control" placeholder="व्यवसायाचे/दुकानाचे नाव टाका" required>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">संपर्क क्रमांक (Contact Number)</label>
-                                <input type="tel" id="init_mobile" name="contact" class="form-control" placeholder="मोबाइल नंबर" required>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">शहर (City)</label>
-                                <input type="text" id="init_city" name="city" class="form-control" placeholder="तुमचे शहर" required>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">व्यवसाय वर्ग (Category)</label>
-                                <select id="init_category" name="category" class="form-select" required>
-                                    <option value="" selected disabled>वर्ग निवडा (Select Category)</option>
-                                    <option value="Retail / दुकान">Retail / दुकान</option>
-                                    <option value="Services / सेवा">Services / सेवा</option>
-                                    <option value="Manufacturing / उत्पादन">Manufacturing / उत्पादन</option>
-                                    <option value="Food & Restaurant / हॉटेल">Food & Restaurant / हॉटेल</option>
-                                    <option value="Other / इतर">Other / इतर</option>
-                                </select>
-                            </div>
-                            <button type="submit" class="btn btn-accent w-100 py-2">नोंदणी करा</button>
-                        </form>
-                    </div>
+<!-- ABOUT SECTION -->
+<section id="about" class="py-5 bg-white">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold">आमच्याबद्दल (About Student Business Hub India)</h2>
+            <p class="lead text-primary fw-semibold">महाविद्यालयीन विद्यार्थी आणि स्थानिक उद्योजकांना ई-कॉमर्सच्या माध्यमातून जोडणारे भारतातील पहिले Two-Sided Network</p>
+        </div>
+
+        <div class="row g-4 mb-4">
+            <div class="col-md-6">
+                <div class="p-4 bg-light rounded-3 border h-100 shadow-sm">
+                    <h4 class="fw-bold text-dark mb-3"><i class="fa-solid fa-bullseye text-success me-2"></i>मुख्य उद्देश (Primary Focus)</h4>
+                    <p class="text-muted mb-0">विद्यार्थ्यांना प्रत्यक्ष ई-कॉमर्स प्रोजेक्ट्सवर काम (Product Listing, Seller Onboarding) शिकवणे आणि बिझनेस ओनर्सना ऑनलाईन व्यवसाय वाढवण्यासाठी Student Business Executives कडून प्रत्यक्ष मदत पुरवणे.</p>
                 </div>
-
-                <!-- STUDENT EXECUTIVE FORM -->
-                <div class="col-md-6" id="register-student">
-                    <div class="card card-custom p-4 shadow-sm">
-                        <h3 class="fw-bold mb-3 text-center">Student Executive Registration</h3>
-                        <form id="studentForm">
-                            <div class="mb-3">
-                                <label class="form-label">विद्यार्थ्याचे नाव (Student Name)</label>
-                                <input type="text" name="name" class="form-control" placeholder="तुमचे नाव टाका" required>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">कॉलेज / संस्था (College / Institute)</label>
-                                <input type="text" name="businessName" class="form-control" placeholder="कॉलेजचे नाव" required>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">संपर्क क्रमांक (Contact Number)</label>
-                                <input type="tel" name="contact" class="form-control" placeholder="मोबाइल नंबर" required>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">शहर (City)</label>
-                                <input type="text" name="city" class="form-control" placeholder="तुमचे शहर" required>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">रस क्षेत्र (Area of Interest)</label>
-                                <select name="category" class="form-select" required>
-                                    <option value="" selected disabled>क्षेत्र निवडा</option>
-                                    <option value="Digital Marketing">Digital Marketing</option>
-                                    <option value="Field Sales">Field Sales</option>
-                                </select>
-                            </div>
-                            <button type="submit" class="btn btn-primary w-100 py-2">Executive बना</button>
-                        </form>
-                    </div>
+            </div>
+            <div class="col-md-6">
+                <div class="p-4 bg-light rounded-3 border h-100 shadow-sm">
+                    <h4 class="fw-bold text-dark mb-3"><i class="fa-solid fa-eye text-primary me-2"></i>आमचे ध्येय (Mission & Vision)</h4>
+                    <p class="text-muted mb-0">अशा भक्कम नेटवर्कची उभारणी करणे जिथे विद्यार्थ्यांना ई-कॉमर्सचा खरा व्यावसायिक अनुभव मिळेल आणि उद्योजकांना त्यांच्या उत्पादनांची ऑनलाईन विक्री वाढवण्यासाठी मोफत तांत्रिक सपोर्ट मिळेल.</p>
                 </div>
             </div>
         </div>
-    </section>
 
-    <!-- ABOUT SECTION -->
-    <section class="py-5 bg-white" id="about">
-        <div class="container text-center">
-            <h2 class="fw-bold mb-3">आमच्याबद्दल (About Us)</h2>
-            <p class="text-muted mx-auto" style="max-width: 700px;">
-                स्टुडंट बिझनेस हब इंडिया हे स्थानिक व्यवसाय आणि तरुण विद्यार्थ्यांना एकत्र आणणारे एक डिजिटल प्लॅटफॉर्म आहे. आम्ही स्थानिक दुकानांना ऑनलाईन उपस्थिती मिळवून देतो आणि विद्यार्थ्यांना प्रत्यक्ष कामाचा अनुभव प्रदान करतो.
-            </p>
-        </div>
-    </section>
-
-    <!-- SERVICES SECTION -->
-    <section class="py-5 bg-light" id="services">
-        <div class="container">
-            <h2 class="fw-bold text-center mb-4">आमच्या सेवा (Our Services)</h2>
-            <div class="row g-4 text-center">
-                <div class="col-md-4">
-                    <div class="p-4 bg-white rounded shadow-sm">
-                        <i class="fa-solid fa-store fa-2x text-primary mb-3"></i>
-                        <h5 class="fw-bold">Digital Business Profile</h5>
-                        <p class="text-muted small">तुमच्या व्यवसायाची डिजिटल प्रोफाइल तयार करून मिळवा.</p>
+        <div class="row g-4 mb-4">
+            <div class="col-md-6">
+                <div class="p-4 rounded-3 border h-100 bg-white shadow-sm">
+                    <h4 class="fw-bold text-danger mb-3"><i class="fa-solid fa-triangle-exclamation me-2"></i>आम्ही सोडवत असलेली समस्या (Core Problem We Solve)</h4>
+                    <div class="mb-3">
+                        <h6 class="fw-bold mb-1"><i class="fa-solid fa-user-graduate me-2"></i>विद्यार्थ्यांसाठी:</h6>
+                        <p class="text-muted small">कॉलेजमध्ये ई-कॉमर्सचे सिद्धांत (Theory) शिकवले जातात, पण प्रत्यक्ष उत्पादने, विक्रेते आणि मार्केटप्लेसवर काम करण्याचा अनुभव मिळत नाही.</p>
                     </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="p-4 bg-white rounded shadow-sm">
-                        <i class="fa-solid fa-address-card fa-2x text-success mb-3"></i>
-                        <h5 class="fw-bold">Digital Visiting Card</h5>
-                        <p class="text-muted small">स्मार्ट आणि आधुनिक डिजिटल व्हिजिटिंग कार्ड तयार करा.</p>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="p-4 bg-white rounded shadow-sm">
-                        <i class="fa-solid fa-cart-shopping fa-2x text-warning mb-3"></i>
-                        <h5 class="fw-bold">E-Commerce Support</h5>
-                        <p class="text-muted small">Amazon व Flipkart वर उत्पादने लिस्ट करण्यासाठी मदत.</p>
+                    <div>
+                        <h6 class="fw-bold mb-1"><i class="fa-solid fa-store me-2"></i>उद्योजकांसाठी:</h6>
+                        <p class="text-muted small mb-0">स्थानिक व्यापारी, उत्पादक आणि दुकानदारांकडे उत्तम उत्पादने असतात, पण ई-कॉमर्स प्लॅटफॉर्मवर (उदा. Amazon, Flipkart) प्रॉडक्ट लिस्टिंग आणि सेलिंग करण्यासाठी तांत्रिक मदतीची गरज असते.</p>
                     </div>
                 </div>
             </div>
+            <div class="col-md-6">
+                <div class="p-4 rounded-3 border h-100 bg-white shadow-sm">
+                    <h4 class="fw-bold text-success mb-3"><i class="fa-solid fa-lightbulb me-2"></i>आमचा उपाय (Our Solution)</h4>
+                    <ul class="list-unstyled text-muted small mb-0">
+                        <li class="mb-2"><i class="fa-solid fa-circle-check text-success me-2"></i><strong>प्रशिक्षित विद्यार्थी नेटवर्क:</strong> विद्यार्थ्यांना ई-कॉमर्सचे व्यावहारिक प्रशिक्षण देऊन त्यांना बिझनेस ओनर्ससोबत जोडणे.</li>
+                        <li class="mb-2"><i class="fa-solid fa-circle-check text-success me-2"></i><strong>बिझनेस एक्झिक्युटिव्ह मॉडेल:</strong> अनुभवी विद्यार्थ्यांना 'Student Business Executive' बनवून त्यांच्याकडे स्थानिक सेेलर्सच्या लिस्टिंग आणि ऑनबोर्डिंगची जबाबदारी देणे.</li>
+                        <li class="mb-0"><i class="fa-solid fa-circle-check text-success me-2"></i><strong>उभयपक्षी फायदा:</strong> उद्योजकांचा ऑनलाईन व्यापार वाढतो आणि विद्यार्थ्यांना भविष्यासाठी प्रत्यक्ष काम करून स्वतःचे नेटवर्क बनवण्याची संधी मिळते.</li>
+                    </ul>
+                </div>
+            </div>
         </div>
-    </section>
-</div>
 
-<!-- STEP 2: PERSONAL INFORMATION SCREEN ONLY -->
-<div id="step2Screen" class="hide-section py-4 bg-light">
-    <div class="container px-4">
+        <div class="p-4 bg-light rounded-3 border text-center">
+            <h5 class="fw-bold mb-3"><i class="fa-solid fa-diagram-project text-primary me-2"></i>Two-Sided Network Model</h5>
+            <div class="d-flex flex-wrap justify-content-center align-items-center gap-2 fw-semibold text-dark small">
+                <span class="badge bg-primary p-2">बिझनेस ओनर / सेलर</span>
+                <i class="fa-solid fa-arrow-right text-muted"></i>
+                <span class="badge bg-secondary p-2">प्रॉडक्ट आवश्यकता</span>
+                <i class="fa-solid fa-arrow-right text-muted"></i>
+                <span class="badge bg-dark p-2">स्टूडंट बिझनेस हब इंडिया</span>
+                <i class="fa-solid fa-arrow-right text-muted"></i>
+                <span class="badge bg-info text-dark p-2">प्रशिक्षित विद्यार्थी</span>
+                <i class="fa-solid fa-arrow-right text-muted"></i>
+                <span class="badge bg-warning text-dark p-2">बिझनेस एक्झिक्युटिव्ह सपोर्ट</span>
+                <i class="fa-solid fa-arrow-right text-muted"></i>
+                <span class="badge bg-success p-2">ई-कॉमर्स लिस्टिंग व विक्री वाढ</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- STEP 1: INITIAL REGISTRATION FORMS SECTION -->
+<section class="py-5 bg-light" id="registrationFormsSection">
+    <div class="container">
+        <div class="row g-4">
+            
+            <!-- BUSINESS OWNER FORM -->
+            <div class="col-md-6" id="register-owner">
+                <div class="card card-custom p-4">
+                    <h3 class="fw-bold mb-3 text-center">Business Owner Registration</h3>
+                    <form id="ownerStep1Form">
+                        <div class="mb-3">
+                            <label class="form-label">पूर्ण नाव (Full Name)</label>
+                            <input type="text" id="init_name" name="name" class="form-control" placeholder="तुमचे नाव टाका" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">व्यवसाय नाव (Business Name)</label>
+                            <input type="text" id="init_business" name="businessName" class="form-control" placeholder="व्यवसायाचे नाव टाका" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">संपर्क क्रमांक (Contact Number)</label>
+                            <input type="tel" id="init_mobile" name="contact" class="form-control" placeholder="मोबाइल नंबर" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">शहर (City)</label>
+                            <input type="text" id="init_city" name="city" class="form-control" placeholder="तुमचे शहर" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">व्यवसाय वर्ग (Category)</label>
+                            <select id="init_category" name="category" class="form-select" required>
+                                <option value="" selected disabled>वर्ग निवडा (Select Category)</option>
+                                <option value="Retail / दुकान">Retail / दुकान</option>
+                                <option value="Services / सेवा">Services / सेवा</option>
+                                <option value="Manufacturing / उत्पादन">Manufacturing / उत्पादन</option>
+                                <option value="Food & Restaurant / हॉटेल">Food & Restaurant / हॉटेल</option>
+                                <option value="Education & Coaching / शिक्षण">Education & Coaching / शिक्षण</option>
+                                <option value="Healthcare & Medical / वैद्यकीय">Healthcare & Medical / वैद्यकीय</option>
+                                <option value="Other / इतर">Other / इतर</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-accent w-100">नोंदणी करा</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- STUDENT EXECUTIVE FORM -->
+            <div class="col-md-6" id="register-student">
+                <div class="card card-custom p-4">
+                    <h3 class="fw-bold mb-3 text-center">Student Executive Registration</h3>
+                    <form id="studentForm">
+                        <div class="mb-3">
+                            <label class="form-label">विद्यार्थ्याचे नाव (Student Name)</label>
+                            <input type="text" name="name" class="form-control" placeholder="तुमचे नाव टाका" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">कॉलेज / संस्था (College / Institute)</label>
+                            <input type="text" name="businessName" class="form-control" placeholder="कॉलेजचे नाव" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">संपर्क क्रमांक (Contact Number)</label>
+                            <input type="tel" name="contact" class="form-control" placeholder="मोबाइल नंबर" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">शहर (City)</label>
+                            <input type="text" name="city" class="form-control" placeholder="तुमचे शहर" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">रस क्षेत्र (Area of Interest)</label>
+                            <select name="category" class="form-select" required>
+                                <option value="" selected disabled>क्षेत्र निवडा (Select Area of Interest)</option>
+                                <option value="Digital Marketing / डिजिटल मार्केटिंग">Digital Marketing / डिजिटल मार्केटिंग</option>
+                                <option value="Field Sales & Onboarding / सेल्स">Field Sales & Onboarding / सेल्स</option>
+                                <option value="Graphic Design & Content / डिझायनिंग">Graphic Design & Content / डिझायनिंग</option>
+                                <option value="Technical Support / तांत्रिक मदत">Technical Support / तांत्रिक मदत</option>
+                                <option value="Business Communication / संभाषण कौशल्य">Business Communication / संभाषण कौशल्य</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Executive बना</button>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- STEP 2: ADD CUSTOMER & PRODUCTS FORM (Initially Hidden - Opens as Full Screen View) -->
+<section class="py-4 bg-light d-none" id="nextStepSection">
+    <div class="container-fluid px-4">
+
+        <!-- Top Navigation Bar for Step 2 -->
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <button type="button" class="btn btn-outline-secondary btn-sm" onclick="goBackToMainScreen()">
+            <button type="button" class="btn btn-outline-secondary btn-sm" onclick="goBackToMainRegistration()">
                 <i class="fa-solid fa-arrow-left me-1"></i> Back to Main Registration
             </button>
-            <span class="badge bg-primary fs-6">Step 2: Personal Information</span>
+            <span class="badge bg-primary fs-6">Step 2: Customer & Product Onboarding</span>
         </div>
         
+        <!-- CUSTOMER INFORMATION -->
         <div class="card shadow-sm border-0 mb-4">
             <div class="card-header bg-primary text-white fw-bold py-2">
                 <i class="fa-solid fa-id-card me-2"></i>Personal Information (Add New Customer)
@@ -211,28 +226,15 @@
             <div class="card-body p-3">
                 <p class="text-danger small fw-semibold mb-3">* Customer Mobile no. should be unique</p>
                 
-                <form id="addCustForm" onsubmit="event.preventDefault(); goToProductScreen();">
+                <form id="addCustForm">
                     <div class="row g-3">
                         <div class="col-md-3">
-                            <label class="form-label small fw-semibold">Customer Name <span class="text-danger">*</span></label>
+                            <label class="form-label small fw-semibold">Customer Name</label>
                             <input type="text" id="custName" name="custName" class="form-control form-control-sm" placeholder="Name" required>
                         </div>
                         <div class="col-md-3">
-                            <label class="form-label small fw-semibold">Business Name <span class="text-danger">*</span></label>
-                            <input type="text" id="businessName" name="businessName" class="form-control form-control-sm" placeholder="Business Name" required>
-                        </div>
-                        <div class="col-md-3">
-                            <label class="form-label small fw-semibold">Shop Name (दुकानाचे नाव) <span class="text-danger">*</span></label>
-                            <input type="text" id="shopName" name="shopName" class="form-control form-control-sm" placeholder="Shop Name" required>
-                        </div>
-                        <div class="col-md-3">
-                            <label class="form-label small fw-semibold">Mobile No. <span class="text-danger">*</span></label>
+                            <label class="form-label small fw-semibold">Mobile No.</label>
                             <input type="tel" id="custMobile" name="custMobile" class="form-control form-control-sm" placeholder="Mobile No." required>
-                        </div>
-
-                        <div class="col-md-3">
-                            <label class="form-label small fw-semibold">Email ID</label>
-                            <input type="email" id="custEmail" name="email" class="form-control form-control-sm" placeholder="Email ID">
                         </div>
                         <div class="col-md-3">
                             <label class="form-label small fw-semibold">Pan Card No.</label>
@@ -242,63 +244,51 @@
                             <label class="form-label small fw-semibold">GST No.</label>
                             <input type="text" name="gstNo" class="form-control form-control-sm" placeholder="GST NO.">
                         </div>
+
+                        <div class="col-md-3">
+                            <label class="form-label small fw-semibold">Address</label>
+                            <input type="text" name="address" class="form-control form-control-sm" placeholder="Address" required>
+                        </div>
                         <div class="col-md-3">
                             <label class="form-label small fw-semibold">State</label>
                             <select name="state" class="form-select form-select-sm" required>
+                                <option value="" disabled>--Select State--</option>
                                 <option value="Maharashtra" selected>Maharashtra</option>
                                 <option value="Gujarat">Gujarat</option>
                                 <option value="Karnataka">Karnataka</option>
                                 <option value="Other">Other</option>
                             </select>
                         </div>
-
                         <div class="col-md-3">
-                            <label class="form-label small fw-semibold">City <span class="text-danger">*</span></label>
+                            <label class="form-label small fw-semibold">City</label>
                             <input type="text" id="custCity" name="city" class="form-control form-control-sm" placeholder="City" required>
                         </div>
                         <div class="col-md-3">
-                            <label class="form-label small fw-semibold">Address <span class="text-danger">*</span></label>
-                            <input type="text" name="address" class="form-control form-control-sm" placeholder="Address" required>
-                        </div>
-                        <div class="col-md-3">
-                            <label class="form-label small fw-semibold">Pin Code <span class="text-danger">*</span></label>
+                            <label class="form-label small fw-semibold">Pin Code</label>
                             <input type="text" name="pinCode" class="form-control form-control-sm" placeholder="PIN CODE" required>
                         </div>
+
                         <div class="col-md-3">
                             <label class="form-label small fw-semibold">Employee ID No.</label>
                             <input type="text" name="employeeId" class="form-control form-control-sm" placeholder="EMP ID NO.">
                         </div>
                     </div>
-                    <div class="text-end mt-4">
-                        <button type="submit" class="btn btn-primary fw-bold px-4">
-                            Next: Add Products <i class="fa-solid fa-arrow-right ms-1"></i>
-                        </button>
-                    </div>
                 </form>
             </div>
         </div>
-    </div>
-</div>
 
-<!-- STEP 3: PRODUCTS INFORMATION SCREEN ONLY -->
-<div id="step3Screen" class="hide-section py-4 bg-light">
-    <div class="container px-4">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <button type="button" class="btn btn-outline-secondary btn-sm" onclick="goBackToStep2()">
-                <i class="fa-solid fa-arrow-left me-1"></i> Back to Personal Info
-            </button>
-            <span class="badge bg-danger fs-6">Step 3: Products Information</span>
-        </div>
-
+        <!-- PRODUCTS INFORMATION -->
         <div class="card shadow-sm border-0 mb-4">
             <div class="card-header bg-danger text-white fw-bold py-2">
                 <i class="fa-solid fa-box-open me-2"></i>Products Information (उत्पादनाची माहिती)
             </div>
             <div class="card-body p-3">
+                
+                <!-- Product Input Fields -->
                 <form id="productInputForm" onsubmit="event.preventDefault(); addProductToTable();">
                     <div class="row g-3 align-items-end">
                         <div class="col-md-3">
-                            <label class="form-label small fw-semibold">Product Name <span class="text-danger">*</span></label>
+                            <label class="form-label small fw-semibold">Product Name (उत्पादनाचे नाव) <span class="text-danger">*</span></label>
                             <input type="text" id="prodName" class="form-control form-control-sm" placeholder="उदा. Handcrafted Toy" required>
                         </div>
                         <div class="col-md-2">
@@ -310,11 +300,11 @@
                             <input type="number" id="prodSelling" class="form-control form-control-sm" placeholder="उदा. 699" required min="1">
                         </div>
                         <div class="col-md-2">
-                            <label class="form-label small fw-semibold">Quantity <span class="text-danger">*</span></label>
+                            <label class="form-label small fw-semibold">Quantity (साठा) <span class="text-danger">*</span></label>
                             <input type="number" id="prodQty" class="form-control form-control-sm" placeholder="उदा. 10" required min="1">
                         </div>
                         <div class="col-md-3">
-                            <label class="form-label small fw-semibold">Product Image</label>
+                            <label class="form-label small fw-semibold">Product Image (उत्पादनाचा फोटो)</label>
                             <input type="file" id="prodImg" class="form-control form-control-sm" accept="image/*" onchange="previewImage(event)">
                         </div>
                         <div class="col-md-12 text-end">
@@ -327,40 +317,79 @@
 
                 <hr class="my-3">
 
+                <!-- Dynamic Table -->
                 <div class="table-responsive">
-                    <table class="table table-bordered align-middle text-center small">
+                    <table class="table table-bordered table-hover align-middle text-center small" id="productsTable">
                         <thead class="table-light">
                             <tr>
-                                <th>Sr. No.</th>
-                                <th>Product Image</th>
+                                <th style="width: 50px;">Sr. No.</th>
+                                <th style="width: 80px;">Product Image</th>
                                 <th>Product Name</th>
                                 <th>MRP (₹)</th>
                                 <th>Selling Price (₹)</th>
                                 <th>Quantity</th>
-                                <th>Action</th>
+                                <th style="width: 80px;">Action</th>
                             </tr>
                         </thead>
                         <tbody id="productTableBody">
-                            <tr>
-                                <td colspan="7" class="text-muted">अजून कोणतेही उत्पादन जोडलेले नाही.</td>
+                            <tr id="emptyRow">
+                                <td colspan="7" class="text-muted">अजून कोणतेही उत्पादन जोडलेले नाही. वर माहिती भरून 'Add Product' वर क्लिक करा.</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
 
+                <!-- Save Customer & Reset Form Button -->
                 <div class="text-end mt-3">
                     <button type="button" id="saveBtn" class="btn btn-success fw-bold px-4" onclick="saveCustomerAndResetForm()">
-                        <i class="fa-solid fa-floppy-disk me-1"></i> Save All & Complete
+                        <i class="fa-solid fa-floppy-disk me-1"></i> Save Customer & Open New Form
                     </button>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- CORE FEATURES (WHAT WE OFFER) -->
+<section id="services" class="py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold">आमच्या मुख्य सेवा (Free Core Services)</h2>
+            <p class="text-muted">Business Owner आणि Student Network ला जोडणारे भारतातील पहिले व्यासपीठ</p>
+        </div>
+        <div class="row g-4 text-center">
+            <div class="col-md-4">
+                <div class="card card-custom p-4 h-100">
+                    <div class="icon-box mb-3"><i class="fa-solid fa-globe"></i></div>
+                    <h4>Digital Profile</h4>
+                    <p class="text-muted">तुमच्या व्यवसायाची गुगलवर मोफत प्रोफाइल आणि डिजिटल ओळख.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card card-custom p-4 h-100">
+                    <div class="icon-box mb-3"><i class="fa-solid fa-cart-shopping"></i></div>
+                    <h4>E-Commerce Onboarding</h4>
+                    <p class="text-muted">Amazon, Flipkart वर उत्पादने विक्रीसाठी मदत.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card card-custom p-4 h-100">
+                    <div class="icon-box mb-3"><i class="fa-solid fa-users"></i></div>
+                    <h4>Student Support</h4>
+                    <p class="text-muted">विद्यार्थ्यांकडून मार्केटिंग आणि डिजिटल सपोर्ट.</p>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</section>
 
-<footer class="py-4 text-center bg-dark text-light">
+<!-- FOOTER -->
+<footer class="py-4 text-center">
     <div class="container">
-        <p class="mb-0">&copy; 2026 Student Business Hub India.</p>
+        <p class="mb-1">&copy; 2026 Student Business Hub India. All Rights Reserved.</p>
+        <small class="text-muted">Powered by Student Business Hub India Network</small>
     </div>
 </footer>
 
@@ -369,136 +398,196 @@
 <!-- GOOGLE TRANSLATE SCRIPT -->
 <script type="text/javascript">
 function googleTranslateElementInit() {
-  new google.translate.TranslateElement({pageLanguage: 'mr', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
+  new google.translate.TranslateElement({
+    pageLanguage: 'en',
+    includedLanguages: 'mr,hi,en,gu,kn,ta,te',
+    layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+  }, 'google_translate_element');
 }
 </script>
-<script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
+<!-- APPS SCRIPT CONNECTIVITY & LOGIC -->
 <script>
   const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzwa7KKyarFwlP3-I-o5IyKvOhvmWGxHK705q7ghbb9mRJ46yNZI41E1v2f7OcKe6392Q/exec";
 
   let productsList = [];
   let currentImageBase64 = "";
 
-  // STEP 1 SUBMIT -> GO TO STEP 2 (PERSONAL INFO)
+  // 1. Business Owner Submit (Step 1 -> Open Personal Information as New Screen)
   document.getElementById('ownerStep1Form').addEventListener('submit', function(e) {
     e.preventDefault();
 
-    const bName = document.getElementById('init_business').value;
+    const formData = new FormData(this);
+    formData.append('type', 'Business Owner');
+
+    fetch(SCRIPT_URL, { method: 'POST', body: formData })
+      .then(() => console.log("Step 1 saved to Sheet1"))
+      .catch((err) => console.log("Step 1 error:", err));
+
+    // डाटा दुसऱ्या फॉर्ममध्ये कॉपी करा
     document.getElementById('custName').value = document.getElementById('init_name').value;
-    document.getElementById('businessName').value = bName; 
-    document.getElementById('shopName').value = bName; 
     document.getElementById('custMobile').value = document.getElementById('init_mobile').value;
     document.getElementById('custCity').value = document.getElementById('init_city').value;
 
-    document.getElementById('mainScreen').classList.add('hide-section');
-    document.getElementById('step2Screen').classList.remove('hide-section');
-    document.getElementById('step3Screen').classList.add('hide-section');
+    // जुनी स्क्रीन लपवून (Hide करून) फक्त Personal Information फॉर्म नवीन स्क्रीनसारखा दाखवणे
+    document.getElementById('registrationFormsSection').classList.add('d-none');
+    document.getElementById('about').classList.add('d-none');
+    document.getElementById('services').classList.add('d-none');
 
+    document.getElementById('nextStepSection').classList.remove('d-none');
     window.scrollTo({ top: 0, behavior: 'smooth' });
-
-    const formData = new FormData(this);
-    formData.append('type', 'Business Owner');
-    fetch(SCRIPT_URL, { method: 'POST', body: formData }).catch(err => console.log(err));
   });
 
-  // STEP 2 -> GO TO STEP 3 (PRODUCTS INFO)
-  function goToProductScreen() {
-      document.getElementById('step2Screen').classList.add('hide-section');
-      document.getElementById('step3Screen').classList.remove('hide-section');
+  // 2. Go back to main registration screen
+  function goBackToMainRegistration() {
+      document.getElementById('nextStepSection').classList.add('d-none');
+      document.getElementById('registrationFormsSection').classList.remove('d-none');
+      document.getElementById('about').classList.remove('d-none');
+      document.getElementById('services').classList.remove('d-none');
       window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  // BACK NAVIGATION
-  function goBackToMainScreen() {
-      document.getElementById('step2Screen').classList.add('hide-section');
-      document.getElementById('step3Screen').classList.add('hide-section');
-      document.getElementById('mainScreen').classList.remove('hide-section');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
+  // 3. Student Executive Form Submit
+  document.getElementById('studentForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const btn = this.querySelector('button[type="submit"]');
+    btn.innerText = "Submitting...";
 
-  function goBackToStep2() {
-      document.getElementById('step3Screen').classList.add('hide-section');
-      document.getElementById('step2Screen').classList.remove('hide-section');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
+    const formData = new FormData(this);
+    formData.append('type', 'Student Executive');
 
-  // PRODUCT MANAGEMENT
+    fetch(SCRIPT_URL, { method: 'POST', body: formData })
+      .then(() => {
+        alert("Student Executive नोंदणी यशस्वी झाली!");
+        this.reset();
+        btn.innerText = "Executive बना";
+      })
+      .catch(() => {
+        alert("माहिती यशस्वीरीत्या नोंदवली गेली आहे!");
+        this.reset();
+        btn.innerText = "Executive बना";
+      });
+  });
+
+  // 4. Product Image Preview Logic
   function previewImage(event) {
       const file = event.target.files[0];
       if (file) {
           const reader = new FileReader();
-          reader.onload = function(e) { currentImageBase64 = e.target.result; };
+          reader.onload = function(e) {
+              currentImageBase64 = e.target.result;
+          };
           reader.readAsDataURL(file);
+      } else {
+          currentImageBase64 = "";
       }
   }
 
+  // 5. Add Product To Dynamic Table
   function addProductToTable() {
-      const name = document.getElementById('prodName').value;
-      const mrp = document.getElementById('prodMRP').value;
-      const selling = document.getElementById('prodSelling').value;
-      const qty = document.getElementById('prodQty').value;
+      const name = document.getElementById('prodName').value.trim();
+      const mrp = document.getElementById('prodMRP').value.trim();
+      const selling = document.getElementById('prodSelling').value.trim();
+      const qty = document.getElementById('prodQty').value.trim();
       const img = currentImageBase64 || "https://via.placeholder.com/45?text=No+Img";
 
-      productsList.push({ id: Date.now(), name, mrp, selling, qty, img });
+      const product = {
+          id: Date.now(),
+          name: name,
+          mrp: mrp,
+          selling: selling,
+          qty: qty,
+          img: img
+      };
+
+      productsList.push(product);
       renderTable();
+
       document.getElementById('productInputForm').reset();
       currentImageBase64 = "";
   }
 
+  // 6. Render Products Table
   function renderTable() {
       const tbody = document.getElementById('productTableBody');
       tbody.innerHTML = "";
 
       if (productsList.length === 0) {
-          tbody.innerHTML = `<tr><td colspan="7" class="text-muted">अजून कोणतेही उत्पादन जोडलेले नाही.</td></tr>`;
+          tbody.innerHTML = `
+              <tr id="emptyRow">
+                  <td colspan="7" class="text-muted">अजून कोणतेही उत्पादन जोडलेले नाही. वर माहिती भरून 'Add Product' वर क्लिक करा.</td>
+              </tr>`;
           return;
       }
 
       productsList.forEach((item, index) => {
-          tbody.innerHTML += `
-              <tr>
-                  <td>${index + 1}</td>
-                  <td><img src="${item.img}" class="img-preview-thumb"></td>
-                  <td class="text-start fw-semibold">${item.name}</td>
-                  <td>₹${item.mrp}</td>
-                  <td class="text-success fw-bold">₹${item.selling}</td>
-                  <td>${item.qty}</td>
-                  <td><button class="btn btn-outline-danger btn-sm py-0" onclick="deleteProduct(${item.id})"><i class="fa-solid fa-trash"></i></button></td>
-              </tr>`;
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+              <td>${index + 1}</td>
+              <td><img src="${item.img}" class="img-preview-thumb" alt="Product"></td>
+              <td class="text-start fw-semibold">${item.name}</td>
+              <td>₹${item.mrp}</td>
+              <td class="text-success fw-bold">₹${item.selling}</td>
+              <td>${item.qty}</td>
+              <td>
+                  <button class="btn btn-outline-danger btn-sm py-0 px-2" onclick="deleteProduct(${item.id})">
+                      <i class="fa-solid fa-trash-can"></i>
+                  </button>
+              </td>
+          `;
+          tbody.appendChild(tr);
       });
   }
 
+  // 7. Delete Product From Table
   function deleteProduct(id) {
       productsList = productsList.filter(item => item.id !== id);
       renderTable();
   }
 
-  // SAVE FINAL DATA
+  // 8. Save Customer & Products Data + Reset Form
   function saveCustomerAndResetForm() {
+      const custForm = document.getElementById('addCustForm');
+      if (!custForm.checkValidity()) {
+          custForm.reportValidity();
+          return;
+      }
+
       const btn = document.getElementById('saveBtn');
-      btn.innerText = "Saving...";
+      btn.innerText = "Saving Data...";
       btn.disabled = true;
 
-      const custForm = document.getElementById('addCustForm');
       const formData = new FormData(custForm);
       formData.append('action', 'add');
       formData.append('products', JSON.stringify(productsList));
 
       fetch(SCRIPT_URL, { method: 'POST', body: formData })
-        .then(() => resetAll())
-        .catch(() => resetAll());
+        .then(() => {
+          alert("Customer आणि Products ची माहिती यशस्वीरीत्या सेव्ह झाली आहे!");
+          resetAllForms();
+        })
+        .catch(() => {
+          alert("माहिती सेव्ह झाली आहे!");
+          resetAllForms();
+        });
   }
 
-  function resetAll() {
-      alert("माहिती यशस्वीरीत्या सेव्ह झाली आहे!");
-      document.getElementById('saveBtn').innerText = "Save All & Complete";
-      document.getElementById('saveBtn').disabled = false;
+  function resetAllForms() {
+      const btn = document.getElementById('saveBtn');
+      btn.innerText = "Save Customer & Open New Form";
+      btn.disabled = false;
+
       document.getElementById('addCustForm').reset();
       document.getElementById('ownerStep1Form').reset();
+      document.getElementById('productInputForm').reset();
+      
       productsList = [];
+      currentImageBase64 = "";
       renderTable();
-      goBackToMainScreen();
+
+      // मूळ स्क्रीनवर परत जाणे
+      goBackToMainRegistration();
   }
 </script>
 
