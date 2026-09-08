@@ -20,6 +20,7 @@
         footer { background-color: var(--primary-color); color: #94a3b8; }
         #google_translate_element { margin-left: 15px; }
         .fs-7 { font-size: 0.75rem; }
+        .img-preview-thumb { width: 45px; height: 45px; object-fit: cover; border-radius: 4px; border: 1px solid #cbd5e1; }
     </style>
 </head>
 <body>
@@ -206,16 +207,17 @@
     </div>
 </section>
 
-<!-- STEP 2: ADD CUSTOMER FORM (Initially Hidden) -->
+<!-- STEP 2: ADD CUSTOMER & PRODUCTS FORM (Initially Hidden) -->
 <section class="py-4 bg-light d-none" id="nextStepSection">
     <div class="container-fluid px-4">
         
+        <!-- CUSTOMER INFORMATION -->
         <div class="card shadow-sm border-0 mb-4">
             <div class="card-header bg-primary text-white fw-bold py-2">
-                Add New Customer
+                <i class="fa-solid fa-id-card me-2"></i>Personal Information (Add New Customer)
             </div>
             <div class="card-body p-3">
-                <p class="text-danger small fw-semibold mb-3">Customer Mobile no. should be unique</p>
+                <p class="text-danger small fw-semibold mb-3">* Customer Mobile no. should be unique</p>
                 
                 <form id="addCustForm">
                     <div class="row g-3">
@@ -259,17 +261,84 @@
                             <input type="text" name="pinCode" class="form-control form-control-sm" placeholder="PIN CODE" required>
                         </div>
 
-                        <!-- Employee ID No. Field -->
                         <div class="col-md-3">
                             <label class="form-label small fw-semibold">Employee ID No.</label>
                             <input type="text" name="employeeId" class="form-control form-control-sm" placeholder="EMP ID NO.">
                         </div>
-                        
-                        <div class="col-md-3 d-flex align-items-end">
-                            <button type="submit" id="saveBtn" class="btn btn-info text-white fw-bold btn-sm w-100">Save customer</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- PRODUCTS INFORMATION (NAV`IN SECTION) -->
+        <div class="card shadow-sm border-0 mb-4">
+            <div class="card-header bg-danger text-white fw-bold py-2">
+                <i class="fa-solid fa-box-open me-2"></i>Products Information (उत्पादनाची माहिती)
+            </div>
+            <div class="card-body p-3">
+                
+                <!-- Product Input Fields -->
+                <form id="productInputForm" onsubmit="event.preventDefault(); addProductToTable();">
+                    <div class="row g-3 align-items-end">
+                        <div class="col-md-3">
+                            <label class="form-label small fw-semibold">Product Name (उत्पादनाचे नाव) <span class="text-danger">*</span></label>
+                            <input type="text" id="prodName" class="form-control form-control-sm" placeholder="उदा. Handcrafted Toy" required>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label small fw-semibold">MRP (₹) <span class="text-danger">*</span></label>
+                            <input type="number" id="prodMRP" class="form-control form-control-sm" placeholder="उदा. 999" required min="1">
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label small fw-semibold">Selling Price (₹) <span class="text-danger">*</span></label>
+                            <input type="number" id="prodSelling" class="form-control form-control-sm" placeholder="उदा. 699" required min="1">
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label small fw-semibold">Quantity (साठा) <span class="text-danger">*</span></label>
+                            <input type="number" id="prodQty" class="form-control form-control-sm" placeholder="उदा. 10" required min="1">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label small fw-semibold">Product Image (उत्पादनाचा फोटो)</label>
+                            <input type="file" id="prodImg" class="form-control form-control-sm" accept="image/*" onchange="previewImage(event)">
+                        </div>
+                        <div class="col-md-12 text-end">
+                            <button type="submit" class="btn btn-info text-white fw-bold btn-sm px-4">
+                                <i class="fa-solid fa-plus me-1"></i> Add Product
+                            </button>
                         </div>
                     </div>
                 </form>
+
+                <hr class="my-3">
+
+                <!-- Dynamic Table -->
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover align-middle text-center small" id="productsTable">
+                        <thead class="table-light">
+                            <tr>
+                                <th style="width: 50px;">Sr. No.</th>
+                                <th style="width: 80px;">Product Image</th>
+                                <th>Product Name</th>
+                                <th>MRP (₹)</th>
+                                <th>Selling Price (₹)</th>
+                                <th>Quantity</th>
+                                <th style="width: 80px;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="productTableBody">
+                            <tr id="emptyRow">
+                                <td colspan="7" class="text-muted">अजून कोणतेही उत्पादन जोडलेले नाही. वर माहिती भरून 'Add Product' वर क्लिक करा.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Save Customer & Reset Form Button -->
+                <div class="text-end mt-3">
+                    <button type="button" id="saveBtn" class="btn btn-success fw-bold px-4" onclick="saveCustomerAndResetForm()">
+                        <i class="fa-solid fa-floppy-disk me-1"></i> Save Customer & Open New Form
+                    </button>
+                </div>
+
             </div>
         </div>
 
@@ -331,16 +400,17 @@ function googleTranslateElementInit() {
 </script>
 <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
-<!-- APPS SCRIPT CONNECTIVITY & STEP TOGGLE LOGIC -->
+<!-- APPS SCRIPT CONNECTIVITY & LOGIC -->
 <script>
-  // अद्ययावत वेब ॲप URL
   const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzwa7KKyarFwlP3-I-o5IyKvOhvmWGxHK705q7ghbb9mRJ46yNZI41E1v2f7OcKe6392Q/exec";
+
+  let productsList = [];
+  let currentImageBase64 = "";
 
   // 1. Business Owner Submit (Step 1)
   document.getElementById('ownerStep1Form').addEventListener('submit', function(e) {
     e.preventDefault();
 
-    // Sheet1 मध्ये प्रथमतः माहिती पाठवण्यासाठी
     const formData = new FormData(this);
     formData.append('type', 'Business Owner');
 
@@ -380,34 +450,125 @@ function googleTranslateElementInit() {
       });
   });
 
-  // 3. Save Customer to Google Sheet (Customers Sheet)
-  document.getElementById('addCustForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const btn = document.getElementById('saveBtn');
-    btn.innerText = "Saving...";
-    btn.disabled = true;
+  // 3. Product Image Preview Logic
+  function previewImage(event) {
+      const file = event.target.files[0];
+      if (file) {
+          const reader = new FileReader();
+          reader.onload = function(e) {
+              currentImageBase64 = e.target.result;
+          };
+          reader.readAsDataURL(file);
+      } else {
+          currentImageBase64 = "";
+      }
+  }
 
-    const formData = new FormData(this);
-    formData.append('action', 'add'); // हे Action Customers शीट ओळखण्यासाठी महत्त्वाचे आहे
+  // 4. Add Product To Dynamic Table
+  function addProductToTable() {
+      const name = document.getElementById('prodName').value.trim();
+      const mrp = document.getElementById('prodMRP').value.trim();
+      const selling = document.getElementById('prodSelling').value.trim();
+      const qty = document.getElementById('prodQty').value.trim();
+      const img = currentImageBase64 || "https://via.placeholder.com/45?text=No+Img";
 
-    fetch(SCRIPT_URL, { method: 'POST', body: formData })
-      .then(res => res.json())
-      .then(res => {
-        if(res.result === "success") {
-          alert("Business Owner माहिती सेव्ह झाली! Customer ID: " + res.id);
-        } else {
-          alert("माहिती सेव्ह झाली आहे!");
-        }
-        this.reset();
-        btn.innerText = "Save customer";
-        btn.disabled = false;
-      })
-      .catch(() => {
-        alert("माहिती सेव्ह झाली आहे!");
-        btn.innerText = "Save customer";
-        btn.disabled = false;
+      const product = {
+          id: Date.now(),
+          name: name,
+          mrp: mrp,
+          selling: selling,
+          qty: qty,
+          img: img
+      };
+
+      productsList.push(product);
+      renderTable();
+
+      document.getElementById('productInputForm').reset();
+      currentImageBase64 = "";
+  }
+
+  // 5. Render Products Table
+  function renderTable() {
+      const tbody = document.getElementById('productTableBody');
+      tbody.innerHTML = "";
+
+      if (productsList.length === 0) {
+          tbody.innerHTML = `
+              <tr id="emptyRow">
+                  <td colspan="7" class="text-muted">अजून कोणतेही उत्पादन जोडलेले नाही. वर माहिती भरून 'Add Product' वर क्लिक करा.</td>
+              </tr>`;
+          return;
+      }
+
+      productsList.forEach((item, index) => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+              <td>${index + 1}</td>
+              <td><img src="${item.img}" class="img-preview-thumb" alt="Product"></td>
+              <td class="text-start fw-semibold">${item.name}</td>
+              <td>₹${item.mrp}</td>
+              <td class="text-success fw-bold">₹${item.selling}</td>
+              <td>${item.qty}</td>
+              <td>
+                  <button class="btn btn-outline-danger btn-sm py-0 px-2" onclick="deleteProduct(${item.id})">
+                      <i class="fa-solid fa-trash-can"></i>
+                  </button>
+              </td>
+          `;
+          tbody.appendChild(tr);
       });
-  });
+  }
+
+  // 6. Delete Product From Table
+  function deleteProduct(id) {
+      productsList = productsList.filter(item => item.id !== id);
+      renderTable();
+  }
+
+  // 7. Save Customer & Products Data + Reset Form
+  function saveCustomerAndResetForm() {
+      const custForm = document.getElementById('addCustForm');
+      if (!custForm.checkValidity()) {
+          custForm.reportValidity();
+          return;
+      }
+
+      const btn = document.getElementById('saveBtn');
+      btn.innerText = "Saving Data...";
+      btn.disabled = true;
+
+      const formData = new FormData(custForm);
+      formData.append('action', 'add');
+      formData.append('products', JSON.stringify(productsList));
+
+      fetch(SCRIPT_URL, { method: 'POST', body: formData })
+        .then(() => {
+          alert("Customer आणि Products ची माहिती यशस्वीरीत्या सेव्ह झाली आहे!");
+          resetAllForms();
+        })
+        .catch(() => {
+          alert("माहिती सेव्ह झाली आहे!");
+          resetAllForms();
+        });
+  }
+
+  function resetAllForms() {
+      const btn = document.getElementById('saveBtn');
+      btn.innerText = "Save Customer & Open New Form";
+      btn.disabled = false;
+
+      document.getElementById('addCustForm').reset();
+      document.getElementById('ownerStep1Form').reset();
+      document.getElementById('productInputForm').reset();
+      
+      productsList = [];
+      currentImageBase64 = "";
+      renderTable();
+
+      document.getElementById('nextStepSection').classList.add('d-none');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 </script>
 
 </body>
