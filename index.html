@@ -19,7 +19,6 @@
         .icon-box { font-size: 2.5rem; color: var(--accent-color); }
         footer { background-color: var(--primary-color); color: #94a3b8; }
         #google_translate_element { margin-left: 15px; }
-        .fs-7 { font-size: 0.75rem; }
         .img-preview-thumb { width: 45px; height: 45px; object-fit: cover; border-radius: 4px; border: 1px solid #cbd5e1; }
     </style>
 </head>
@@ -43,7 +42,7 @@
 </nav>
 
 <!-- HERO SECTION -->
-<section class="hero-section text-center">
+<section class="hero-section text-center" id="heroSection">
     <div class="container">
         <h1 class="display-5 fw-bold mb-3">स्थानिक व्यवसाय आणि विद्यार्थी शक्तीचा महासंगम!</h1>
         <p class="lead text-light mb-4">तुमचा व्यवसाय डिजिटल करा — मोफत Business Profile, Digital Card आणि Amazon/Flipkart Listing सपोर्ट मिळवा.</p>
@@ -207,9 +206,17 @@
     </div>
 </section>
 
-<!-- STEP 2: ADD CUSTOMER & PRODUCTS FORM (Initially Hidden) -->
+<!-- STEP 2: ADD CUSTOMER & PRODUCTS FORM (Initially Hidden - Opens as Full Screen View) -->
 <section class="py-4 bg-light d-none" id="nextStepSection">
     <div class="container-fluid px-4">
+
+        <!-- Top Navigation Bar for Step 2 -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <button type="button" class="btn btn-outline-secondary btn-sm" onclick="goBackToMainRegistration()">
+                <i class="fa-solid fa-arrow-left me-1"></i> Back to Main Registration
+            </button>
+            <span class="badge bg-primary fs-6">Step 2: Customer & Product Onboarding</span>
+        </div>
         
         <!-- CUSTOMER INFORMATION -->
         <div class="card shadow-sm border-0 mb-4">
@@ -270,7 +277,7 @@
             </div>
         </div>
 
-        <!-- PRODUCTS INFORMATION (NAV`IN SECTION) -->
+        <!-- PRODUCTS INFORMATION -->
         <div class="card shadow-sm border-0 mb-4">
             <div class="card-header bg-danger text-white fw-bold py-2">
                 <i class="fa-solid fa-box-open me-2"></i>Products Information (उत्पादनाची माहिती)
@@ -407,7 +414,7 @@ function googleTranslateElementInit() {
   let productsList = [];
   let currentImageBase64 = "";
 
-  // 1. Business Owner Submit (Step 1)
+  // 1. Business Owner Submit (Step 1 -> Open Personal Information as New Screen)
   document.getElementById('ownerStep1Form').addEventListener('submit', function(e) {
     e.preventDefault();
 
@@ -418,17 +425,30 @@ function googleTranslateElementInit() {
       .then(() => console.log("Step 1 saved to Sheet1"))
       .catch((err) => console.log("Step 1 error:", err));
 
-    // ऑटोमॅटिकली डेटा दुसऱ्या फॉर्ममध्ये भरणे
+    // डाटा दुसऱ्या फॉर्ममध्ये कॉपी करा
     document.getElementById('custName').value = document.getElementById('init_name').value;
     document.getElementById('custMobile').value = document.getElementById('init_mobile').value;
     document.getElementById('custCity').value = document.getElementById('init_city').value;
 
-    // दुसरा फॉर्म समोर आणणे
+    // जुनी स्क्रीन लपवून (Hide करून) फक्त Personal Information फॉर्म नवीन स्क्रीनसारखा दाखवणे
+    document.getElementById('registrationFormsSection').classList.add('d-none');
+    document.getElementById('about').classList.add('d-none');
+    document.getElementById('services').classList.add('d-none');
+
     document.getElementById('nextStepSection').classList.remove('d-none');
-    document.getElementById('nextStepSection').scrollIntoView({ behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 
-  // 2. Student Executive Form Submit
+  // 2. Go back to main registration screen
+  function goBackToMainRegistration() {
+      document.getElementById('nextStepSection').classList.add('d-none');
+      document.getElementById('registrationFormsSection').classList.remove('d-none');
+      document.getElementById('about').classList.remove('d-none');
+      document.getElementById('services').classList.remove('d-none');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // 3. Student Executive Form Submit
   document.getElementById('studentForm').addEventListener('submit', function(e) {
     e.preventDefault();
     const btn = this.querySelector('button[type="submit"]');
@@ -450,7 +470,7 @@ function googleTranslateElementInit() {
       });
   });
 
-  // 3. Product Image Preview Logic
+  // 4. Product Image Preview Logic
   function previewImage(event) {
       const file = event.target.files[0];
       if (file) {
@@ -464,7 +484,7 @@ function googleTranslateElementInit() {
       }
   }
 
-  // 4. Add Product To Dynamic Table
+  // 5. Add Product To Dynamic Table
   function addProductToTable() {
       const name = document.getElementById('prodName').value.trim();
       const mrp = document.getElementById('prodMRP').value.trim();
@@ -488,7 +508,7 @@ function googleTranslateElementInit() {
       currentImageBase64 = "";
   }
 
-  // 5. Render Products Table
+  // 6. Render Products Table
   function renderTable() {
       const tbody = document.getElementById('productTableBody');
       tbody.innerHTML = "";
@@ -520,13 +540,13 @@ function googleTranslateElementInit() {
       });
   }
 
-  // 6. Delete Product From Table
+  // 7. Delete Product From Table
   function deleteProduct(id) {
       productsList = productsList.filter(item => item.id !== id);
       renderTable();
   }
 
-  // 7. Save Customer & Products Data + Reset Form
+  // 8. Save Customer & Products Data + Reset Form
   function saveCustomerAndResetForm() {
       const custForm = document.getElementById('addCustForm');
       if (!custForm.checkValidity()) {
@@ -566,8 +586,8 @@ function googleTranslateElementInit() {
       currentImageBase64 = "";
       renderTable();
 
-      document.getElementById('nextStepSection').classList.add('d-none');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      // मूळ स्क्रीनवर परत जाणे
+      goBackToMainRegistration();
   }
 </script>
 
