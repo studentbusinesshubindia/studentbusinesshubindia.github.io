@@ -4,19 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <title>Student Business Hub India</title>
+    <title class="notranslate">Student Business Hub India</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         :root { --primary-color: #0f172a; --accent-color: #16a34a; --light-bg: #f8fafc; }
         
-        /* GOOGLE TOP BAR HIDE CSS */
+        /* 1. GOOGLE TRANSLATE HEADER WINDOW BAR COMPLETE HIDE */
         .goog-te-banner-frame, 
         .goog-te-banner-frame.skiptranslate, 
-        iframe.goog-te-banner-frame {
+        iframe.goog-te-banner-frame,
+        .goog-te-banner {
             display: none !important;
+            visibility: hidden !important;
         }
+        
         body {
             top: 0px !important;
             position: static !important;
@@ -24,6 +27,8 @@
             background-color: var(--light-bg); 
             color: #334155; 
         }
+
+        /* Top margin reset after iframe hide */
         iframe.skiptranslate {
             display: none !important;
         }
@@ -42,7 +47,7 @@
             display: none !important;
         }
 
-        /* GOOGLE TRANSLATE DROPDOWN STYLING */
+        /* TRANSLATE WIDGET STYLING */
         #google_translate_element {
             display: inline-block;
             margin-left: 15px;
@@ -52,12 +57,17 @@
             font-size: 13px !important;
         }
         .goog-te-gadget .goog-te-combo {
-            padding: 4px 8px;
-            border-radius: 4px;
+            padding: 5px 10px;
+            border-radius: 5px;
             border: 1px solid #cbd5e1;
-            color: #333;
-            font-weight: 500;
-            background: #fff;
+            color: #0f172a;
+            font-weight: 600;
+            background: #ffffff;
+            outline: none;
+        }
+        /* Hide Google Branding Text in Dropdown */
+        .goog-te-gadget span {
+            display: none !important;
         }
     </style>
 </head>
@@ -66,6 +76,7 @@
 <!-- NAVBAR -->
 <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
     <div class="container">
+        <!-- 1. BRAND NAME PERMANENT ENGLISH (notranslate + translate="no") -->
         <a class="navbar-brand fw-bold fs-4 d-flex align-items-center notranslate" translate="no" href="#">
             <img src="logo.png" alt="Logo" class="site-logo me-2">
             Student Business Hub India
@@ -432,11 +443,13 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-<!-- UPDATED GOOGLE TRANSLATE SCRIPT -->
+<!-- 4. GOOGLE TRANSLATE FOR ONLY INDIAN LANGUAGES -->
 <script type="text/javascript">
 function googleTranslateElementInit() {
   new google.translate.TranslateElement({
     pageLanguage: 'mr',
+    // फक्त भारतीय भाषांचा समावेश (Marathi, Hindi, Gujarati, Bengali, Tamil, Telugu, Kannada, Malayalam, Punjabi, Odia, Assamese, Urdu, English)
+    includedLanguages: 'mr,hi,gu,bn,ta,te,kn,ml,pa,or,as,ur,en',
     autoDisplay: false
   }, 'google_translate_element');
 }
