@@ -38,10 +38,8 @@
     </div>
 </nav>
 
-<!-- MAIN SCREEN (STEP 1 CONTAINER) -->
+<!-- STEP 1: MAIN REGISTRATION SCREEN -->
 <div id="mainScreen">
-
-    <!-- HERO SECTION -->
     <section class="hero-section text-center">
         <div class="container">
             <h1 class="display-5 fw-bold mb-3">स्थानिक व्यवसाय आणि विद्यार्थी शक्तीचा महासंगम!</h1>
@@ -49,11 +47,9 @@
         </div>
     </section>
 
-    <!-- STEP 1 FORMS -->
     <section class="py-5 bg-light" id="registrationFormsSection">
         <div class="container">
             <div class="row g-4">
-                
                 <!-- BUSINESS OWNER FORM -->
                 <div class="col-md-6" id="register-owner">
                     <div class="card card-custom p-4">
@@ -124,24 +120,21 @@
                         </form>
                     </div>
                 </div>
-
             </div>
         </div>
     </section>
 </div>
 
-<!-- STEP 2: NEW SCREEN WITH PERSONAL INFORMATION & PRODUCTS INFORMATION -->
+<!-- STEP 2: PERSONAL INFORMATION SCREEN -->
 <div id="step2Screen" class="hide-section py-4 bg-light">
-    <div class="container-fluid px-4">
-
+    <div class="container px-4">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <button type="button" class="btn btn-outline-secondary btn-sm" onclick="goBackToMainScreen()">
-                <i class="fa-solid fa-arrow-left me-1"></i> Back to Main Registration
+                <i class="fa-solid fa-arrow-left me-1"></i> Back to Main
             </button>
-            <span class="badge bg-primary fs-6">Step 2: Customer & Product Onboarding</span>
+            <span class="badge bg-primary fs-6">Step 2: Personal Information</span>
         </div>
         
-        <!-- PERSONAL INFORMATION SECTION -->
         <div class="card shadow-sm border-0 mb-4">
             <div class="card-header bg-primary text-white fw-bold py-2">
                 <i class="fa-solid fa-id-card me-2"></i>Personal Information (Add New Customer)
@@ -149,7 +142,7 @@
             <div class="card-body p-3">
                 <p class="text-danger small fw-semibold mb-3">* Customer Mobile no. should be unique</p>
                 
-                <form id="addCustForm">
+                <form id="addCustForm" onsubmit="event.preventDefault(); goToProductScreen();">
                     <div class="row g-3">
                         <div class="col-md-3">
                             <label class="form-label small fw-semibold">Customer Name <span class="text-danger">*</span></label>
@@ -207,11 +200,27 @@
                             <input type="text" name="employeeId" class="form-control form-control-sm" placeholder="EMP ID NO.">
                         </div>
                     </div>
+                    <div class="text-end mt-4">
+                        <button type="submit" class="btn btn-primary fw-bold px-4">
+                            Next: Add Products <i class="fa-solid fa-arrow-right ms-1"></i>
+                        </button>
+                    </div>
                 </form>
             </div>
         </div>
+    </div>
+</div>
 
-        <!-- PRODUCTS INFORMATION SECTION -->
+<!-- STEP 3: PRODUCTS INFORMATION SCREEN -->
+<div id="step3Screen" class="hide-section py-4 bg-light">
+    <div class="container px-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <button type="button" class="btn btn-outline-secondary btn-sm" onclick="goBackToStep2()">
+                <i class="fa-solid fa-arrow-left me-1"></i> Back to Personal Info
+            </button>
+            <span class="badge bg-danger fs-6">Step 3: Products Information</span>
+        </div>
+
         <div class="card shadow-sm border-0 mb-4">
             <div class="card-header bg-danger text-white fw-bold py-2">
                 <i class="fa-solid fa-box-open me-2"></i>Products Information (उत्पादनाची माहिती)
@@ -272,12 +281,11 @@
 
                 <div class="text-end mt-3">
                     <button type="button" id="saveBtn" class="btn btn-success fw-bold px-4" onclick="saveCustomerAndResetForm()">
-                        <i class="fa-solid fa-floppy-disk me-1"></i> Save Customer & Open New Form
+                        <i class="fa-solid fa-floppy-disk me-1"></i> Save All & Complete
                     </button>
                 </div>
             </div>
         </div>
-
     </div>
 </div>
 
@@ -293,38 +301,50 @@
   let productsList = [];
   let currentImageBase64 = "";
 
-  // 1. FORM SUBMIT - AUTO POPULATE DATA & SWITCH TO NEW SCREEN
+  // STEP 1 SUBMIT -> GO TO STEP 2 (PERSONAL INFO)
   document.getElementById('ownerStep1Form').addEventListener('submit', function(e) {
     e.preventDefault();
 
-    // डेटा ऑटोमॅटिक दुसर्‍या फॉर्ममध्ये ट्रान्सफर करा
     const bName = document.getElementById('init_business').value;
     document.getElementById('custName').value = document.getElementById('init_name').value;
     document.getElementById('businessName').value = bName; 
-    document.getElementById('shopName').value = bName; // Shop Name मध्ये ऑटो फिल
+    document.getElementById('shopName').value = bName; 
     document.getElementById('custMobile').value = document.getElementById('init_mobile').value;
     document.getElementById('custCity').value = document.getElementById('init_city').value;
 
-    // जुनी स्क्रीन लपवून नवीन स्क्रीन उघडणे
     document.getElementById('mainScreen').classList.add('hide-section');
     document.getElementById('step2Screen').classList.remove('hide-section');
+    document.getElementById('step3Screen').classList.add('hide-section');
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
-    // बॅकग्राउंडला पहिला डेटा सेव्ह करा
     const formData = new FormData(this);
     formData.append('type', 'Business Owner');
     fetch(SCRIPT_URL, { method: 'POST', body: formData }).catch(err => console.log(err));
   });
 
-  // 2. BACK BUTTON LOGIC
+  // STEP 2 -> GO TO STEP 3 (PRODUCTS INFO)
+  function goToProductScreen() {
+      document.getElementById('step2Screen').classList.add('hide-section');
+      document.getElementById('step3Screen').classList.remove('hide-section');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // BACK NAVIGATION
   function goBackToMainScreen() {
       document.getElementById('step2Screen').classList.add('hide-section');
+      document.getElementById('step3Screen').classList.add('hide-section');
       document.getElementById('mainScreen').classList.remove('hide-section');
       window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  // 3. PRODUCT IMAGE PREVIEW
+  function goBackToStep2() {
+      document.getElementById('step3Screen').classList.add('hide-section');
+      document.getElementById('step2Screen').classList.remove('hide-section');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // PRODUCT MANAGEMENT
   function previewImage(event) {
       const file = event.target.files[0];
       if (file) {
@@ -334,7 +354,6 @@
       }
   }
 
-  // 4. ADD PRODUCT TO TABLE
   function addProductToTable() {
       const name = document.getElementById('prodName').value;
       const mrp = document.getElementById('prodMRP').value;
@@ -348,7 +367,6 @@
       currentImageBase64 = "";
   }
 
-  // 5. RENDER TABLE
   function renderTable() {
       const tbody = document.getElementById('productTableBody');
       tbody.innerHTML = "";
@@ -377,18 +395,13 @@
       renderTable();
   }
 
-  // 6. SAVE ALL & RESET NEW FORM
+  // SAVE FINAL DATA
   function saveCustomerAndResetForm() {
-      const custForm = document.getElementById('addCustForm');
-      if (!custForm.checkValidity()) {
-          custForm.reportValidity();
-          return;
-      }
-
       const btn = document.getElementById('saveBtn');
       btn.innerText = "Saving...";
       btn.disabled = true;
 
+      const custForm = document.getElementById('addCustForm');
       const formData = new FormData(custForm);
       formData.append('action', 'add');
       formData.append('products', JSON.stringify(productsList));
@@ -400,7 +413,7 @@
 
   function resetAll() {
       alert("माहिती यशस्वीरीत्या सेव्ह झाली आहे!");
-      document.getElementById('saveBtn').innerText = "Save Customer & Open New Form";
+      document.getElementById('saveBtn').innerText = "Save All & Complete";
       document.getElementById('saveBtn').disabled = false;
       document.getElementById('addCustForm').reset();
       document.getElementById('ownerStep1Form').reset();
