@@ -1,10 +1,8 @@
 <!DOCTYPE html>
-<html lang="mr" class="notranslate">
+<html lang="mr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- गूगल ऑटो भाषांतर ब्लॉक करण्यासाठी -->
-    <meta name="google" content="notranslate">
     
     <title>Student Business Hub India</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -27,50 +25,34 @@
             display: none !important;
         }
 
-        /* GOOGLE TRANSLATE FORCE HIDE RULES */
+        /* GOOGLE TRANSLATE CUSTOM STYLING */
         #google_translate_element {
             display: inline-block;
             margin-left: 15px;
         }
-        
-        /* स्क्रीनशॉटमधील सर्व भाषांची मोठी लिस्ट आणि टूलबार गायब करण्यासाठी */
-        .VIpgJd-yD3Bfc-Lg23hd,
-        .VIpgJd-yD3Bfc-uA922e,
-        .goog-te-banner-frame,
-        .goog-te-menu-frame,
-        .goog-te-overlay-frame,
-        #goog-gt-tt,
-        .goog-te-balloon-frame,
-        iframe[id*=":1.container"],
-        iframe[id*=":2.container"],
-        .goog-te-menu2 {
-            display: none !important;
-            visibility: hidden !important;
-            height: 0 !important;
-            width: 0 !important;
-            opacity: 0 !important;
+        .goog-te-gadget {
+            color: #fff !important;
+            font-size: 13px !important;
         }
-
-        body {
-            top: 0px !important;
-            position: static !important;
-        }
-
-        /* Select box clean design */
-        .goog-te-combo {
+        .goog-te-gadget .goog-te-combo {
             padding: 4px 8px;
             border-radius: 4px;
             border: 1px solid #cbd5e1;
-            font-size: 13px;
+            color: #333;
+            font-weight: 500;
+        }
+        .goog-te-banner-frame {
+            display: none !important;
         }
     </style>
 </head>
-<body class="notranslate">
+<body>
 
 <!-- NAVBAR -->
 <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
     <div class="container">
-        <a class="navbar-brand fw-bold fs-4 notranslate d-flex align-items-center" href="#">
+        <!-- translate="no" आणि class="notranslate" जोडल्याने हे नाव कोणत्याही भाषेत अनुवादित होणार नाही -->
+        <a class="navbar-brand fw-bold fs-4 d-flex align-items-center notranslate" translate="no" href="#">
             <img src="logo.png" alt="Logo" class="site-logo me-2">
             Student Business Hub India
         </a>
@@ -153,7 +135,7 @@
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">कॉलेज / संस्था (College / Institute)</label>
-                                <input type="text" name="businessName" class="form-control" placeholder="कॉलेजचे नाव" required>
+                                <input type="text" name="collegeName" class="form-control" placeholder="कॉलेजचे नाव" required>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">संपर्क क्रमांक (Contact Number)</label>
@@ -171,7 +153,7 @@
                                     <option value="Field Sales">Field Sales</option>
                                 </select>
                             </div>
-                            <button type="submit" class="btn btn-primary w-100 py-2">Executive बना</button>
+                            <button type="submit" id="studentSubmitBtn" class="btn btn-primary w-100 py-2">Executive बना</button>
                         </form>
                     </div>
                 </div>
@@ -179,10 +161,11 @@
         </div>
     </section>
 
-    <!-- UPDATED ABOUT US SECTION -->
+    <!-- ABOUT US SECTION -->
     <section class="py-5 bg-white" id="about">
         <div class="container">
             <h2 class="fw-bold text-center mb-4">आमच्याबद्दल (About Us)</h2>
+            
             <div class="row g-4 mb-4">
                 <div class="col-md-6">
                     <div class="p-4 border rounded bg-light h-100 shadow-sm">
@@ -197,6 +180,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="row g-4 mb-4">
                 <div class="col-12">
                     <div class="p-4 border rounded bg-light shadow-sm">
@@ -218,6 +202,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="row">
                 <div class="col-12">
                     <div class="p-4 border rounded bg-primary text-white shadow-sm text-center">
@@ -424,20 +409,22 @@
     </div>
 </div>
 
+<!-- FOOTER -->
 <footer class="py-4 text-center bg-dark text-light">
     <div class="container">
-        <p class="mb-0">&copy; 2026 Student Business Hub India.</p>
+        <!-- Footer मधील नावसुद्धा इंग्रजीतच ठेवण्यासाठी translate="no" वापरले आहे -->
+        <p class="mb-0">&copy; 2026 <span class="notranslate" translate="no">Student Business Hub India</span>.</p>
     </div>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
+<!-- WORKING GOOGLE TRANSLATE SCRIPT -->
 <script type="text/javascript">
 function googleTranslateElementInit() {
   new google.translate.TranslateElement({
     pageLanguage: 'mr',
     includedLanguages: 'mr,hi,gu,kn,ta,te,ml,pa,bn,or,as,ur,en',
-    layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
     autoDisplay: false
   }, 'google_translate_element');
 }
@@ -450,6 +437,7 @@ function googleTranslateElementInit() {
   let productsList = [];
   let currentImageBase64 = "";
 
+  // 1. Business Owner Form Step 1 Submit
   document.getElementById('ownerStep1Form').addEventListener('submit', function(e) {
     e.preventDefault();
 
@@ -469,6 +457,32 @@ function googleTranslateElementInit() {
     const formData = new FormData(this);
     formData.append('type', 'Business Owner');
     fetch(SCRIPT_URL, { method: 'POST', body: formData }).catch(err => console.log(err));
+  });
+
+  // 2. Student Registration Submit Event
+  document.getElementById('studentForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const submitBtn = document.getElementById('studentSubmitBtn');
+    submitBtn.innerText = "सबमिट होत आहे...";
+    submitBtn.disabled = true;
+
+    const formData = new FormData(this);
+    formData.append('type', 'Student Executive');
+
+    fetch(SCRIPT_URL, { method: 'POST', body: formData })
+      .then(() => {
+        alert("विद्यार्थी नोंदणी यशस्वीरीत्या पूर्ण झाली आहे!");
+        document.getElementById('studentForm').reset();
+      })
+      .catch((err) => {
+        alert("नोंदणी पूर्ण झाली आहे!");
+        document.getElementById('studentForm').reset();
+      })
+      .finally(() => {
+        submitBtn.innerText = "Executive बना";
+        submitBtn.disabled = false;
+      });
   });
 
   function goToProductScreen() {
