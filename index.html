@@ -76,7 +76,7 @@
 <!-- NAVBAR -->
 <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
     <div class="container">
-        <!-- 1. BRAND NAME PERMANENT ENGLISH (notranslate + translate="no") -->
+        <!-- BRAND NAME PERMANENT ENGLISH -->
         <a class="navbar-brand fw-bold fs-4 d-flex align-items-center notranslate" translate="no" href="#">
             <img src="logo.png" alt="Logo" class="site-logo me-2">
             Student Business Hub India
@@ -443,12 +443,11 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-<!-- 4. GOOGLE TRANSLATE FOR ONLY INDIAN LANGUAGES -->
+<!-- GOOGLE TRANSLATE FOR INDIAN LANGUAGES -->
 <script type="text/javascript">
 function googleTranslateElementInit() {
   new google.translate.TranslateElement({
     pageLanguage: 'mr',
-    // फक्त भारतीय भाषांचा समावेश (Marathi, Hindi, Gujarati, Bengali, Tamil, Telugu, Kannada, Malayalam, Punjabi, Odia, Assamese, Urdu, English)
     includedLanguages: 'mr,hi,gu,bn,ta,te,kn,ml,pa,or,as,ur,en',
     autoDisplay: false
   }, 'google_translate_element');
@@ -457,7 +456,6 @@ function googleTranslateElementInit() {
 <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
 <script>
-  // नवीन Google Apps Script Web App URL जिथे डेटा पाठवला जाईल
   const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxzN2BzxPZn6NPP65Bx7-IkEF8LWVqN_18e-N_VLnuO5T8VepjGENLkRny6tdfVkP7aVw/exec";
 
   let productsList = [];
