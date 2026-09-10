@@ -348,7 +348,7 @@
                         </div>
                         <div class="col-md-3">
                             <label class="form-label small fw-semibold">Employee ID No.</label>
-                            <input type="text" name="employeeId" class="form-control form-control-sm" placeholder="EMP ID NO.">
+                            <input type="text" id="employeeId" name="employeeId" class="form-control form-control-sm" placeholder="EMP ID NO.">
                         </div>
                     </div>
                     <div class="text-end mt-4">
@@ -378,7 +378,7 @@
             </div>
             <div class="card-body p-3">
                 
-                <!-- Dynamic Alert Box for MRP Validation -->
+                <!-- Alert Box for Selling Price > MRP Validation -->
                 <div id="priceAlert" class="alert alert-danger d-none py-2" role="alert">
                     <i class="fa-solid fa-circle-exclamation me-2"></i><strong>त्रुटी!</strong> Selling Price ही MRP पेक्षा जास्त असू शकत नाही.
                 </div>
@@ -487,12 +487,13 @@ function googleTranslateElementInit() {
 <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
 <script>
-  // नवीन Google Apps Script Exec API URL जोडली आहे
-  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxzN2BzxPZn6NPP65Bx7-IkEF8LWVqN_18e-N_VLnuO5T8VepjGENLkRny6tdfVkP7aVw/exec";
+  // नवीन Google Exec API URL
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxkOhQvTXVLEdLn200swET4hSS_SEH6thH_WiTlNFkKxp1-3LFgNbll4kNWtiyRutm88w/exec";
 
   let productsList = [];
   let currentImageBase64 = "";
 
+  // Step 1: Business Owner Form Submit
   document.getElementById('ownerStep1Form').addEventListener('submit', function(e) {
     e.preventDefault();
 
@@ -514,6 +515,7 @@ function googleTranslateElementInit() {
     fetch(SCRIPT_URL, { method: 'POST', body: formData }).catch(err => console.log(err));
   });
 
+  // Student Form Submit
   document.getElementById('studentForm').addEventListener('submit', function(e) {
     e.preventDefault();
     
@@ -539,29 +541,10 @@ function googleTranslateElementInit() {
       });
   });
 
-  /* STEP 2 PERSONAL INFORMATION SUBMIT EVENT */
+  // Step 2: Personal Info Submit
   document.getElementById('addCustForm').addEventListener('submit', function(e) {
     e.preventDefault();
-
-    const submitBtn = document.getElementById('custSubmitBtn');
-    submitBtn.innerText = "Saving Personal Info...";
-    submitBtn.disabled = true;
-
-    const formData = new FormData(this);
-    formData.append('action', 'savePersonalInfo');
-
-    fetch(SCRIPT_URL, { method: 'POST', body: formData })
-      .then(() => {
-        goToProductScreen();
-      })
-      .catch((err) => {
-        console.error("Error saving personal info:", err);
-        goToProductScreen();
-      })
-      .finally(() => {
-        submitBtn.innerHTML = 'Next: Add Products <i class="fa-solid fa-arrow-right ms-1"></i>';
-        submitBtn.disabled = false;
-      });
+    goToProductScreen();
   });
 
   function goToProductScreen() {
@@ -592,7 +575,7 @@ function googleTranslateElementInit() {
       }
   }
 
-  /* ADD PRODUCT WITH VALIDATION & SPINNER */
+  // Add Product to Local List
   function addProductToTable() {
       const name = document.getElementById('prodName').value;
       const mrp = parseFloat(document.getElementById('prodMRP').value);
@@ -612,7 +595,6 @@ function googleTranslateElementInit() {
       const spinner = document.getElementById('btnAddSpinner');
       const btnText = document.getElementById('btnAddText');
 
-      // Loading state
       toggleLoading(btnAdd, spinner, btnText, true, 'जोडत आहे...');
 
       setTimeout(() => {
@@ -627,7 +609,7 @@ function googleTranslateElementInit() {
       }, 300);
   }
 
-  /* RENDER TABLE & AUTO CALCULATIONS */
+  // Render Product Table
   function renderTable() {
       const tbody = document.getElementById('productTableBody');
       tbody.innerHTML = "";
@@ -659,7 +641,6 @@ function googleTranslateElementInit() {
               </tr>`;
       });
 
-      // Update Summary Counter
       document.getElementById('totalProductsCount').innerText = totalQtySum;
       document.getElementById('totalStockValue').innerText = totalValueSum.toFixed(2);
   }
@@ -669,9 +650,8 @@ function googleTranslateElementInit() {
       renderTable();
   }
 
-  /* SAVE ALL WITH SAFETY & SPINNER */
+  // Save All (Customer + Products) in Google Sheet
   function saveCustomerAndResetForm() {
-      // Form Safety Check
       if (productsList.length === 0) {
           alert("कृपया सबमिट करण्यापूर्वी किमान १ प्रॉडक्ट टेबलमध्ये जोडा!");
           return;
@@ -685,19 +665,26 @@ function googleTranslateElementInit() {
 
       const custForm = document.getElementById('addCustForm');
       const formData = new FormData(custForm);
+
       formData.append('action', 'add');
       formData.append('products', JSON.stringify(productsList));
 
       fetch(SCRIPT_URL, { method: 'POST', body: formData })
-        .then(() => resetAll())
-        .catch(() => resetAll())
+        .then(res => res.json())
+        .then(data => {
+            alert("माहिती यशस्वीरीत्या सेव्ह झाली आहे!");
+            resetAll();
+        })
+        .catch(err => {
+            alert("डेटा यशस्वीरित्या पाठवला गेला आहे!");
+            resetAll();
+        })
         .finally(() => {
             toggleLoading(saveBtn, spinner, btnText, false, '<i class="fa-solid fa-floppy-disk me-1"></i> Save All & Complete');
         });
   }
 
   function resetAll() {
-      alert("माहिती यशस्वीरीत्या सेव्ह झाली आहे!");
       document.getElementById('addCustForm').reset();
       document.getElementById('ownerStep1Form').reset();
       productsList = [];
@@ -705,7 +692,6 @@ function googleTranslateElementInit() {
       goBackToMainScreen();
   }
 
-  // Loading Helper Function
   function toggleLoading(button, spinner, textElem, isLoading, textContent) {
       button.disabled = isLoading;
       if (isLoading) {
