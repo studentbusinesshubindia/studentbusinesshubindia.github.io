@@ -22,118 +22,111 @@
 <div class="container bg-white p-4 rounded shadow-sm">
   <h2 class="mb-4 text-center text-primary">उत्पादन आणि ग्राहक नोंदणी</h2>
 
-  <!-- Owner Form -->
-  <form id="ownerStep1Form" class="mb-4">
+  <form id="mainRegistrationForm" onsubmit="event.preventDefault(); saveCustomerAndResetForm();">
+    <!-- Owner Section -->
     <h5>मालकाची माहिती</h5>
-    <div class="row g-3">
+    <div class="row g-3 mb-4">
       <div class="col-md-6">
-        <input type="text" name="ownerName" class="form-control" placeholder="मालकाचे नाव" required>
+        <input type="text" id="ownerName" name="ownerName" class="form-control" placeholder="मालकाचे नाव" required>
       </div>
       <div class="col-md-6">
-        <input type="text" name="shopName" class="form-control" placeholder="दुकानाचे नाव" required>
+        <input type="text" id="shopName" name="shopName" class="form-control" placeholder="दुकानाचे नाव" required>
       </div>
     </div>
-  </form>
 
-  <hr>
+    <hr>
 
-  <!-- Student Form -->
-  <form id="studentForm" class="mb-4">
+    <!-- Student Section -->
     <h5>विद्यार्थ्याची माहिती</h5>
-    <div class="row g-3">
+    <div class="row g-3 mb-4">
       <div class="col-md-6">
-        <input type="text" name="studentName" class="form-control" placeholder="विद्यार्थ्याचे नाव" required>
+        <input type="text" id="studentName" name="studentName" class="form-control" placeholder="विद्यार्थ्याचे नाव" required>
       </div>
       <div class="col-md-6">
-        <input type="text" name="studentRoll" class="form-control" placeholder="रोल नंबर" required>
+        <input type="text" id="studentRoll" name="studentRoll" class="form-control" placeholder="रोल नंबर" required>
       </div>
     </div>
-  </form>
 
-  <hr>
+    <hr>
 
-  <!-- Customer Form -->
-  <form id="addCustForm" class="mb-4">
+    <!-- Customer Section -->
     <h5>ग्राहकाची माहिती</h5>
-    <div class="row g-3">
+    <div class="row g-3 mb-4">
       <div class="col-md-6">
-        <input type="text" name="custName" class="form-control" placeholder="ग्राहकाचे नाव" required>
+        <input type="text" id="custName" name="custName" class="form-control" placeholder="ग्राहकाचे नाव" required>
       </div>
       <div class="col-md-6">
-        <input type="tel" name="custPhone" class="form-control" placeholder="फोन नंबर" required>
+        <input type="tel" id="custPhone" name="custPhone" class="form-control" placeholder="फोन नंबर" required>
       </div>
     </div>
-  </form>
 
-  <hr>
+    <hr>
 
-  <!-- Product Form -->
-  <form id="productInputForm" class="mb-4" onsubmit="event.preventDefault(); addProductToList();">
+    <!-- Product Input Section -->
     <h5>उत्पादन जोडा</h5>
-    <div class="row g-3">
+    <div class="row g-3 mb-3">
       <div class="col-md-3">
-        <input type="text" id="prodName" class="form-control" placeholder="उत्पादनाचे नाव" required>
+        <input type="text" id="prodName" class="form-control" placeholder="उत्पादनाचे नाव">
       </div>
       <div class="col-md-2">
-        <input type="number" step="0.01" id="prodMRP" class="form-control" placeholder="MRP (₹)" required>
+        <input type="number" step="0.01" id="prodMRP" class="form-control" placeholder="MRP (₹)">
       </div>
       <div class="col-md-2">
-        <input type="number" step="0.01" id="prodSelling" class="form-control" placeholder="विक्री किंमत (₹)" required>
+        <input type="number" step="0.01" id="prodSelling" class="form-control" placeholder="विक्री किंमत (₹)">
       </div>
       <div class="col-md-2">
-        <input type="number" id="prodQty" class="form-control" placeholder="नग (Qty)" required>
+        <input type="number" id="prodQty" class="form-control" placeholder="नग (Qty)">
       </div>
       <div class="col-md-3">
         <input type="file" id="prodImg" class="form-control" accept="image/*" onchange="convertImageToBase64(this)">
       </div>
     </div>
-    <div class="mt-3">
-      <button type="submit" class="btn btn-secondary">
+    <div class="mb-4">
+      <button type="button" class="btn btn-secondary" onclick="addProductToList()">
         <i class="fa-solid fa-plus me-1"></i> यादीत जोडा
       </button>
     </div>
+
+    <!-- Products Table -->
+    <div class="table-responsive mb-4">
+      <table class="table table-bordered align-middle" id="productsTable">
+        <thead class="table-light">
+          <tr>
+            <th>#</th>
+            <th>फोटो</th>
+            <th>उत्पादन</th>
+            <th>MRP</th>
+            <th>विक्री किंमत</th>
+            <th>नग</th>
+            <th>एकूण</th>
+            <th>कृती</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td colspan="8" class="text-center text-muted">अजून कोणतेही उत्पादन जोडलेले नाही.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Summary & Save Button -->
+    <div class="d-flex justify-content-between align-items-center">
+      <div>
+        <p class="mb-1"><strong>एकूण नग:</strong> <span id="totalProductsCount">0</span></p>
+        <p class="mb-0"><strong>एकूण मूल्य:</strong> ₹<span id="totalStockValue">0.00</span></p>
+      </div>
+      <div>
+        <button type="submit" class="btn btn-success btn-lg" id="saveBtn">
+          <span class="spinner-border spinner-border-sm d-none" id="btnSaveSpinner" role="status" aria-hidden="true"></span>
+          <span id="btnSaveText"><i class="fa-solid fa-floppy-disk me-1"></i> Save All & Complete</span>
+        </button>
+      </div>
+    </div>
   </form>
-
-  <!-- Products Table -->
-  <div class="table-responsive mb-4">
-    <table class="table table-bordered align-middle" id="productsTable">
-      <thead class="table-light">
-        <tr>
-          <th>#</th>
-          <th>फोटो</th>
-          <th>उत्पादन</th>
-          <th>MRP</th>
-          <th>विक्री किंमत</th>
-          <th>नग</th>
-          <th>एकूण</th>
-          <th>कृती</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td colspan="8" class="text-center text-muted">अजून कोणतेही उत्पादन जोडलेले नाही.</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- Summary & Save Button -->
-  <div class="d-flex justify-content-between align-items-center">
-    <div>
-      <p class="mb-1"><strong>एकूण नग:</strong> <span id="totalProductsCount">0</span></p>
-      <p class="mb-0"><strong>एकूण मूल्य:</strong> ₹<span id="totalStockValue">0.00</span></p>
-    </div>
-    <div>
-      <button type="button" class="btn btn-success btn-lg" id="saveBtn" onclick="saveCustomerAndResetForm()">
-        <span class="spinner-border spinner-border-sm d-none" id="btnSaveSpinner" role="status" aria-hidden="true"></span>
-        <span id="btnSaveText"><i class="fa-solid fa-floppy-disk me-1"></i> Save All & Complete</span>
-      </button>
-    </div>
-  </div>
 </div>
 
 <script>
-  // Updated Google Apps Script Execution URL
   const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwphmiSiBDxsEqRTqjXN1i7hmhtaZVsdff2WNsHfwK4U6uX0fYibk5Uggzz0AeDC1uWYQ/exec';
 
   let productsList = [];
@@ -150,13 +143,17 @@
       }
   }
 
-  // Add Product to Array
+  // Add Product to Table
   function addProductToList() {
-      const name = document.getElementById('prodName').value;
+      const name = document.getElementById('prodName').value.trim();
       const mrp = parseFloat(document.getElementById('prodMRP').value) || 0;
       const selling = parseFloat(document.getElementById('prodSelling').value) || 0;
       const qty = parseInt(document.getElementById('prodQty').value) || 0;
-      const total = selling * qty;
+
+      if (!name || qty <= 0) {
+          alert("कृपया उत्पादनाचे नाव आणि नग (Qty) योग्यरीत्या भरा!");
+          return;
+      }
 
       const product = {
           id: Date.now(),
@@ -164,15 +161,19 @@
           mrp: mrp,
           selling: selling,
           qty: qty,
-          total: total,
+          total: selling * qty,
           img: currentImageBase64 || "https://via.placeholder.com/50"
       };
 
       productsList.push(product);
       renderTable();
 
-      // Reset Product Input Form
-      document.getElementById('productInputForm').reset();
+      // Reset Product Input Fields
+      document.getElementById('prodName').value = '';
+      document.getElementById('prodMRP').value = '';
+      document.getElementById('prodSelling').value = '';
+      document.getElementById('prodQty').value = '';
+      document.getElementById('prodImg').value = '';
       currentImageBase64 = "";
   }
 
@@ -204,7 +205,7 @@
               <td>${product.qty}</td>
               <td>₹${product.total.toFixed(2)}</td>
               <td>
-                  <button class="btn btn-danger btn-sm" onclick="removeProduct(${product.id})">
+                  <button type="button" class="btn btn-danger btn-sm" onclick="removeProduct(${product.id})">
                       <i class="fa-solid fa-trash"></i>
                   </button>
               </td>
@@ -216,46 +217,46 @@
       document.getElementById('totalStockValue').innerText = totalStockValue.toFixed(2);
   }
 
-  // Remove Product from List
+  // Remove Product
   function removeProduct(id) {
       productsList = productsList.filter(item => item.id !== id);
       renderTable();
   }
 
-  // Update Summary Counts
+  // Update Summary
   function updateSummary() {
       document.getElementById('totalProductsCount').innerText = "0";
       document.getElementById('totalStockValue').innerText = "0.00";
   }
 
-  // Helper function to toggle button loading state
-  function toggleLoading(btn, spinner, btnText, isLoading, textContent) {
-      if (isLoading) {
-          btn.disabled = true;
-          spinner.classList.remove('d-none');
-          btnText.innerHTML = textContent;
-      } else {
-          btn.disabled = false;
-          spinner.classList.add('d-none');
-          btnText.innerHTML = textContent;
-      }
-  }
-
-  // Final Step: Save All & Complete
-  function saveCustomerAndResetForm() {
-      if (productsList.length === 0) {
-          alert("कृपया कमीत कमी एक उत्पादन जोडा!");
-          return;
-      }
-
+  // Toggle Loading Button
+  function toggleLoading(isLoading) {
       const saveBtn = document.getElementById('saveBtn');
       const spinner = document.getElementById('btnSaveSpinner');
       const btnText = document.getElementById('btnSaveText');
 
-      toggleLoading(saveBtn, spinner, btnText, true, 'सेव्ह होत आहे...');
+      if (isLoading) {
+          saveBtn.disabled = true;
+          spinner.classList.remove('d-none');
+          btnText.innerHTML = 'सेव्ह होत आहे...';
+      } else {
+          saveBtn.disabled = false;
+          spinner.classList.add('d-none');
+          btnText.innerHTML = '<i class="fa-solid fa-floppy-disk me-1"></i> Save All & Complete';
+      }
+  }
 
-      const custForm = document.getElementById('addCustForm');
-      const formData = new FormData(custForm);
+  // Submit All Data
+  function saveCustomerAndResetForm() {
+      if (productsList.length === 0) {
+          alert("कृपया कमीत कमी एक उत्पादन यादीत जोडा!");
+          return;
+      }
+
+      toggleLoading(true);
+
+      const mainForm = document.getElementById('mainRegistrationForm');
+      const formData = new FormData(mainForm);
 
       formData.append('type', 'Customer Products');
       formData.append('products', JSON.stringify(productsList));
@@ -264,24 +265,20 @@
           .then(res => res.json())
           .then(data => {
               alert("सर्व माहिती आणि उत्पादने यशस्वीरीत्या सेव्ह झाली आहेत!");
-              resetAllForms();
+              resetAll();
           })
           .catch(err => {
               alert("माहिती सेव्ह झाली आहे!");
-              resetAllForms();
+              resetAll();
           })
           .finally(() => {
-              toggleLoading(saveBtn, spinner, btnText, false, '<i class="fa-solid fa-floppy-disk me-1"></i> Save All & Complete');
+              toggleLoading(false);
           });
   }
 
-  // Reset Everything
-  function resetAllForms() {
-      document.getElementById('ownerStep1Form').reset();
-      document.getElementById('studentForm').reset();
-      document.getElementById('addCustForm').reset();
-      document.getElementById('productInputForm').reset();
-      
+  // Reset Form and List
+  function resetAll() {
+      document.getElementById('mainRegistrationForm').reset();
       productsList = [];
       currentImageBase64 = "";
       renderTable();
