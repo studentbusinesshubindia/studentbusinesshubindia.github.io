@@ -485,11 +485,24 @@ function googleTranslateElementInit() {
 <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
 <script>
-  // नवीन Google Web App URL
-  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzQARZ4ZBGUa3QUJbUlty7COjqNwpi8UBMuo3bbYwqt9u6JZ894yy75l4s6fYC09zbQ3A/exec";
+  // नवीन Google Web App URL (Updated with requested Script URL)
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyrlfUrO8AZHJFzzsY7pJYxUfuEgjMs-I2CA_kPGc31-y1peGfUncmTz0tJINNsyhVmkA/exec";
 
   let productsList = [];
   let currentImageBase64 = "";
+
+  // Helper function to toggle loading spinners
+  function toggleLoading(button, spinner, textElem, isLoading, loadingText) {
+      if (isLoading) {
+          button.disabled = true;
+          spinner.classList.remove('d-none');
+          textElem.innerHTML = loadingText;
+      } else {
+          button.disabled = false;
+          spinner.classList.add('d-none');
+          textElem.innerHTML = loadingText;
+      }
+  }
 
   // Step 1: Business Owner Form Submit
   document.getElementById('ownerStep1Form').addEventListener('submit', function(e) {
@@ -607,51 +620,62 @@ function googleTranslateElementInit() {
       }, 300);
   }
 
-  // Render Product Table
+  // Render Products Table
   function renderTable() {
       const tbody = document.getElementById('productTableBody');
-      tbody.innerHTML = "";
-
       if (productsList.length === 0) {
           tbody.innerHTML = `<tr><td colspan="8" class="text-muted">अजून कोणतेही उत्पादन जोडलेले नाही.</td></tr>`;
-          document.getElementById('totalProductsCount').innerText = "0";
-          document.getElementById('totalStockValue').innerText = "0.00";
+          updateSummary();
           return;
       }
 
-      let totalQtySum = 0;
-      let totalValueSum = 0;
-
-      productsList.forEach((item, index) => {
-          totalQtySum += item.qty;
-          totalValueSum += item.total;
-
+      tbody.innerHTML = "";
+      productsList.forEach((prod, index) => {
           tbody.innerHTML += `
               <tr>
                   <td>${index + 1}</td>
-                  <td><img src="${item.img}" class="img-preview-thumb"></td>
-                  <td class="text-start fw-semibold">${item.name}</td>
-                  <td>₹${item.mrp.toFixed(2)}</td>
-                  <td class="text-success fw-bold">₹${item.selling.toFixed(2)}</td>
-                  <td>${item.qty}</td>
-                  <td class="fw-bold">₹${item.total.toFixed(2)}</td>
-                  <td><button class="btn btn-outline-danger btn-sm py-0" onclick="deleteProduct(${item.id})"><i class="fa-solid fa-trash"></i></button></td>
-              </tr>`;
+                  <td><img src="${prod.img}" class="img-preview-thumb" alt="Product Image"></td>
+                  <td>${prod.name}</td>
+                  <td>₹${prod.mrp.toFixed(2)}</td>
+                  <td>₹${prod.selling.toFixed(2)}</td>
+                  <td>${prod.qty}</td>
+                  <td>₹${prod.total.toFixed(2)}</td>
+                  <td>
+                      <button type="button" class="btn btn-danger btn-sm" onclick="deleteProduct(${prod.id})">
+                          <i class="fa-solid fa-trash"></i>
+                      </button>
+                  </td>
+              </tr>
+          `;
       });
 
-      document.getElementById('totalProductsCount').innerText = totalQtySum;
-      document.getElementById('totalStockValue').innerText = totalValueSum.toFixed(2);
+      updateSummary();
   }
 
+  // Delete Product
   function deleteProduct(id) {
-      productsList = productsList.filter(item => item.id !== id);
+      productsList = productsList.filter(prod => prod.id !== id);
       renderTable();
   }
 
-  // Save All (Customer + Products) in Google Sheet
+  // Update Summary Calculation
+  function updateSummary() {
+      let totalQty = 0;
+      let totalValue = 0;
+
+      productsList.forEach(prod => {
+          totalQty += prod.qty;
+          totalValue += prod.total;
+      });
+
+      document.getElementById('totalProductsCount').innerText = totalQty;
+      document.getElementById('totalStockValue').innerText = totalValue.toFixed(2);
+  }
+
+  // Save All Data to Google Sheet & Reset Form
   function saveCustomerAndResetForm() {
       if (productsList.length === 0) {
-          alert("कृपया सबमिट करण्यापूर्वी किमान १ प्रॉडक्ट टेबलमध्ये जोडा!");
+          alert("कृपया कमीत कमी एक उत्पादन जोडा!");
           return;
       }
 
@@ -663,44 +687,32 @@ function googleTranslateElementInit() {
 
       const custForm = document.getElementById('addCustForm');
       const formData = new FormData(custForm);
-
-      formData.append('action', 'add');
+      formData.append('type', 'Full Customer Data');
       formData.append('products', JSON.stringify(productsList));
 
       fetch(SCRIPT_URL, { method: 'POST', body: formData })
-        .then(res => res.json())
-        .then(data => {
-            alert("माहिती यशस्वीरीत्या सेव्ह झाली आहे!");
-            resetAll();
-        })
-        .catch(err => {
-            alert("डेटा यशस्वीरित्या पाठवला गेला आहे!");
-            resetAll();
-        })
-        .finally(() => {
-            toggleLoading(saveBtn, spinner, btnText, false, '<i class="fa-solid fa-floppy-disk me-1"></i> Save All & Complete');
-        });
-  }
-
-  function resetAll() {
-      document.getElementById('addCustForm').reset();
-      document.getElementById('ownerStep1Form').reset();
-      productsList = [];
-      renderTable();
-      goBackToMainScreen();
-  }
-
-  function toggleLoading(button, spinner, textElem, isLoading, textContent) {
-      button.disabled = isLoading;
-      if (isLoading) {
-          spinner.classList.remove('d-none');
-          textElem.innerHTML = ' ' + textContent;
-      } else {
-          spinner.classList.add('d-none');
-          textElem.innerHTML = textContent;
-      }
+          .then(res => res.text())
+          .then(response => {
+              alert("सर्व माहिती यशस्वीरीत्या सेव्ह झाली आहे!");
+              // Reset Forms and Reset View
+              productsList = [];
+              renderTable();
+              custForm.reset();
+              document.getElementById('ownerStep1Form').reset();
+              goBackToMainScreen();
+          })
+          .catch(err => {
+              alert("माहिती सेव्ह झाली आहे!");
+              productsList = [];
+              renderTable();
+              custForm.reset();
+              document.getElementById('ownerStep1Form').reset();
+              goBackToMainScreen();
+          })
+          .finally(() => {
+              toggleLoading(saveBtn, spinner, btnText, false, '<i class="fa-solid fa-floppy-disk me-1"></i> Save All & Complete');
+          });
   }
 </script>
-
 </body>
 </html>
