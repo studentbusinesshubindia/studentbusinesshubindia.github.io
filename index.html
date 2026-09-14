@@ -127,8 +127,8 @@
 </div>
 
 <script>
-  // Google Apps Script Execution URL
-  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyrx0kI17ouY2mWkG-wVO0c9EH3KCFR66xMT8SsjEHMx0fmErQTKn2M2She481cH5wWug/exec';
+  // Updated Google Apps Script Execution URL
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyrlfUrO8AZHJFzzsY7pJYxUfuEgjMs-I2CA_kPGc31-y1peGfUncmTz0tJINNsyhVmkA/exec';
 
   let productsList = [];
   let currentImageBase64 = "";
@@ -163,7 +163,7 @@
           selling: selling,
           qty: qty,
           total: selling * qty,
-          img: currentImageBase64 || "https://via.placeholder.com/50"
+          img: currentImageBase64 || ""
       };
 
       productsList.push(product);
@@ -199,7 +199,7 @@
           const tr = document.createElement('tr');
           tr.innerHTML = `
               <td>${index + 1}</td>
-              <td><img src="${product.img}" class="img-preview-thumb" alt="Product Image"></td>
+              <td><img src="${product.img || 'https://via.placeholder.com/50'}" class="img-preview-thumb" alt="Product Image"></td>
               <td>${product.name}</td>
               <td>₹${product.mrp.toFixed(2)}</td>
               <td>₹${product.selling.toFixed(2)}</td>
@@ -285,6 +285,5 @@
       renderTable();
   }
 </script>
-
 </body>
 </html>
