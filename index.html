@@ -490,7 +490,7 @@ function googleTranslateElementInit() {
   let productsList = [];
   let currentImageBase64 = "";
 
-  // Step 1: Business Owner Form Submit
+ // Step 1: Business Owner Form Submit
   document.getElementById('ownerStep1Form').addEventListener('submit', function(e) {
     e.preventDefault();
 
@@ -506,10 +506,6 @@ function googleTranslateElementInit() {
     document.getElementById('step3Screen').classList.add('hide-section');
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
-
-    const formData = new FormData(this);
-    formData.append('type', 'Business Owner');
-    fetch(SCRIPT_URL, { method: 'POST', body: formData }).catch(err => console.log(err));
   });
 
   // Student Form Submit
