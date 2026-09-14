@@ -27,10 +27,10 @@
     <h5>मालकाची माहिती</h5>
     <div class="row g-3 mb-4">
       <div class="col-md-6">
-        <input type="text" id="ownerName" name="ownerName" class="form-control" placeholder="मालकाचे नाव" required>
+        <input type="text" id="ownerName" name="ownerName" class="form-control" placeholder="मालकाचे नाव">
       </div>
       <div class="col-md-6">
-        <input type="text" id="shopName" name="shopName" class="form-control" placeholder="दुकानाचे नाव" required>
+        <input type="text" id="shopName" name="shopName" class="form-control" placeholder="दुकानाचे नाव">
       </div>
     </div>
 
@@ -40,10 +40,10 @@
     <h5>विद्यार्थ्याची माहिती</h5>
     <div class="row g-3 mb-4">
       <div class="col-md-6">
-        <input type="text" id="studentName" name="studentName" class="form-control" placeholder="विद्यार्थ्याचे नाव" required>
+        <input type="text" id="studentName" name="studentName" class="form-control" placeholder="विद्यार्थ्याचे नाव">
       </div>
       <div class="col-md-6">
-        <input type="text" id="studentRoll" name="studentRoll" class="form-control" placeholder="रोल नंबर" required>
+        <input type="text" id="studentRoll" name="studentRoll" class="form-control" placeholder="रोल नंबर">
       </div>
     </div>
 
@@ -53,10 +53,10 @@
     <h5>ग्राहकाची माहिती</h5>
     <div class="row g-3 mb-4">
       <div class="col-md-6">
-        <input type="text" id="custName" name="custName" class="form-control" placeholder="ग्राहकाचे नाव" required>
+        <input type="text" id="custName" name="custName" class="form-control" placeholder="ग्राहकाचे नाव">
       </div>
       <div class="col-md-6">
-        <input type="tel" id="custPhone" name="custPhone" class="form-control" placeholder="फोन नंबर" required>
+        <input type="tel" id="custPhone" name="custPhone" class="form-control" placeholder="फोन नंबर">
       </div>
     </div>
 
@@ -127,13 +127,11 @@
 </div>
 
 <script>
-  // Updated Google Apps Script Execution URL
   const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyrlfUrO8AZHJFzzsY7pJYxUfuEgjMs-I2CA_kPGc31-y1peGfUncmTz0tJINNsyhVmkA/exec';
 
   let productsList = [];
   let currentImageBase64 = "";
 
-  // Convert uploaded image to Base64
   function convertImageToBase64(input) {
       if (input.files && input.files[0]) {
           const reader = new FileReader();
@@ -144,7 +142,6 @@
       }
   }
 
-  // Add Product to Table
   function addProductToList() {
       const name = document.getElementById('prodName').value.trim();
       const mrp = parseFloat(document.getElementById('prodMRP').value) || 0;
@@ -169,7 +166,6 @@
       productsList.push(product);
       renderTable();
 
-      // Reset Product Input Fields
       document.getElementById('prodName').value = '';
       document.getElementById('prodMRP').value = '';
       document.getElementById('prodSelling').value = '';
@@ -178,7 +174,6 @@
       currentImageBase64 = "";
   }
 
-  // Render Table
   function renderTable() {
       const tbody = document.querySelector('#productsTable tbody');
       tbody.innerHTML = '';
@@ -218,19 +213,16 @@
       document.getElementById('totalStockValue').innerText = totalStockValue.toFixed(2);
   }
 
-  // Remove Product
   function removeProduct(id) {
       productsList = productsList.filter(item => item.id !== id);
       renderTable();
   }
 
-  // Update Summary
   function updateSummary() {
       document.getElementById('totalProductsCount').innerText = "0";
       document.getElementById('totalStockValue').innerText = "0.00";
   }
 
-  // Toggle Loading Button
   function toggleLoading(isLoading) {
       const saveBtn = document.getElementById('saveBtn');
       const spinner = document.getElementById('btnSaveSpinner');
@@ -247,7 +239,6 @@
       }
   }
 
-  // Submit All Data
   function saveCustomerAndResetForm() {
       if (productsList.length === 0) {
           alert("कृपया कमीत कमी एक उत्पादन यादीत जोडा!");
@@ -277,7 +268,6 @@
           });
   }
 
-  // Reset Form and List
   function resetAll() {
       document.getElementById('mainRegistrationForm').reset();
       productsList = [];
