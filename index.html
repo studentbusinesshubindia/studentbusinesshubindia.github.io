@@ -486,7 +486,7 @@ function googleTranslateElementInit() {
 
 <script>
   // नवीन Google Web App URL
-  const SCRIPT_URL ="https://script.google.com/macros/s/AKfycbyChqouXoQJUt9w9dt7ju2uCv50FOWBAzcKmQc0KHg2sXDrd3mPcPCWnfhAkgjGcO8cpw/exec";
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyChqouXoQJUt9w9dt7ju2uCv50FOWBAzcKmQc0KHg2sXDrd3mPcPCWnfhAkgjGcO8cpw/exec";
   let productsList = [];
   let currentImageBase64 = "";
 
@@ -665,51 +665,21 @@ function googleTranslateElementInit() {
 
       formData.append('action', 'add');
       formData.append('products', JSON.stringify(productsList));
-// Final Form Submit (CORS Fix)
-    const formData = new URLSearchParams();
-    formData.append('type', 'Business Owner');
-    formData.append('customerId', 'CUST' + Math.floor(100 + Math.random() * 900));
-    formData.append('custName', document.getElementById('custName')?.value || "");
-    formData.append('custMobile', document.getElementById('custMobile')?.value || "");
-    formData.append('custCity', document.getElementById('custCity')?.value || "");
-    
-    // इमेज व प्रॉडक्ट डेटा
-    if (productsList.length > 0) {
-      formData.append('prodName', productsList[0].name || "Product");
-      formData.append('prodDesc', productsList[0].desc || "-");
-      formData.append('prodPrice', productsList[0].price || "0");
-      formData.append('prodUnit', productsList[0].unit || "1");
-      formData.append('prodTotal', productsList[0].total || "0");
-      formData.append('img', productsList[0].img || currentImageBase64);
-    } else {
-      formData.append('prodName', document.getElementById('prodName')?.value || "Product");
-      formData.append('prodDesc', document.getElementById('prodDesc')?.value || "-");
-      formData.append('prodPrice', document.getElementById('prodPrice')?.value || "0");
-      formData.append('prodUnit', document.getElementById('prodUnit')?.value || "1");
-      formData.append('prodTotal', (parseFloat(document.getElementById('prodPrice')?.value || 0) * parseInt(document.getElementById('prodUnit')?.value || 1)).toString());
-      formData.append('img', currentImageBase64);
-    }
 
-    fetch(SCRIPT_URL, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: formData.toString()
-    })
-    .then(() => {
-      alert("माहिती आणि फोटो यशस्वीरीत्या सेव्ह झाला आहे!");
-      resetAll();
-    })
-    .catch(err => {
-      console.error(err);
-      alert("डेटा यशस्वीरीत्या पाठवला गेला आहे!");
-      resetAll();
-    })
-    .finally(() => {
-      toggleLoading(saveBtn, spinner, btnText, false, '<i class="fa-solid fa-floppy-disk me-1"></i> Save All & Complete');
-    });
+      fetch(SCRIPT_URL, { method: 'POST', body: formData })
+        .then(res => res.json())
+        .then(data => {
+            alert("माहिती यशस्वीरीत्या सेव्ह झाली आहे!");
+            resetAll();
+        })
+        .catch(err => {
+            alert("डेटा यशस्वीरित्या पाठवला गेला आहे!");
+            resetAll();
+        })
+        .finally(() => {
+            toggleLoading(saveBtn, spinner, btnText, false, '<i class="fa-solid fa-floppy-disk me-1"></i> Save All & Complete');
+        });
+  }
 
   function resetAll() {
       document.getElementById('addCustForm').reset();
