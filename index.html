@@ -526,23 +526,26 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 });
   // Step 1: Business Owner Form Submit
-  document.getElementById('ownerStep1Form').addEventListener('submit', function(e) {
+document.getElementById('ownerStep1Form').addEventListener('submit', function(e) {
     e.preventDefault();
 
     const bName = document.getElementById('init_business').value;
     document.getElementById('custName').value = document.getElementById('init_name').value;
-    document.getElementById('businessName').value = bName; 
-    document.getElementById('shopName').value = bName; 
+    if(document.getElementById('businessName')) document.getElementById('businessName').value = bName;
+    if(document.getElementById('shopName')) document.getElementById('shopName').value = bName;
     document.getElementById('custMobile').value = document.getElementById('init_mobile').value;
     document.getElementById('custCity').value = document.getElementById('init_city').value;
+    
+    // Category ट्रान्सफर
+    if(document.getElementById('custCategory') && document.getElementById('init_category')) {
+      document.getElementById('custCategory').value = document.getElementById('init_category').value;
+    }
 
     document.getElementById('mainScreen').classList.add('hide-section');
     document.getElementById('step2Screen').classList.remove('hide-section');
     document.getElementById('step3Screen').classList.add('hide-section');
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
-
-
 });
 
   // Student Form Submit
@@ -613,7 +616,6 @@ document.addEventListener("DOMContentLoaded", function() {
       const qty = parseInt(document.getElementById('prodQty').value);
       const priceAlert = document.getElementById('priceAlert');
 
-      // Validation: Selling Price > MRP Check
       if (selling > mrp) {
           priceAlert.classList.remove('d-none');
           return;
@@ -628,8 +630,21 @@ document.addEventListener("DOMContentLoaded", function() {
       toggleLoading(btnAdd, spinner, btnText, true, 'जोडत आहे...');
 
       setTimeout(() => {
-          const img = currentImageBase64 || "https://via.placeholder.com/45?text=No+Img";
-          productsList.push({ id: Date.now(), name, mrp, selling, qty, img, total: qty * selling });
+          const img = currentImageBase64 || "";
+          
+          productsList.push({ 
+              id: Date.now(), 
+              prodName: name, 
+              name: name,
+              mrp: mrp, 
+              sellingPrice: selling, 
+              selling: selling,
+              quantity: qty, 
+              qty: qty, 
+              rawImg: img, 
+              img: img || "https://via.placeholder.com/45?text=No+Img", 
+              total: qty * selling 
+          });
           
           renderTable();
           document.getElementById('productInputForm').reset();
@@ -696,7 +711,15 @@ document.addEventListener("DOMContentLoaded", function() {
       const custForm = document.getElementById('addCustForm');
       const formData = new FormData(custForm);
 
-      formData.append('action', 'add');
+      formData.append('action', 'FULL_SUBMIT');
+
+      if (document.getElementById('init_name')) formData.append('init_name', document.getElementById('init_name').value);
+      if (document.getElementById('init_mobile')) formData.append('init_mobile', document.getElementById('init_mobile').value);
+      if (document.getElementById('init_business')) formData.append('init_business', document.getElementById('init_business').value);
+      if (document.getElementById('init_city')) formData.append('init_city', document.getElementById('init_city').value);
+      if (document.getElementById('init_category')) formData.append('init_category', document.getElementById('init_category').value);
+
+      formData.append('productsJson', JSON.stringify(productsList));
       formData.append('products', JSON.stringify(productsList));
 
       fetch(SCRIPT_URL, { method: 'POST', body: formData })
