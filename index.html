@@ -511,7 +511,6 @@ document.addEventListener("DOMContentLoaded", function() {
                 employeeId: document.getElementById('employeeId').value
             };
 
-            // गुगल शीटवर डेटा पाठवणे
             fetch(SCRIPT_URL, {
                 method: 'POST',
                 body: new URLSearchParams(formData)
@@ -524,7 +523,6 @@ document.addEventListener("DOMContentLoaded", function() {
             })
             .catch(err => console.error('Error:', err));
 
-            // थेट पुढच्या स्क्रीनवर जाणे
             const step2 = document.getElementById('step2Screen') || document.querySelector('.step-2');
             const step3 = document.getElementById('step3Screen') || document.querySelector('.step-3');
             
@@ -535,9 +533,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 showProductScreen();
             } else if(typeof goToNextStep === 'function') {
                 goToNextStep();
-            }
         });
-    }
 });
   const imgInput = document.getElementById('productImageInput') || document.getElementById('productImage') || document.querySelector('input[type="file"]');
   
