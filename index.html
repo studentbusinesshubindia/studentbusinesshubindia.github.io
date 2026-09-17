@@ -347,6 +347,10 @@
                             <input type="text" name="pinCode" class="form-control form-control-sm" placeholder="PIN CODE" required>
                         </div>
                         <div class="col-md-3">
+    <label class="form-label small fw-semibold">Password <span class="text-danger">*</span></label>
+    <input type="password" id="custPassword" name="password" class="form-control form-control-sm" placeholder="Set Password" required>
+</div>
+                        <div class="col-md-3">
                             <label class="form-label small fw-semibold">Employee ID No.</label>
                             <input type="text" id="employeeId" name="employeeId" class="form-control form-control-sm" placeholder="EMP ID NO.">
                         </div>
@@ -847,7 +851,17 @@ const activeCustId = localStorage.getItem('activeCustomerId') || "";
           spinner.classList.add('d-none');
           textElem.innerHTML = textContent;
       }
-  }   
+  }  
+    function setLoginCustomerId() {
+      const activeCustId = localStorage.getItem('activeCustomerId') || "";
+      const loginCustIdInput = document.getElementById('loginCustomerId');
+      
+      if (loginCustIdInput && activeCustId) {
+          loginCustIdInput.value = activeCustId;
+      }
+  }
+
+  document.addEventListener('DOMContentLoaded', setLoginCustomerId);
 </script>
 
 </body>
