@@ -116,6 +116,31 @@
         </div>
     </section>
 
+    <!-- Re-login Section on Front Page -->
+<div class="container mt-4 mb-2">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm border-primary">
+                <div class="card-header bg-primary text-white text-center fw-bold">
+                    Existing User Login / पुन्हा लॉगिन करा
+                </div>
+                <div class="card-body">
+                    <form id="reLoginForm" onsubmit="handleReLogin(event)">
+                        <div class="mb-3">
+                            <label for="loginCustomerId" class="form-label small fw-semibold">Customer ID</label>
+                            <input type="text" id="loginCustomerId" class="form-control" placeholder="उदा. CUST1234" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="loginPassword" class="form-label small fw-semibold">Password</label>
+                            <input type="password" id="loginPassword" class="form-control" placeholder="तुमचा पासवर्ड टाका" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Login</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
     <section class="py-5 bg-light" id="registrationFormsSection">
         <div class="container">
             <div class="row g-4">
@@ -862,6 +887,35 @@ const activeCustId = localStorage.getItem('activeCustomerId') || "";
   }
 
   document.addEventListener('DOMContentLoaded', setLoginCustomerId);
+    // १. Re-login सबमिट हँडल करणे
+function handleReLogin(e) {
+    e.preventDefault();
+    const custId = document.getElementById('loginCustomerId').value.trim();
+    const pass = document.getElementById('loginPassword').value.trim();
+
+    if (!custId || !pass) {
+        alert("कृपया Customer ID आणि Password दोन्ही टाका!");
+        return;
+    }
+
+    localStorage.setItem('activeCustomerId', custId);
+    alert("लॉगिन यशस्वी! Customer ID: " + custId);
+    
+    if (typeof showStep3 === 'function') {
+        showStep3();
+    }
+}
+
+// २. आधीपासून सेव्ह असलेला Customer ID ऑटो-फिल करणे
+function autoFillLoginId() {
+    const savedCustId = localStorage.getItem('activeCustomerId');
+    const inputElem = document.getElementById('loginCustomerId');
+    if (savedCustId && inputElem) {
+        inputElem.value = savedCustId;
+    }
+}
+
+document.addEventListener('DOMContentLoaded', autoFillLoginId);
 </script>
 
 </body>
