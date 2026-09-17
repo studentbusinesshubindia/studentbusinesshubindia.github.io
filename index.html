@@ -491,6 +491,50 @@ function googleTranslateElementInit() {
   let currentImageBase64 = "";
 // फोटो इनपुट सिलेक्ट झाल्यावर तो आपोआप कॉम्प्रेस होईल
 document.addEventListener("DOMContentLoaded", function() {
+    // तुमचा आधीचा कोड इथे असेल...
+
+    // नवीन Next: Add Products बटणाचा कोड इथे टाका:
+    const custSubmitBtn = document.getElementById('custSubmitBtn');
+    if (custSubmitBtn) {
+        custSubmitBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+
+            var formData = {
+                custName: document.getElementById('custName').value,
+                businessName: document.getElementById('businessName').value,
+                shopName: document.getElementById('shopName').value,
+                custMobile: document.getElementById('custMobile').value,
+                custEmail: document.getElementById('custEmail').value,
+                panCard: document.getElementById('panCard').value,
+                gstNo: document.getElementById('gstNo').value,
+                state: document.getElementById('state').value,
+                custCity: document.getElementById('custCity').value,
+                custAddress: document.getElementById('custAddress').value,
+                custPincode: document.getElementById('custPincode').value,
+                employeeId: document.getElementById('empId').value
+            };
+
+            fetch(SCRIPT_URL, {
+                method: 'POST',
+                body: new URLSearchParams(formData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.status === "SUCCESS") {
+                    localStorage.setItem('activeCustomerId', data.customerId);
+                    if(typeof showProductScreen === 'function') {
+                        showProductScreen();
+                    } else if(typeof goToNextStep === 'function') {
+                        goToNextStep();
+                    }
+                } else {
+                    alert('Error: ' + data.message);
+                }
+            })
+            .catch(err => console.error('Error:', err));
+        });
+    }
+});) {
   const imgInput = document.getElementById('productImageInput') || document.getElementById('productImage') || document.querySelector('input[type="file"]');
   
   if (imgInput) {
