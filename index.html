@@ -485,12 +485,13 @@ function googleTranslateElementInit() {
 <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
 <script>
-  // नवीन Google Web App URL
+  // Google Web App URL
   const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxi013kXahL9HrixO12O0sZ6QDd5Gg3W-Odh63JHxCGp2PMWHbx4fCdJ8R0mTYiQO_S8Q/exec";
   let productsList = [];
   let currentImageBase64 = "";
-// फोटो इनपुट सिलेक्ट झाल्यावर तो आपोआप कॉम्प्रेस होईल
-document.addEventListener("DOMContentLoaded", function() {
+
+  // फोटो इनपुट सिलेक्ट झाल्यावर तो आपोआप कॉम्प्रेस होईल
+  document.addEventListener("DOMContentLoaded", function() {
     const custSubmitBtn = document.getElementById('custSubmitBtn');
     if (custSubmitBtn) {
         custSubmitBtn.addEventListener('click', function(e) {
@@ -533,92 +534,97 @@ document.addEventListener("DOMContentLoaded", function() {
                 showProductScreen();
             } else if(typeof goToNextStep === 'function') {
                 goToNextStep();
-                
-  const imgInput = document.getElementById('productImageInput') || document.getElementById('productImage') || document.querySelector('input[type="file"]');
-  
-  if (imgInput) {
-    imgInput.addEventListener('change', function(e) {
-      const file = e.target.files[0];
-      if (!file) return;
-
-      const reader = new FileReader();
-      reader.onload = function(event) {
-        const img = new Image();
-        img.onload = function() {
-          const canvas = document.createElement('canvas');
-          const ctx = canvas.getContext('2d');
-          
-          let width = img.width;
-          let height = img.height;
-          if (width > 800) {
-            height = Math.round((height * 800) / width);
-            width = 800;
-          }
-
-          canvas.width = width;
-          canvas.height = height;
-          ctx.drawImage(img, 0, 0, width, height);
-
-          // ५० KB पर्यंत फोटो कॉम्प्रेस होऊन सेव्ह होईल
-          currentImageBase64 = canvas.toDataURL('image/jpeg', 0.6);
-        };
-        img.src = event.target.result;
-      };
-      reader.readAsDataURL(file);
-}
-  // Step 1: Business Owner Form Submit
-document.getElementById('ownerStep1Form').addEventListener('submit', function(e) {
-    e.preventDefault();
-
-    const bName = document.getElementById('init_business').value;
-    document.getElementById('custName').value = document.getElementById('init_name').value;
-    if(document.getElementById('businessName')) document.getElementById('businessName').value = bName;
-    if(document.getElementById('shopName')) document.getElementById('shopName').value = bName;
-    document.getElementById('custMobile').value = document.getElementById('init_mobile').value;
-    document.getElementById('custCity').value = document.getElementById('init_city').value;
-    
-    // Category ट्रान्सफर
-    if(document.getElementById('custCategory') && document.getElementById('init_category')) {
-      document.getElementById('custCategory').value = document.getElementById('init_category').value;
+            }
+        });
     }
 
-    document.getElementById('mainScreen').classList.add('hide-section');
-    document.getElementById('step2Screen').classList.remove('hide-section');
-    document.getElementById('step3Screen').classList.add('hide-section');
+    const imgInput = document.getElementById('productImageInput') || document.getElementById('productImage') || document.querySelector('input[type="file"]');
+    if (imgInput) {
+      imgInput.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (!file) return;
 
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-});
+        const reader = new FileReader();
+        reader.onload = function(event) {
+          const img = new Image();
+          img.onload = function() {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            
+            let width = img.width;
+            let height = img.height;
+            if (width > 800) {
+              height = Math.round((height * 800) / width);
+              width = 800;
+            }
+
+            canvas.width = width;
+            canvas.height = height;
+            ctx.drawImage(img, 0, 0, width, height);
+
+            // फोटो कॉम्प्रेस होऊन सेव्ह होईल
+            currentImageBase64 = canvas.toDataURL('image/jpeg', 0.6);
+          };
+          img.src = event.target.result;
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+  });
+
+  // Step 1: Business Owner Form Submit
+  document.getElementById('ownerStep1Form').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const bName = document.getElementById('init_business').value;
+      document.getElementById('custName').value = document.getElementById('init_name').value;
+      if(document.getElementById('businessName')) document.getElementById('businessName').value = bName;
+      if(document.getElementById('shopName')) document.getElementById('shopName').value = bName;
+      document.getElementById('custMobile').value = document.getElementById('init_mobile').value;
+      document.getElementById('custCity').value = document.getElementById('init_city').value;
+      
+      // Category ट्रान्सफर
+      if(document.getElementById('custCategory') && document.getElementById('init_category')) {
+        document.getElementById('custCategory').value = document.getElementById('init_category').value;
+      }
+
+      document.getElementById('mainScreen').classList.add('hide-section');
+      document.getElementById('step2Screen').classList.remove('hide-section');
+      document.getElementById('step3Screen').classList.add('hide-section');
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
 
   // Student Form Submit
   document.getElementById('studentForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    const submitBtn = document.getElementById('studentSubmitBtn');
-    submitBtn.innerText = "सबमिट होत आहे...";
-    submitBtn.disabled = true;
+      e.preventDefault();
+      
+      const submitBtn = document.getElementById('studentSubmitBtn');
+      submitBtn.innerText = "सबमिट होत आहे...";
+      submitBtn.disabled = true;
 
-    const formData = new FormData(this);
-    formData.append('type', 'Student Executive');
+      const formData = new FormData(this);
+      formData.append('type', 'Student Executive');
 
-    fetch(SCRIPT_URL, { method: 'POST', body: formData })
-      .then(() => {
-        alert("विद्यार्थी नोंदणी यशस्वीरीत्या पूर्ण झाली आहे!");
-        document.getElementById('studentForm').reset();
-      })
-      .catch((err) => {
-        alert("नोंदणी पूर्ण झाली आहे!");
-        document.getElementById('studentForm').reset();
-      })
-      .finally(() => {
-        submitBtn.innerText = "Executive बना";
-        submitBtn.disabled = false;
-      });
+      fetch(SCRIPT_URL, { method: 'POST', body: formData })
+        .then(() => {
+          alert("विद्यार्थी नोंदणी यशस्वीरीत्या पूर्ण झाली आहे!");
+          document.getElementById('studentForm').reset();
+        })
+        .catch(() => {
+          alert("नोंदणी पूर्ण झाली आहे!");
+          document.getElementById('studentForm').reset();
+        })
+        .finally(() => {
+          submitBtn.innerText = "Executive बना";
+          submitBtn.disabled = false;
+        });
   });
 
   // Step 2: Personal Info Submit
   document.getElementById('addCustForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    goToProductScreen();
+      e.preventDefault();
+      goToProductScreen();
   });
 
   function goToProductScreen() {
@@ -717,7 +723,7 @@ document.getElementById('ownerStep1Form').addEventListener('submit', function(e)
           tbody.innerHTML += `
               <tr>
                   <td>${index + 1}</td>
-                  <td><img src="${item.img}" class="img-preview-thumb"></td>
+                  <td><img src="${item.img}" class="img-preview-thumb" style="width:40px; height:40px; object-fit:cover;"></td>
                   <td class="text-start fw-semibold">${item.name}</td>
                   <td>₹${item.mrp.toFixed(2)}</td>
                   <td class="text-success fw-bold">₹${item.selling.toFixed(2)}</td>
@@ -795,8 +801,7 @@ document.getElementById('ownerStep1Form').addEventListener('submit', function(e)
           spinner.classList.add('d-none');
           textElem.innerHTML = textContent;
       }
-  }  
-               
+  }   
 </script>
 
 </body>
