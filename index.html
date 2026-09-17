@@ -621,9 +621,26 @@ function googleTranslateElementInit() {
         });
   });
 
-  // Step 2: Personal Info Submit
+  // Step 2: Personal Info Submit & Data Save
   document.getElementById('addCustForm').addEventListener('submit', function(e) {
       e.preventDefault();
+
+      var formData = new FormData(this);
+
+      // गुगल शीटवर डेटा पाठवणे
+      fetch(SCRIPT_URL, {
+          method: 'POST',
+          body: formData
+      })
+      .then(response => response.json())
+      .then(data => {
+          if (data && data.customerId) {
+              localStorage.setItem('activeCustomerId', data.customerId);
+          }
+      })
+      .catch(err => console.error('Error:', err));
+
+      // पुढच्या प्रॉडक्टच्या स्क्रीनवर जाणे
       goToProductScreen();
   });
 
