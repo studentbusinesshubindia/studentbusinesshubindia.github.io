@@ -362,9 +362,21 @@
     </div>
 </div>
 
-<!-- STEP 3: PRODUCTS INFORMATION SCREEN -->
+    <!-- STEP 3: PRODUCTS INFORMATION SCREEN -->
 <div id="step3Screen" class="hide-section py-4 bg-light">
     <div class="container px-4">
+        <div class="card p-3 mb-3 border-primary shadow-sm">
+  <div class="row align-items-center text-center text-md-start">
+    <div class="col-md-6 mb-2 mb-md-0">
+      <h6 class="mb-0 text-muted">तुमचा Customer ID:</h6>
+      <span id="displayCustId" class="badge bg-primary fs-5 mt-1">CUST-LOADING</span>
+    </div>
+    <div class="col-md-6">
+      <label for="custPassword" class="form-label mb-1 fw-bold text-dark">अकाउंट पासवर्ड सेट करा *</label>
+      <input type="password" id="custPassword" class="form-control" placeholder="Dashboard साठी पासवर्ड टाका" required>
+    </div>
+  </div>
+</div>
         <div class="d-flex justify-content-between align-items-center mb-3">
             <button type="button" class="btn btn-outline-secondary btn-sm" onclick="goBackToStep2()">
                 <i class="fa-solid fa-arrow-left me-1"></i> Back to Personal Info
@@ -648,10 +660,18 @@ function googleTranslateElementInit() {
   });
 
   function goToProductScreen() {
-      document.getElementById('step2Screen').classList.add('hide-section');
-      document.getElementById('step3Screen').classList.remove('hide-section');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
+    document.getElementById('step2Screen').classList.add('hide-section');
+    document.getElementById('step3Screen').classList.remove('hide-section');
+
+    // activeCustomerId स्क्रीनवर रिफ्लेक्ट करणे
+    const activeCustId = localStorage.getItem('activeCustomerId') || "CUST-XXXX";
+    const displayElem = document.getElementById('displayCustId');
+    if (displayElem) {
+        displayElem.innerText = activeCustId;
+    }
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
 
   function goBackToMainScreen() {
       document.getElementById('step2Screen').classList.add('hide-section');
@@ -768,7 +788,11 @@ function googleTranslateElementInit() {
           alert("कृपया सबमिट करण्यापूर्वी किमान १ प्रॉडक्ट टेबलमध्ये जोडा!");
           return;
       }
-
+const passwordVal = document.getElementById('custPassword').value;
+    if (!passwordVal || passwordVal.trim() === "") {
+        alert("कृपया तुमच्या अकाउंटसाठी पासवर्ड सेट करा!");
+        return;
+    }
       const saveBtn = document.getElementById('saveBtn');
       const spinner = document.getElementById('btnSaveSpinner');
       const btnText = document.getElementById('btnSaveText');
@@ -779,7 +803,9 @@ function googleTranslateElementInit() {
       const formData = new FormData(custForm);
 
       formData.append('action', 'FULL_SUBMIT');
-
+const activeCustId = localStorage.getItem('activeCustomerId') || "";
+    formData.append('customerId', activeCustId);
+    formData.append('password', passwordVal);
       if (document.getElementById('init_name')) formData.append('init_name', document.getElementById('init_name').value);
       if (document.getElementById('init_mobile')) formData.append('init_mobile', document.getElementById('init_mobile').value);
       if (document.getElementById('init_business')) formData.append('init_business', document.getElementById('init_business').value);
