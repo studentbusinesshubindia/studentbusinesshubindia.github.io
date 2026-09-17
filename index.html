@@ -491,9 +491,7 @@ function googleTranslateElementInit() {
   let currentImageBase64 = "";
 // फोटो इनपुट सिलेक्ट झाल्यावर तो आपोआप कॉम्प्रेस होईल
 document.addEventListener("DOMContentLoaded", function() {
-    // तुमचा आधीचा कोड इथे असेल...
-
-  const custSubmitBtn = document.getElementById('custSubmitBtn');
+    const custSubmitBtn = document.getElementById('custSubmitBtn');
     if (custSubmitBtn) {
         custSubmitBtn.addEventListener('click', function(e) {
             e.preventDefault();
@@ -513,26 +511,34 @@ document.addEventListener("DOMContentLoaded", function() {
                 employeeId: document.getElementById('empId').value
             };
 
+            // गुगल शीटवर डेटा पाठवणे
             fetch(SCRIPT_URL, {
                 method: 'POST',
                 body: new URLSearchParams(formData)
             })
             .then(response => response.json())
             .then(data => {
-                if(data.status === "SUCCESS") {
+                if (data && data.customerId) {
                     localStorage.setItem('activeCustomerId', data.customerId);
-                    if(typeof showProductScreen === 'function') {
-                        showProductScreen();
-                    } else if(typeof goToNextStep === 'function') {
-                        goToNextStep();
-                    }
-                } else {
-                    alert('Error: ' + data.message);
                 }
             })
             .catch(err => console.error('Error:', err));
+
+            // थेट पुढच्या स्क्रीनवर जाणे
+            const step2 = document.getElementById('step2Screen') || document.querySelector('.step-2');
+            const step3 = document.getElementById('step3Screen') || document.querySelector('.step-3');
+            
+            if(step2) step2.classList.add('hide-section');
+            if(step3) step3.classList.remove('hide-section');
+            
+            if(typeof showProductScreen === 'function') {
+                showProductScreen();
+            } else if(typeof goToNextStep === 'function') {
+                goToNextStep();
+            }
         });
     }
+});
   const imgInput = document.getElementById('productImageInput') || document.getElementById('productImage') || document.querySelector('input[type="file"]');
   
   if (imgInput) {
