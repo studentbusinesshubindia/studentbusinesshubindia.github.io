@@ -829,10 +829,9 @@ function googleTranslateElementInit() {
           alert("कृपया सबमिट करण्यापूर्वी किमान १ प्रॉडक्ट टेबलमध्ये जोडा!");
           return;
       }
-const passwordVal = document.getElementById('custPassword').value;
+let passwordVal = document.getElementById('custPassword') ? document.getElementById('custPassword').value : "";
     if (!passwordVal || passwordVal.trim() === "") {
-        alert("कृपया तुमच्या अकाउंटसाठी पासवर्ड सेट करा!");
-        return;
+        passwordVal = localStorage.getItem('activePassword') || "PASS123";
     }
       const saveBtn = document.getElementById('saveBtn');
       const spinner = document.getElementById('btnSaveSpinner');
