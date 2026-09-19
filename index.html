@@ -628,11 +628,11 @@ function googleTranslateElementInit() {
       }
 
     // १. ऑटोमॅटिक Customer ID जनरेट करा
-        let autoCustId = localStorage.getItem('activeCustomerId');
-        if (!autoCustId) {
-            autoCustId = "CUST" + Math.floor(1000 + Math.random() * 9000);
-            localStorage.setItem('activeCustomerId', autoCustId);
-        }
+       localStorage.removeItem('activeCustomerId');
+localStorage.removeItem('activePassword');
+
+let autoCustId = "CUST" + Math.floor(1000 + Math.random() * 9000);
+localStorage.setItem('activeCustomerId', autoCustId);
 
         // २. Step 2 वरील हेडर बॅजवर ID दाखवा
         const step2Badge = document.getElementById('displayStep2CustId');
