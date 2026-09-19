@@ -525,7 +525,7 @@ function googleTranslateElementInit() {
 
 <script>
   // Google Web App URL
-  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzQPACwlS50Ipw249HGjcHnyQjMDJnMsbhcFR0bTiBBKFjcd2wTtWANMPjWWrTaz7Wz2g/exec";
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzMhn_2dW46DALd2mkcdHiCL1-tualjWDxeNxajT60e5a9dpjY90VBaSg7K-LtqRQMbRQ/exec";
   let productsList = [];
   let currentImageBase64 = "";
 
@@ -900,49 +900,64 @@ const activeCustId = localStorage.getItem('activeCustomerId') || "";
   document.addEventListener('DOMContentLoaded', setLoginCustomerId);
     // १. Re-login सबमिट हँडल करणे
 function handleReLogin(e) {
-    e.preventDefault();
-    const custIdInput = document.getElementById('loginCustomerId');
-    const custId = custIdInput ? custIdInput.value.trim() : "";
+    if (e && e.preventDefault) e.preventDefault();
 
-    if (!custId) {
-        alert("कृपया Customer ID टाका!");
+    const custIdInput = document.getElementById('loginCustomerId');
+    const passInput = document.getElementById('loginPassword');
+
+    const custId = custIdInput ? custIdInput.value.trim() : "";
+    const pass = passInput ? passInput.value.trim() : "";
+
+    if (!custId || !pass) {
+        alert("कृपया Customer ID आणि Password दोन्ही टाका!");
         return;
     }
 
-    // १. Customer ID लोकल स्टोरेजमध्ये सेव्ह करा
-    localStorage.setItem('activeCustomerId', custId);
+    // गूगल स्क्रिप्टकडून पासवर्ड बरोबर आहे का ते तपासणे
+    fetch(SCRIPT_URL + "?action=VERIFY_LOGIN&customerId=" + encodeURIComponent(custId) + "&password=" + encodeURIComponent(pass))
+    .then(res => res.json())
+    .then(response => {
+        if (response.status === "SUCCESS") {
+            // पासवर्ड बरोबर असेल तरच सेव्ह होईल आणि पेज उघडेल
+            localStorage.setItem('activeCustomerId', custId);
+            localStorage.setItem('activePassword', pass);
 
-    // २. Personal Info (Step 2) वरील ID अपडेट करा
-    const step2Badge = document.getElementById('displayStep2CustId');
-    if (step2Badge) {
-        step2Badge.innerText = "तुमचा Customer ID: " + custId;
-    }
+            const step2Badge = document.getElementById('displayStep2CustId');
+            if (step2Badge) {
+                step2Badge.innerText = "तुमचा Customer ID: " + custId;
+            }
 
-    // ३. मुख्य स्क्रीन आणि Step 2 लपवा
-    const mainScr = document.getElementById('mainScreen');
-    const step2Scr = document.getElementById('step2Screen');
-    if (mainScr) mainScr.style.display = 'none';
-    if (step2Scr) step2Scr.style.display = 'none';
+            const mainScr = document.getElementById('mainScreen');
+            const step2Scr = document.getElementById('step2Screen');
+            if (mainScr) mainScr.style.display = 'none';
+            if (step2Scr) step2Scr.style.display = 'none';
 
-    // ४. Step 3 (Products Information) उघडा आणि लपवणारे क्लासेस काढून टाका
-    const step3Elem = document.getElementById('step3Screen') || document.getElementById('productSection');
-    if (step3Elem) {
-        step3Elem.style.display = 'block';
-        step3Elem.classList.remove('hide-section', 'd-none');
-    } else if (typeof showStep3 === 'function') {
-        showStep3();
-    }
+            const step3Elem = document.getElementById('step3Screen') || document.getElementById('productSection');
+            if (step3Elem) {
+                step3Elem.style.display = 'block';
+                step3Elem.classList.remove('hide-section', 'd-none');
+            } else if (typeof showStep3 === 'function') {
+                showStep3();
+            }
 
-    // ५. Step 3 वरील Customer ID अपडेट करा
-    const step3Badge = document.getElementById('displayCustId');
-    if (step3Badge) {
-        step3Badge.innerText = custId;
-    }
+            const step3Badge = document.getElementById('displayCustId');
+            if (step3Badge) {
+                step3Badge.innerText = custId;
+            }
 
-    alert("लॉगिन यशस्वी! Customer ID: " + custId);
+            alert("लॉगिन यशस्वी! Customer ID: " + custId);
+        } else {
+            // चुकीचा पासवर्ड असल्यास उघडणार नाही
+            alert(response.message || "चुकीचा पासवर्ड!");
+        }
+    })
+    .catch(err => {
+        console.error(err);
+        alert("पडताळणी करताना अडचण आली. कृपया पुन्हा प्रयत्न करा.");
+    });
 }
 
-// ५. आधीपासून सेव्ह असलेला Customer ID ऑटो-फिल करणे
+// आधीपासून सेव्ह असलेला Customer ID ऑटो-फिल करणे
 function autoFillLoginId() {
     const savedCustId = localStorage.getItem('activeCustomerId');
     const inputElem = document.getElementById('loginCustomerId');
