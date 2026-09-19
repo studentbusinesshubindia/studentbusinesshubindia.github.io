@@ -312,9 +312,10 @@
         </div>
         
         <div class="card shadow-sm border-0 mb-4">
-            <div class="card-header bg-primary text-white fw-bold py-2">
-                <i class="fa-solid fa-id-card me-2"></i>Personal Information (Add New Customer)
-            </div>
+            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+    <h5 class="mb-0"><i class="fa-solid fa-id-card me-2"></i>Personal Information (Add New Customer)</h5>
+    <span class="badge bg-light text-dark fs-6" id="displayStep2CustId">तुमचा Customer ID: CUST----</span>
+</div>
             <div class="card-body p-3">
                 <p class="text-danger small fw-semibold mb-3">* Customer Mobile no. should be unique</p>
                 
@@ -396,14 +397,11 @@
     <div class="container px-4">
         <div class="card p-3 mb-3 border-primary shadow-sm">
   <div class="row align-items-center text-center text-md-start">
-    <div class="col-md-6 mb-2 mb-md-0">
+    <div class="col-12 text-center mb-2">
       <h6 class="mb-0 text-muted">तुमचा Customer ID:</h6>
       <span id="displayCustId" class="badge bg-primary fs-5 mt-1">CUST-LOADING</span>
     </div>
-    <div class="col-md-6">
-      <label for="custPassword" class="form-label mb-1 fw-bold text-dark">अकाउंट पासवर्ड सेट करा *</label>
-      <input type="password" id="custPassword" class="form-control" placeholder="Dashboard साठी पासवर्ड टाका" required>
-    </div>
+    
   </div>
 </div>
         <div class="d-flex justify-content-between align-items-center mb-3">
@@ -898,12 +896,32 @@ function handleReLogin(e) {
         return;
     }
 
+    // Customer ID लोकल स्टोरेजमध्ये सेव्ह करा
     localStorage.setItem('activeCustomerId', custId);
-    alert("लॉगिन यशस्वी! Customer ID: " + custId);
+
+    // Personal Info पेजवर Customer ID सेट करा
+    const step2Badge = document.getElementById('displayStep2CustId');
+    if (step2Badge) {
+        step2Badge.innerText = "तुमचा Customer ID: " + custId;
+    }
+
+    // मुख्य लॉगिन स्क्रीन आणि Step 2 लपवा
+    if (document.getElementById('mainScreen')) {
+        document.getElementById('mainScreen').style.display = 'none';
+    }
+    if (document.getElementById('step2Screen')) {
+        document.getElementById('step2Screen').style.display = 'none';
+    }
     
-    if (typeof showStep3 === 'function') {
+    // थेट Step 3 (Products Information) स्क्रीन दाखवा
+    const step3Elem = document.getElementById('step3Screen') || document.getElementById('productSection');
+    if (step3Elem) {
+        step3Elem.style.display = 'block';
+    } else if (typeof showStep3 === 'function') {
         showStep3();
     }
+
+    alert("लॉगिन यशस्वी! Customer ID: " + custId);
 }
 
 // २. आधीपासून सेव्ह असलेला Customer ID ऑटो-फिल करणे
