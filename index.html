@@ -627,9 +627,23 @@ function googleTranslateElementInit() {
         document.getElementById('custCategory').value = document.getElementById('init_category').value;
       }
 
-      document.getElementById('mainScreen').classList.add('hide-section');
-      document.getElementById('step2Screen').classList.remove('hide-section');
-      document.getElementById('step3Screen').classList.add('hide-section');
+    // १. ऑटोमॅटिक Customer ID जनरेट करा
+        let autoCustId = localStorage.getItem('activeCustomerId');
+        if (!autoCustId) {
+            autoCustId = "CUST" + Math.floor(1000 + Math.random() * 9000);
+            localStorage.setItem('activeCustomerId', autoCustId);
+        }
+
+        // २. Step 2 वरील हेडर बॅजवर ID दाखवा
+        const step2Badge = document.getElementById('displayStep2CustId');
+        if (step2Badge) {
+            step2Badge.innerText = "तुमचा Customer ID: " + autoCustId;
+        }
+
+        // ३. स्क्रीन नेव्हिगेशन
+        document.getElementById('mainScreen').classList.add('hide-section');
+        document.getElementById('step2Screen').classList.remove('hide-section');
+        document.getElementById('step3Screen').classList.add('hide-section');
 
       window.scrollTo({ top: 0, behavior: 'smooth' });
   });
@@ -888,43 +902,48 @@ const activeCustId = localStorage.getItem('activeCustomerId') || "";
     // १. Re-login सबमिट हँडल करणे
 function handleReLogin(e) {
     e.preventDefault();
-    const custId = document.getElementById('loginCustomerId').value.trim();
-    const pass = document.getElementById('loginPassword').value.trim();
+    const custIdInput = document.getElementById('loginCustomerId');
+    const custId = custIdInput ? custIdInput.value.trim() : "";
 
-    if (!custId || !pass) {
-        alert("कृपया Customer ID आणि Password दोन्ही टाका!");
+    if (!custId) {
+        alert("कृपया Customer ID टाका!");
         return;
     }
 
-    // Customer ID लोकल स्टोरेजमध्ये सेव्ह करा
+    // १. Customer ID लोकल स्टोरेजमध्ये सेव्ह करा
     localStorage.setItem('activeCustomerId', custId);
 
-    // Personal Info पेजवर Customer ID सेट करा
+    // २. Personal Info (Step 2) वरील ID अपडेट करा
     const step2Badge = document.getElementById('displayStep2CustId');
     if (step2Badge) {
         step2Badge.innerText = "तुमचा Customer ID: " + custId;
     }
 
-    // मुख्य लॉगिन स्क्रीन आणि Step 2 लपवा
-    if (document.getElementById('mainScreen')) {
-        document.getElementById('mainScreen').style.display = 'none';
-    }
-    if (document.getElementById('step2Screen')) {
-        document.getElementById('step2Screen').style.display = 'none';
-    }
-    
-    // थेट Step 3 (Products Information) स्क्रीन दाखवा
+    // ३. मुख्य स्क्रीन आणि Step 2 लपवा
+    const mainScr = document.getElementById('mainScreen');
+    const step2Scr = document.getElementById('step2Screen');
+    if (mainScr) mainScr.style.display = 'none';
+    if (step2Scr) step2Scr.style.display = 'none';
+
+    // ४. Step 3 (Products Information) उघडा आणि लपवणारे क्लासेस काढून टाका
     const step3Elem = document.getElementById('step3Screen') || document.getElementById('productSection');
     if (step3Elem) {
         step3Elem.style.display = 'block';
+        step3Elem.classList.remove('hide-section', 'd-none');
     } else if (typeof showStep3 === 'function') {
         showStep3();
+    }
+
+    // ५. Step 3 वरील Customer ID अपडेट करा
+    const step3Badge = document.getElementById('displayCustId');
+    if (step3Badge) {
+        step3Badge.innerText = custId;
     }
 
     alert("लॉगिन यशस्वी! Customer ID: " + custId);
 }
 
-// २. आधीपासून सेव्ह असलेला Customer ID ऑटो-फिल करणे
+// ५. आधीपासून सेव्ह असलेला Customer ID ऑटो-फिल करणे
 function autoFillLoginId() {
     const savedCustId = localStorage.getItem('activeCustomerId');
     const inputElem = document.getElementById('loginCustomerId');
@@ -938,3 +957,4 @@ document.addEventListener('DOMContentLoaded', autoFillLoginId);
 
 </body>
 </html>
+
