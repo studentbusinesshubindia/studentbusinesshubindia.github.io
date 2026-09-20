@@ -537,6 +537,7 @@ function googleTranslateElementInit() {
             e.preventDefault();
 
             var formData = {
+                customerId: document.getElementById('displayCustomerId') ? document.getElementById('displayCustomerId').innerText.trim() : "",
                 custName: document.getElementById('custName').value,
                 businessName: document.getElementById('businessName').value,
                 shopName: document.getElementById('shopName').value,
