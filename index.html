@@ -344,15 +344,15 @@
                         </div>
                         <div class="col-md-3">
                             <label class="form-label small fw-semibold">Pan Card No.</label>
-                            <input type="text" name="panCard" class="form-control form-control-sm" placeholder="PAN CARD">
+                            <input type="text" id="panCard" name="panCard" class="form-control form-control-sm" placeholder="PAN CARD">
                         </div>
                         <div class="col-md-3">
                             <label class="form-label small fw-semibold">GST No.</label>
-                            <input type="text" name="gstNo" class="form-control form-control-sm" placeholder="GST NO.">
+                            <input type="text" id="gstNo" name="gstNo" class="form-control form-control-sm" placeholder="GST NO.">
                         </div>
                         <div class="col-md-3">
                             <label class="form-label small fw-semibold">State</label>
-                            <select name="state" class="form-select form-select-sm" required>
+                            <select id="state" name="state" class="form-select form-select-sm" required>
                                 <option value="Maharashtra" selected>Maharashtra</option>
                                 <option value="Gujarat">Gujarat</option>
                                 <option value="Karnataka">Karnataka</option>
@@ -366,16 +366,16 @@
                         </div>
                         <div class="col-md-3">
                             <label class="form-label small fw-semibold">Address <span class="text-danger">*</span></label>
-                            <input type="text" name="address" class="form-control form-control-sm" placeholder="Address" required>
+                            <input type="text" id="custAddress" name="address" class="form-control form-control-sm" placeholder="Address" required>
                         </div>
                         <div class="col-md-3">
                             <label class="form-label small fw-semibold">Pin Code <span class="text-danger">*</span></label>
-                            <input type="text" name="pinCode" class="form-control form-control-sm" placeholder="PIN CODE" required>
+                            <input type="text" id="custPincode" name="pinCode" class="form-control form-control-sm" placeholder="PIN CODE" required>
                         </div>
                         <div class="col-md-3">
-    <label class="form-label small fw-semibold">Password <span class="text-danger">*</span></label>
-    <input type="password" id="custPassword" name="password" class="form-control form-control-sm" placeholder="Set Password" required>
-</div>
+                            <label class="form-label small fw-semibold">Password <span class="text-danger">*</span></label>
+                            <input type="password" id="custPassword" name="password" class="form-control form-control-sm" placeholder="Set Password" required>
+                        </div>
                         <div class="col-md-3">
                             <label class="form-label small fw-semibold">Employee ID No.</label>
                             <input type="text" id="employeeId" name="employeeId" class="form-control form-control-sm" placeholder="EMP ID NO.">
@@ -534,7 +534,7 @@ function googleTranslateElementInit() {
     autoFillLoginId();
 
     // २. प्रॉडक्ट फोटो कॉम्प्रेस करणे
-    const imgInput = document.getElementById('productImageInput') || document.getElementById('productImage') || document.querySelector('input[type="file"]');
+    const imgInput = document.getElementById('prodImg') || document.getElementById('productImageInput') || document.getElementById('productImage') || document.querySelector('input[type="file"]');
     if (imgInput) {
       imgInput.addEventListener('change', function(e) {
         const file = e.target.files[0];
@@ -573,7 +573,7 @@ function googleTranslateElementInit() {
         e.preventDefault();
 
         // Customer ID मिळवणे
-        let rawCustText = document.getElementById('displayCustomerId') ? document.getElementById('displayCustomerId').innerText.trim() : "";
+        let rawCustText = document.getElementById('displayStep2CustId') ? document.getElementById('displayStep2CustId').innerText.trim() : "";
         let cleanCustId = "";
         let match = rawCustText.match(/CUST\d+/);
         if (match) {
@@ -596,7 +596,7 @@ function googleTranslateElementInit() {
           custCity: document.getElementById('custCity') ? document.getElementById('custCity').value : "",
           custAddress: document.getElementById('custAddress') ? document.getElementById('custAddress').value : "",
           custPincode: document.getElementById('custPincode') ? document.getElementById('custPincode').value : "",
-          password: document.getElementById('password') ? document.getElementById('password').value : "",
+          password: document.getElementById('custPassword') ? document.getElementById('custPassword').value : "",
           employeeId: document.getElementById('employeeId') ? document.getElementById('employeeId').value : ""
         };
 
@@ -640,7 +640,6 @@ function googleTranslateElementInit() {
       if(document.getElementById('shopName')) document.getElementById('shopName').value = bName;
       if(document.getElementById('custMobile')) document.getElementById('custMobile').value = ownerMobile;
       if(document.getElementById('custCity')) document.getElementById('custCity').value = cityVal;
-      if(document.getElementById('custCategory')) document.getElementById('custCategory').value = catVal;
 
       var step1Data = {
         action: "STEP_1_REGISTRATION",
@@ -661,7 +660,7 @@ function googleTranslateElementInit() {
         if (data && data.generatedCustomerId) {
           localStorage.setItem('activeCustomerId', data.generatedCustomerId);
           
-          const step2Badge = document.getElementById('displayStep2CustId') || document.getElementById('displayCustomerId');
+          const step2Badge = document.getElementById('displayStep2CustId');
           if (step2Badge) {
             step2Badge.innerText = "तुमचा Customer ID: " + data.generatedCustomerId;
           }
@@ -741,8 +740,8 @@ function googleTranslateElementInit() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  function previewImage(event) {
-    const file = event.target.files[0];
+  function handleImageUpload(input) {
+    const file = input.files[0];
     if (file) {
       const reader = new FileReader();
       reader.onload = function(e) { currentImageBase64 = e.target.result; };
@@ -982,4 +981,3 @@ function googleTranslateElementInit() {
 
 </body>
 </html>
-
