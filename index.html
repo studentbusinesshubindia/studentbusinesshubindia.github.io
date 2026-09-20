@@ -529,27 +529,38 @@ function googleTranslateElementInit() {
   let productsList = [];
   let currentImageBase64 = "";
 
-  // फोटो इनपुट सिलेक्ट झाल्यावर तो आपोआप कॉम्प्रेस होईल
+ // फोटो इनपुट सिलेक्ट झाल्यावर तो आपोआप कॉम्प्रेस होईल
   document.addEventListener("DOMContentLoaded", function() {
     const custSubmitBtn = document.getElementById('custSubmitBtn');
     if (custSubmitBtn) {
         custSubmitBtn.addEventListener('click', function(e) {
             e.preventDefault();
 
+            // Customer ID मधून फक्त 'CUST1234' काढण्यासाठी लॉजिक:
+            let rawCustText = document.getElementById('displayCustomerId') ? document.getElementById('displayCustomerId').innerText.trim() : "";
+            let cleanCustId = "";
+            let match = rawCustText.match(/CUST\d+/);
+            if (match) {
+                cleanCustId = match[0]; // फक्त CUST8531 घेईल
+            } else {
+                cleanCustId = localStorage.getItem('activeCustomerId') || rawCustText;
+            }
+
             var formData = {
-                customerId: document.getElementById('displayCustomerId') ? document.getElementById('displayCustomerId').innerText.trim() : "",
-                custName: document.getElementById('custName').value,
-                businessName: document.getElementById('businessName').value,
-                shopName: document.getElementById('shopName').value,
-                custMobile: document.getElementById('custMobile').value,
-                custEmail: document.getElementById('custEmail').value,
-                panCard: document.getElementById('panCard').value,
-                gstNo: document.getElementById('gstNo').value,
-                state: document.getElementById('state').value,
-                custCity: document.getElementById('custCity').value,
-                custAddress: document.getElementById('custAddress').value,
-                custPincode: document.getElementById('custPincode').value,
-                employeeId: document.getElementById('employeeId').value
+                customerId: cleanCustId,
+                custName: document.getElementById('custName') ? document.getElementById('custName').value : "",
+                businessName: document.getElementById('businessName') ? document.getElementById('businessName').value : "",
+                shopName: document.getElementById('shopName') ? document.getElementById('shopName').value : "",
+                custMobile: document.getElementById('custMobile') ? document.getElementById('custMobile').value : "",
+                custEmail: document.getElementById('custEmail') ? document.getElementById('custEmail').value : "",
+                panCard: document.getElementById('panCard') ? document.getElementById('panCard').value : "",
+                gstNo: document.getElementById('gstNo') ? document.getElementById('gstNo').value : "",
+                state: document.getElementById('state') ? document.getElementById('state').value : "",
+                custCity: document.getElementById('custCity') ? document.getElementById('custCity').value : "",
+                custAddress: document.getElementById('custAddress') ? document.getElementById('custAddress').value : "",
+                custPincode: document.getElementById('custPincode') ? document.getElementById('custPincode').value : "",
+                password: document.getElementById('password') ? document.getElementById('password').value : "",
+                employeeId: document.getElementById('employeeId') ? document.getElementById('employeeId').value : ""
             };
 
             fetch(SCRIPT_URL, {
@@ -577,7 +588,6 @@ function googleTranslateElementInit() {
             }
         });
     }
-
     const imgInput = document.getElementById('productImageInput') || document.getElementById('productImage') || document.querySelector('input[type="file"]');
     if (imgInput) {
       imgInput.addEventListener('change', function(e) {
