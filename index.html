@@ -529,65 +529,11 @@ function googleTranslateElementInit() {
   let productsList = [];
   let currentImageBase64 = "";
 
- // फोटो इनपुट सिलेक्ट झाल्यावर तो आपोआप कॉम्प्रेस होईल
   document.addEventListener("DOMContentLoaded", function() {
-    const custSubmitBtn = document.getElementById('custSubmitBtn');
-    if (custSubmitBtn) {
-        custSubmitBtn.addEventListener('click', function(e) {
-            e.preventDefault();
+    // १. Re-login साठी ऑटो-फिल करणे
+    autoFillLoginId();
 
-            // Customer ID मधून फक्त 'CUST1234' काढण्यासाठी लॉजिक:
-            let rawCustText = document.getElementById('displayCustomerId') ? document.getElementById('displayCustomerId').innerText.trim() : "";
-            let cleanCustId = "";
-            let match = rawCustText.match(/CUST\d+/);
-            if (match) {
-                cleanCustId = match[0]; // फक्त CUST8531 घेईल
-            } else {
-                cleanCustId = localStorage.getItem('activeCustomerId') || rawCustText;
-            }
-
-            var formData = {
-                customerId: cleanCustId,
-                custName: document.getElementById('custName') ? document.getElementById('custName').value : "",
-                businessName: document.getElementById('businessName') ? document.getElementById('businessName').value : "",
-                shopName: document.getElementById('shopName') ? document.getElementById('shopName').value : "",
-                custMobile: document.getElementById('custMobile') ? document.getElementById('custMobile').value : "",
-                custEmail: document.getElementById('custEmail') ? document.getElementById('custEmail').value : "",
-                panCard: document.getElementById('panCard') ? document.getElementById('panCard').value : "",
-                gstNo: document.getElementById('gstNo') ? document.getElementById('gstNo').value : "",
-                state: document.getElementById('state') ? document.getElementById('state').value : "",
-                custCity: document.getElementById('custCity') ? document.getElementById('custCity').value : "",
-                custAddress: document.getElementById('custAddress') ? document.getElementById('custAddress').value : "",
-                custPincode: document.getElementById('custPincode') ? document.getElementById('custPincode').value : "",
-                password: document.getElementById('password') ? document.getElementById('password').value : "",
-                employeeId: document.getElementById('employeeId') ? document.getElementById('employeeId').value : ""
-            };
-
-            fetch(SCRIPT_URL, {
-                method: 'POST',
-                body: new URLSearchParams(formData)
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data && data.customerId) {
-                    localStorage.setItem('activeCustomerId', data.customerId);
-                }
-            })
-            .catch(err => console.error('Error:', err));
-
-            const step2 = document.getElementById('step2Screen') || document.querySelector('.step-2');
-            const step3 = document.getElementById('step3Screen') || document.querySelector('.step-3');
-            
-            if(step2) step2.classList.add('hide-section');
-            if(step3) step3.classList.remove('hide-section');
-            
-            if(typeof showProductScreen === 'function') {
-                showProductScreen();
-            } else if(typeof goToNextStep === 'function') {
-                goToNextStep();
-            }
-        });
-    }
+    // २. प्रॉडक्ट फोटो कॉम्प्रेस करणे
     const imgInput = document.getElementById('productImageInput') || document.getElementById('productImage') || document.querySelector('input[type="file"]');
     if (imgInput) {
       imgInput.addEventListener('change', function(e) {
@@ -612,7 +558,6 @@ function googleTranslateElementInit() {
             canvas.height = height;
             ctx.drawImage(img, 0, 0, width, height);
 
-            // फोटो कॉम्प्रेस होऊन सेव्ह होईल
             currentImageBase64 = canvas.toDataURL('image/jpeg', 0.6);
           };
           img.src = event.target.result;
@@ -620,52 +565,131 @@ function googleTranslateElementInit() {
         reader.readAsDataURL(file);
       });
     }
+
+    // ३. Step 2 (Personal Info) Submit Event
+    const custSubmitBtn = document.getElementById('custSubmitBtn');
+    if (custSubmitBtn) {
+      custSubmitBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+
+        // Customer ID मिळवणे
+        let rawCustText = document.getElementById('displayCustomerId') ? document.getElementById('displayCustomerId').innerText.trim() : "";
+        let cleanCustId = "";
+        let match = rawCustText.match(/CUST\d+/);
+        if (match) {
+          cleanCustId = match[0];
+        } else {
+          cleanCustId = localStorage.getItem('activeCustomerId') || rawCustText;
+        }
+
+        var formData = {
+          action: "SAVE_CUSTOMER",
+          customerId: cleanCustId,
+          custName: document.getElementById('custName') ? document.getElementById('custName').value : "",
+          businessName: document.getElementById('businessName') ? document.getElementById('businessName').value : "",
+          shopName: document.getElementById('shopName') ? document.getElementById('shopName').value : "",
+          custMobile: document.getElementById('custMobile') ? document.getElementById('custMobile').value : "",
+          custEmail: document.getElementById('custEmail') ? document.getElementById('custEmail').value : "",
+          panCard: document.getElementById('panCard') ? document.getElementById('panCard').value : "",
+          gstNo: document.getElementById('gstNo') ? document.getElementById('gstNo').value : "",
+          state: document.getElementById('state') ? document.getElementById('state').value : "",
+          custCity: document.getElementById('custCity') ? document.getElementById('custCity').value : "",
+          custAddress: document.getElementById('custAddress') ? document.getElementById('custAddress').value : "",
+          custPincode: document.getElementById('custPincode') ? document.getElementById('custPincode').value : "",
+          password: document.getElementById('password') ? document.getElementById('password').value : "",
+          employeeId: document.getElementById('employeeId') ? document.getElementById('employeeId').value : ""
+        };
+
+        custSubmitBtn.disabled = true;
+
+        fetch(SCRIPT_URL, {
+          method: 'POST',
+          body: new URLSearchParams(formData)
+        })
+        .then(response => response.json())
+        .then(data => {
+          custSubmitBtn.disabled = false;
+          if (data && data.customerId) {
+            localStorage.setItem('activeCustomerId', data.customerId);
+          }
+          goToProductScreen();
+        })
+        .catch(err => {
+          custSubmitBtn.disabled = false;
+          console.error('Error:', err);
+          goToProductScreen();
+        });
+      });
+    }
   });
 
   // Step 1: Business Owner Form Submit
-  document.getElementById('ownerStep1Form').addEventListener('submit', function(e) {
+  const ownerForm = document.getElementById('ownerStep1Form');
+  if (ownerForm) {
+    ownerForm.addEventListener('submit', function(e) {
       e.preventDefault();
 
-      const bName = document.getElementById('init_business').value;
-      document.getElementById('custName').value = document.getElementById('init_name').value;
+      const ownerName = document.getElementById('init_name') ? document.getElementById('init_name').value : "";
+      const ownerMobile = document.getElementById('init_mobile') ? document.getElementById('init_mobile').value : "";
+      const bName = document.getElementById('init_business') ? document.getElementById('init_business').value : "";
+      const cityVal = document.getElementById('init_city') ? document.getElementById('init_city').value : "";
+      const catVal = document.getElementById('init_category') ? document.getElementById('init_category').value : "";
+
+      if(document.getElementById('custName')) document.getElementById('custName').value = ownerName;
       if(document.getElementById('businessName')) document.getElementById('businessName').value = bName;
       if(document.getElementById('shopName')) document.getElementById('shopName').value = bName;
-      document.getElementById('custMobile').value = document.getElementById('init_mobile').value;
-      document.getElementById('custCity').value = document.getElementById('init_city').value;
-      
-      // Category ट्रान्सफर
-      if(document.getElementById('custCategory') && document.getElementById('init_category')) {
-        document.getElementById('custCategory').value = document.getElementById('init_category').value;
-      }
+      if(document.getElementById('custMobile')) document.getElementById('custMobile').value = ownerMobile;
+      if(document.getElementById('custCity')) document.getElementById('custCity').value = cityVal;
+      if(document.getElementById('custCategory')) document.getElementById('custCategory').value = catVal;
 
-    // १. ऑटोमॅटिक Customer ID जनरेट करा
-       localStorage.removeItem('activeCustomerId');
-localStorage.removeItem('activePassword');
+      var step1Data = {
+        action: "STEP_1_REGISTRATION",
+        type: "Business Owner",
+        name: ownerName,
+        businessName: bName,
+        contact: ownerMobile,
+        city: cityVal,
+        category: catVal
+      };
 
-let autoCustId = "CUST" + Math.floor(1000 + Math.random() * 9000);
-localStorage.setItem('activeCustomerId', autoCustId);
-
-        // २. Step 2 वरील हेडर बॅजवर ID दाखवा
-        const step2Badge = document.getElementById('displayStep2CustId');
-        if (step2Badge) {
-            step2Badge.innerText = "तुमचा Customer ID: " + autoCustId;
+      fetch(SCRIPT_URL, {
+        method: 'POST',
+        body: new URLSearchParams(step1Data)
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data && data.generatedCustomerId) {
+          localStorage.setItem('activeCustomerId', data.generatedCustomerId);
+          
+          const step2Badge = document.getElementById('displayStep2CustId') || document.getElementById('displayCustomerId');
+          if (step2Badge) {
+            step2Badge.innerText = "तुमचा Customer ID: " + data.generatedCustomerId;
+          }
         }
 
-        // ३. स्क्रीन नेव्हिगेशन
         document.getElementById('mainScreen').classList.add('hide-section');
         document.getElementById('step2Screen').classList.remove('hide-section');
         document.getElementById('step3Screen').classList.add('hide-section');
 
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-  });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      })
+      .catch(err => {
+        console.error('Step 1 Error:', err);
+      });
+    });
+  }
 
   // Student Form Submit
-  document.getElementById('studentForm').addEventListener('submit', function(e) {
+  const studentForm = document.getElementById('studentForm');
+  if (studentForm) {
+    studentForm.addEventListener('submit', function(e) {
       e.preventDefault();
       
       const submitBtn = document.getElementById('studentSubmitBtn');
-      submitBtn.innerText = "सबमिट होत आहे...";
-      submitBtn.disabled = true;
+      if(submitBtn) {
+        submitBtn.innerText = "सबमिट होत आहे...";
+        submitBtn.disabled = true;
+      }
 
       const formData = new FormData(this);
       formData.append('type', 'Student Executive');
@@ -673,244 +697,227 @@ localStorage.setItem('activeCustomerId', autoCustId);
       fetch(SCRIPT_URL, { method: 'POST', body: formData })
         .then(() => {
           alert("विद्यार्थी नोंदणी यशस्वीरीत्या पूर्ण झाली आहे!");
-          document.getElementById('studentForm').reset();
+          studentForm.reset();
         })
         .catch(() => {
           alert("नोंदणी पूर्ण झाली आहे!");
-          document.getElementById('studentForm').reset();
+          studentForm.reset();
         })
         .finally(() => {
-          submitBtn.innerText = "Executive बना";
-          submitBtn.disabled = false;
-        });
-  });
-
-  // Step 2: Personal Info Submit & Next Button Fix
-  document.getElementById('custSubmitBtn').addEventListener('click', function(e) {
-      e.preventDefault();
-
-      const custForm = document.getElementById('addCustForm');
-      if (!custForm) return;
-
-      var formData = new FormData(custForm);
-
-      // गुगल शीटवर डेटा पाठवणे
-      fetch(SCRIPT_URL, {
-          method: 'POST',
-          body: formData
-      })
-      .then(response => response.json())
-      .then(data => {
-          if (data && data.customerId) {
-              localStorage.setItem('activeCustomerId', data.customerId);
+          if(submitBtn) {
+            submitBtn.innerText = "Executive बना";
+            submitBtn.disabled = false;
           }
-      })
-      .catch(err => console.error('Error:', err));
-
-      // पुढच्या प्रॉडक्टच्या स्क्रीनवर जाणे
-      goToProductScreen();
-  });
+        });
+    });
+  }
 
   function goToProductScreen() {
-    document.getElementById('step2Screen').classList.add('hide-section');
-    document.getElementById('step3Screen').classList.remove('hide-section');
+    const step2 = document.getElementById('step2Screen');
+    const step3 = document.getElementById('step3Screen');
 
-    // activeCustomerId स्क्रीनवर रिफ्लेक्ट करणे
+    if(step2) step2.classList.add('hide-section');
+    if(step3) step3.classList.remove('hide-section');
+
     const activeCustId = localStorage.getItem('activeCustomerId') || "CUST-XXXX";
     const displayElem = document.getElementById('displayCustId');
     if (displayElem) {
-        displayElem.innerText = activeCustId;
+      displayElem.innerText = activeCustId;
     }
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
-}
+  }
 
   function goBackToMainScreen() {
-      document.getElementById('step2Screen').classList.add('hide-section');
-      document.getElementById('step3Screen').classList.add('hide-section');
-      document.getElementById('mainScreen').classList.remove('hide-section');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+    document.getElementById('step2Screen').classList.add('hide-section');
+    document.getElementById('step3Screen').classList.add('hide-section');
+    document.getElementById('mainScreen').classList.remove('hide-section');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   function goBackToStep2() {
-      document.getElementById('step3Screen').classList.add('hide-section');
-      document.getElementById('step2Screen').classList.remove('hide-section');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+    document.getElementById('step3Screen').classList.add('hide-section');
+    document.getElementById('step2Screen').classList.remove('hide-section');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   function previewImage(event) {
-      const file = event.target.files[0];
-      if (file) {
-          const reader = new FileReader();
-          reader.onload = function(e) { currentImageBase64 = e.target.result; };
-          reader.readAsDataURL(file);
-      }
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function(e) { currentImageBase64 = e.target.result; };
+      reader.readAsDataURL(file);
+    }
   }
 
   // Add Product to Local List
   function addProductToTable() {
-      const name = document.getElementById('prodName').value;
-      const mrp = parseFloat(document.getElementById('prodMRP').value);
-      const selling = parseFloat(document.getElementById('prodSelling').value);
-      const qty = parseInt(document.getElementById('prodQty').value);
-      const priceAlert = document.getElementById('priceAlert');
+    const name = document.getElementById('prodName').value;
+    const mrp = parseFloat(document.getElementById('prodMRP').value);
+    const selling = parseFloat(document.getElementById('prodSelling').value);
+    const qty = parseInt(document.getElementById('prodQty').value);
+    const priceAlert = document.getElementById('priceAlert');
 
-      if (selling > mrp) {
-          priceAlert.classList.remove('d-none');
-          return;
-      } else {
-          priceAlert.classList.add('d-none');
-      }
+    if (!name || isNaN(mrp) || isNaN(selling) || isNaN(qty)) {
+      alert("कृपया सर्व प्रॉडक्ट माहिती अचूक भरा!");
+      return;
+    }
 
-      const btnAdd = document.getElementById('btnAddProd');
-      const spinner = document.getElementById('btnAddSpinner');
-      const btnText = document.getElementById('btnAddText');
+    if (selling > mrp) {
+      if(priceAlert) priceAlert.classList.remove('d-none');
+      return;
+    } else {
+      if(priceAlert) priceAlert.classList.add('d-none');
+    }
 
-      toggleLoading(btnAdd, spinner, btnText, true, 'जोडत आहे...');
+    const btnAdd = document.getElementById('btnAddProd');
+    const spinner = document.getElementById('btnAddSpinner');
+    const btnText = document.getElementById('btnAddText');
 
-      setTimeout(() => {
-          const img = currentImageBase64 || "";
-          
-          productsList.push({ 
-              id: Date.now(), 
-              prodName: name, 
-              name: name,
-              mrp: mrp, 
-              sellingPrice: selling, 
-              selling: selling,
-              quantity: qty, 
-              qty: qty, 
-              rawImg: img, 
-              img: img || "https://via.placeholder.com/45?text=No+Img", 
-              total: qty * selling 
-          });
-          
-          renderTable();
-          document.getElementById('productInputForm').reset();
-          currentImageBase64 = "";
+    toggleLoading(btnAdd, spinner, btnText, true, 'जोडत आहे...');
 
-          toggleLoading(btnAdd, spinner, btnText, false, '<i class="fa-solid fa-plus me-1"></i> Add Product');
-      }, 300);
+    setTimeout(() => {
+      const img = currentImageBase64 || "";
+      
+      productsList.push({ 
+        id: Date.now(), 
+        prodName: name, 
+        name: name,
+        mrp: mrp, 
+        sellingPrice: selling, 
+        selling: selling,
+        quantity: qty, 
+        qty: qty, 
+        rawImg: img, 
+        img: img || "https://via.placeholder.com/45?text=No+Img", 
+        total: qty * selling 
+      });
+      
+      renderTable();
+      document.getElementById('productInputForm').reset();
+      currentImageBase64 = "";
+
+      toggleLoading(btnAdd, spinner, btnText, false, '<i class="fa-solid fa-plus me-1"></i> Add Product');
+    }, 300);
   }
 
   // Render Product Table
   function renderTable() {
-      const tbody = document.getElementById('productTableBody');
-      tbody.innerHTML = "";
+    const tbody = document.getElementById('productTableBody');
+    if (!tbody) return;
 
-      if (productsList.length === 0) {
-          tbody.innerHTML = `<tr><td colspan="8" class="text-muted">अजून कोणतेही उत्पादन जोडलेले नाही.</td></tr>`;
-          document.getElementById('totalProductsCount').innerText = "0";
-          document.getElementById('totalStockValue').innerText = "0.00";
-          return;
-      }
+    tbody.innerHTML = "";
 
-      let totalQtySum = 0;
-      let totalValueSum = 0;
+    if (productsList.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="8" class="text-muted">अजून कोणतेही उत्पादन जोडलेले नाही.</td></tr>`;
+      if(document.getElementById('totalProductsCount')) document.getElementById('totalProductsCount').innerText = "0";
+      if(document.getElementById('totalStockValue')) document.getElementById('totalStockValue').innerText = "0.00";
+      return;
+    }
 
-      productsList.forEach((item, index) => {
-          totalQtySum += item.qty;
-          totalValueSum += item.total;
+    let totalQtySum = 0;
+    let totalValueSum = 0;
 
-          tbody.innerHTML += `
-              <tr>
-                  <td>${index + 1}</td>
-                  <td><img src="${item.img}" class="img-preview-thumb" style="width:40px; height:40px; object-fit:cover;"></td>
-                  <td class="text-start fw-semibold">${item.name}</td>
-                  <td>₹${item.mrp.toFixed(2)}</td>
-                  <td class="text-success fw-bold">₹${item.selling.toFixed(2)}</td>
-                  <td>${item.qty}</td>
-                  <td class="fw-bold">₹${item.total.toFixed(2)}</td>
-                  <td><button class="btn btn-outline-danger btn-sm py-0" onclick="deleteProduct(${item.id})"><i class="fa-solid fa-trash"></i></button></td>
-              </tr>`;
-      });
+    productsList.forEach((item, index) => {
+      totalQtySum += item.qty;
+      totalValueSum += item.total;
 
-      document.getElementById('totalProductsCount').innerText = totalQtySum;
-      document.getElementById('totalStockValue').innerText = totalValueSum.toFixed(2);
+      tbody.innerHTML += `
+        <tr>
+          <td>${index + 1}</td>
+          <td><img src="${item.img}" class="img-preview-thumb" style="width:40px; height:40px; object-fit:cover;"></td>
+          <td class="text-start fw-semibold">${item.name}</td>
+          <td>₹${item.mrp.toFixed(2)}</td>
+          <td class="text-success fw-bold">₹${item.selling.toFixed(2)}</td>
+          <td>${item.qty}</td>
+          <td class="fw-bold">₹${item.total.toFixed(2)}</td>
+          <td><button class="btn btn-outline-danger btn-sm py-0" onclick="deleteProduct(${item.id})"><i class="fa-solid fa-trash"></i></button></td>
+        </tr>`;
+    });
+
+    if(document.getElementById('totalProductsCount')) document.getElementById('totalProductsCount').innerText = totalQtySum;
+    if(document.getElementById('totalStockValue')) document.getElementById('totalStockValue').innerText = totalValueSum.toFixed(2);
   }
 
   function deleteProduct(id) {
-      productsList = productsList.filter(item => item.id !== id);
-      renderTable();
+    productsList = productsList.filter(item => item.id !== id);
+    renderTable();
   }
 
   // Save All (Customer + Products) in Google Sheet
   function saveCustomerAndResetForm() {
-      if (productsList.length === 0) {
-          alert("कृपया सबमिट करण्यापूर्वी किमान १ प्रॉडक्ट टेबलमध्ये जोडा!");
-          return;
-      }
-let passwordVal = document.getElementById('custPassword') ? document.getElementById('custPassword').value : "";
-    if (!passwordVal || passwordVal.trim() === "") {
-        passwordVal = localStorage.getItem('activePassword') || "PASS123";
+    if (productsList.length === 0) {
+      alert("कृपया सबमिट करण्यापूर्वी किमान १ प्रॉडक्ट टेबलमध्ये जोडा!");
+      return;
     }
-      const saveBtn = document.getElementById('saveBtn');
-      const spinner = document.getElementById('btnSaveSpinner');
-      const btnText = document.getElementById('btnSaveText');
 
-      toggleLoading(saveBtn, spinner, btnText, true, 'सेव्ह होत आहे...');
+    let passwordVal = document.getElementById('custPassword') ? document.getElementById('custPassword').value : "";
+    if (!passwordVal || passwordVal.trim() === "") {
+      passwordVal = localStorage.getItem('activePassword') || "PASS123";
+    }
 
-      const custForm = document.getElementById('addCustForm');
-      const formData = new FormData(custForm);
+    const saveBtn = document.getElementById('saveBtn');
+    const spinner = document.getElementById('btnSaveSpinner');
+    const btnText = document.getElementById('btnSaveText');
 
-      formData.append('action', 'FULL_SUBMIT');
-const activeCustId = localStorage.getItem('activeCustomerId') || "";
+    toggleLoading(saveBtn, spinner, btnText, true, 'सेव्ह होत आहे...');
+
+    const custForm = document.getElementById('addCustForm');
+    const formData = custForm ? new FormData(custForm) : new FormData();
+
+    formData.append('action', 'FULL_SUBMIT');
+    const activeCustId = localStorage.getItem('activeCustomerId') || "";
     formData.append('customerId', activeCustId);
     formData.append('password', passwordVal);
-      if (document.getElementById('init_name')) formData.append('init_name', document.getElementById('init_name').value);
-      if (document.getElementById('init_mobile')) formData.append('init_mobile', document.getElementById('init_mobile').value);
-      if (document.getElementById('init_business')) formData.append('init_business', document.getElementById('init_business').value);
-      if (document.getElementById('init_city')) formData.append('init_city', document.getElementById('init_city').value);
-      if (document.getElementById('init_category')) formData.append('init_category', document.getElementById('init_category').value);
 
-      formData.append('productsJson', JSON.stringify(productsList));
-      formData.append('products', JSON.stringify(productsList));
+    if (document.getElementById('init_name')) formData.append('init_name', document.getElementById('init_name').value);
+    if (document.getElementById('init_mobile')) formData.append('init_mobile', document.getElementById('init_mobile').value);
+    if (document.getElementById('init_business')) formData.append('init_business', document.getElementById('init_business').value);
+    if (document.getElementById('init_city')) formData.append('init_city', document.getElementById('init_city').value);
+    if (document.getElementById('init_category')) formData.append('init_category', document.getElementById('init_category').value);
 
-      fetch(SCRIPT_URL, { method: 'POST', body: formData })
-        .then(res => res.json())
-        .then(data => {
-            alert("माहिती यशस्वीरीत्या सेव्ह झाली आहे!");
-            resetAll();
-        })
-        .catch(err => {
-            alert("डेटा यशस्वीरित्या पाठवला गेला आहे!");
-            resetAll();
-        })
-        .finally(() => {
-            toggleLoading(saveBtn, spinner, btnText, false, '<i class="fa-solid fa-floppy-disk me-1"></i> Save All & Complete');
-        });
+    formData.append('productsJson', JSON.stringify(productsList));
+    formData.append('products', JSON.stringify(productsList));
+
+    fetch(SCRIPT_URL, { method: 'POST', body: formData })
+      .then(res => res.json())
+      .then(data => {
+        alert("माहिती यशस्वीरीत्या सेव्ह झाली आहे!");
+        resetAll();
+      })
+      .catch(err => {
+        alert("डेटा यशस्वीरित्या पाठवला गेला आहे!");
+        resetAll();
+      })
+      .finally(() => {
+        toggleLoading(saveBtn, spinner, btnText, false, '<i class="fa-solid fa-floppy-disk me-1"></i> Save All & Complete');
+      });
   }
 
   function resetAll() {
-      document.getElementById('addCustForm').reset();
-      document.getElementById('ownerStep1Form').reset();
-      productsList = [];
-      renderTable();
-      goBackToMainScreen();
+    if(document.getElementById('addCustForm')) document.getElementById('addCustForm').reset();
+    if(document.getElementById('ownerStep1Form')) document.getElementById('ownerStep1Form').reset();
+    productsList = [];
+    renderTable();
+    goBackToMainScreen();
   }
 
   function toggleLoading(button, spinner, textElem, isLoading, textContent) {
-      button.disabled = isLoading;
+    if (!button) return;
+    button.disabled = isLoading;
+    if (spinner && textElem) {
       if (isLoading) {
-          spinner.classList.remove('d-none');
-          textElem.innerHTML = ' ' + textContent;
+        spinner.classList.remove('d-none');
+        textElem.innerHTML = ' ' + textContent;
       } else {
-          spinner.classList.add('d-none');
-          textElem.innerHTML = textContent;
+        spinner.classList.add('d-none');
+        textElem.innerHTML = textContent;
       }
-  }  
-    function setLoginCustomerId() {
-      const activeCustId = localStorage.getItem('activeCustomerId') || "";
-      const loginCustIdInput = document.getElementById('loginCustomerId');
-      
-      if (loginCustIdInput && activeCustId) {
-          loginCustIdInput.value = activeCustId;
-      }
+    }
   }
 
-  document.addEventListener('DOMContentLoaded', setLoginCustomerId);
-    // १. Re-login सबमिट हँडल करणे
-function handleReLogin(e) {
+  // Re-login सबमिट हँडल करणे
+  function handleReLogin(e) {
     if (e && e.preventDefault) e.preventDefault();
 
     const custIdInput = document.getElementById('loginCustomerId');
@@ -920,64 +927,57 @@ function handleReLogin(e) {
     const pass = passInput ? passInput.value.trim() : "";
 
     if (!custId || !pass) {
-        alert("कृपया Customer ID आणि Password दोन्ही टाका!");
-        return;
+      alert("कृपया Customer ID आणि Password दोन्ही टाका!");
+      return;
     }
 
-    // गूगल स्क्रिप्टकडून पासवर्ड बरोबर आहे का ते तपासणे
     fetch(SCRIPT_URL + "?action=VERIFY_LOGIN&customerId=" + encodeURIComponent(custId) + "&password=" + encodeURIComponent(pass))
     .then(res => res.json())
     .then(response => {
-        if (response.status === "SUCCESS") {
-            // पासवर्ड बरोबर असेल तरच सेव्ह होईल आणि पेज उघडेल
-            localStorage.setItem('activeCustomerId', custId);
-            localStorage.setItem('activePassword', pass);
+      if (response.status === "SUCCESS") {
+        localStorage.setItem('activeCustomerId', custId);
+        localStorage.setItem('activePassword', pass);
 
-            const step2Badge = document.getElementById('displayStep2CustId');
-            if (step2Badge) {
-                step2Badge.innerText = "तुमचा Customer ID: " + custId;
-            }
-
-            const mainScr = document.getElementById('mainScreen');
-            const step2Scr = document.getElementById('step2Screen');
-            if (mainScr) mainScr.style.display = 'none';
-            if (step2Scr) step2Scr.style.display = 'none';
-
-            const step3Elem = document.getElementById('step3Screen') || document.getElementById('productSection');
-            if (step3Elem) {
-                step3Elem.style.display = 'block';
-                step3Elem.classList.remove('hide-section', 'd-none');
-            } else if (typeof showStep3 === 'function') {
-                showStep3();
-            }
-
-            const step3Badge = document.getElementById('displayCustId');
-            if (step3Badge) {
-                step3Badge.innerText = custId;
-            }
-
-            alert("लॉगिन यशस्वी! Customer ID: " + custId);
-        } else {
-            // चुकीचा पासवर्ड असल्यास उघडणार नाही
-            alert(response.message || "चुकीचा पासवर्ड!");
+        const step2Badge = document.getElementById('displayStep2CustId');
+        if (step2Badge) {
+          step2Badge.innerText = "तुमचा Customer ID: " + custId;
         }
+
+        const mainScr = document.getElementById('mainScreen');
+        const step2Scr = document.getElementById('step2Screen');
+        if (mainScr) mainScr.style.display = 'none';
+        if (step2Scr) step2Scr.style.display = 'none';
+
+        const step3Elem = document.getElementById('step3Screen') || document.getElementById('productSection');
+        if (step3Elem) {
+          step3Elem.style.display = 'block';
+          step3Elem.classList.remove('hide-section', 'd-none');
+        }
+
+        const step3Badge = document.getElementById('displayCustId');
+        if (step3Badge) {
+          step3Badge.innerText = custId;
+        }
+
+        alert("लॉगिन यशस्वी! Customer ID: " + custId);
+      } else {
+        alert(response.message || "चुकीचा पासवर्ड!");
+      }
     })
     .catch(err => {
-        console.error(err);
-        alert("पडताळणी करताना अडचण आली. कृपया पुन्हा प्रयत्न करा.");
+      console.error(err);
+      alert("पडताळणी करताना अडचण आली. कृपया पुन्हा प्रयत्न करा.");
     });
-}
+  }
 
-// आधीपासून सेव्ह असलेला Customer ID ऑटो-फिल करणे
-function autoFillLoginId() {
+  // ऑटो-फिल लॉगिन आयडी
+  function autoFillLoginId() {
     const savedCustId = localStorage.getItem('activeCustomerId');
     const inputElem = document.getElementById('loginCustomerId');
     if (savedCustId && inputElem) {
-        inputElem.value = savedCustId;
+      inputElem.value = savedCustId;
     }
-}
-
-document.addEventListener('DOMContentLoaded', autoFillLoginId);
+  }
 </script>
 
 </body>
