@@ -635,6 +635,11 @@ function googleTranslateElementInit() {
     ownerForm.addEventListener('submit', function(e) {
       e.preventDefault();
 
+      const ownerSubmitBtn = ownerForm.querySelector('button[type="submit"]');
+      if (ownerSubmitBtn) {
+        ownerSubmitBtn.disabled = true;
+      }
+
       const ownerName = document.getElementById('init_name') ? document.getElementById('init_name').value : "";
       const ownerMobile = document.getElementById('init_mobile') ? document.getElementById('init_mobile').value : "";
       const bName = document.getElementById('init_business') ? document.getElementById('init_business').value : "";
@@ -657,27 +662,25 @@ function googleTranslateElementInit() {
         category: catVal
       };
 
-      fetch(SCRIPT_URL, {
-        method: 'POST',
-        body: new URLSearchParams(step1Data)
-      })
-      .then(res => res.json())
-      .then(data => {
-        if (data && data.generatedCustomerId) {
-          localStorage.setItem('activeCustomerId', data.generatedCustomerId);
-          
-          const step2Badge = document.getElementById('displayStep2CustId');
-          if (step2Badge) {
-            step2Badge.innerText = "तुमचा Customer ID: " + data.generatedCustomerId;
-          }
-        }
+      // Background la data pathva (response chi vat na baighatach)
+      try {
+        fetch(SCRIPT_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(step1Data),
+          keepalive: true
+        });
+      } catch (err) {
+        console.error('Error:', err);
+      }
 
-        document.getElementById('mainScreen').classList.add('hide-section');
-        document.getElementById('step2Screen').classList.remove('hide-section');
-        document.getElementById('step3Screen').classList.add('hide-section');
-
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      })
+      // Lagtech next page var jump kara
+      document.getElementById('mainScreen').classList.add('hide-section');
+      document.getElementById('step2Screen').classList.remove('hide-section');
+      document.getElementById('step3Screen').classList.add('hide-section');
+    });
+  }
       .catch(err => {
         console.error('Step 1 Error:', err);
       });
