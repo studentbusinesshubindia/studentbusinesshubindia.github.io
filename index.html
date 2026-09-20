@@ -629,16 +629,11 @@ function googleTranslateElementInit() {
     }
   });
 
-  // Step 1: Business Owner Form Submit
+  // Step 1: Business Owner Form Submit (Fixed & Instant)
   const ownerForm = document.getElementById('ownerStep1Form');
   if (ownerForm) {
     ownerForm.addEventListener('submit', function(e) {
       e.preventDefault();
-
-      const ownerSubmitBtn = ownerForm.querySelector('button[type="submit"]');
-      if (ownerSubmitBtn) {
-        ownerSubmitBtn.disabled = true;
-      }
 
       const ownerName = document.getElementById('init_name') ? document.getElementById('init_name').value : "";
       const ownerMobile = document.getElementById('init_mobile') ? document.getElementById('init_mobile').value : "";
@@ -662,7 +657,7 @@ function googleTranslateElementInit() {
         category: catVal
       };
 
-      // Background la data pathva (response chi vat na baighatach)
+      // डेटा बॅकग्राउंडला पाठवणे
       try {
         fetch(SCRIPT_URL, {
           method: 'POST',
@@ -675,10 +670,16 @@ function googleTranslateElementInit() {
         console.error('Error:', err);
       }
 
-      // Lagtech next page var jump kara
-      document.getElementById('mainScreen').classList.add('hide-section');
-      document.getElementById('step2Screen').classList.remove('hide-section');
-      document.getElementById('step3Screen').classList.add('hide-section');
+      // लगेच पुढच्या पेजवर जाणे
+      const mainScr = document.getElementById('mainScreen');
+      const step2Scr = document.getElementById('step2Screen');
+      const step3Scr = document.getElementById('step3Screen');
+
+      if (mainScr) mainScr.classList.add('hide-section');
+      if (step2Scr) step2Scr.classList.remove('hide-section');
+      if (step3Scr) step3Scr.classList.add('hide-section');
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   }
       .catch(err => {
