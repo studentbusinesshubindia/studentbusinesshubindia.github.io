@@ -566,11 +566,15 @@ function googleTranslateElementInit() {
       });
     }
 
-    // ३. Step 2 (Personal Info) Submit Event
+    // ३. Step 2 (Personal Info) Submit Event - Fast & Single Click Lock
     const custSubmitBtn = document.getElementById('custSubmitBtn');
     if (custSubmitBtn) {
       custSubmitBtn.addEventListener('click', function(e) {
         e.preventDefault();
+
+        // १. युझरने वारंवार क्लिक करू नये म्हणून बटण लगेच डिसेबल करा
+        custSubmitBtn.disabled = true;
+        custSubmitBtn.innerText = "प्रक्रिया सुरू आहे...";
 
         // Customer ID मिळवणे
         let rawCustText = document.getElementById('displayStep2CustId') ? document.getElementById('displayStep2CustId').innerText.trim() : "";
@@ -600,25 +604,27 @@ function googleTranslateElementInit() {
           employeeId: document.getElementById('employeeId') ? document.getElementById('employeeId').value : ""
         };
 
-        custSubmitBtn.disabled = true;
+        if (cleanCustId) {
+          localStorage.setItem('activeCustomerId', cleanCustId);
+        }
 
+        // २. Fast Fetch Request (JSON payload + keepalive: true)
         fetch(SCRIPT_URL, {
           method: 'POST',
-          body: new URLSearchParams(formData)
-        })
-        .then(response => response.json())
-        .then(data => {
+          mode: 'no-cors',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(formData),
+          keepalive: true
+        }).catch(err => console.error('Error:', err));
+
+        // ३. १०० ms मध्ये पुढील स्क्रीनवर रेडिरेक्ट करा
+        setTimeout(function() {
           custSubmitBtn.disabled = false;
-          if (data && data.customerId) {
-            localStorage.setItem('activeCustomerId', data.customerId);
-          }
+          custSubmitBtn.innerText = "सबमिट करा";
           goToProductScreen();
-        })
-        .catch(err => {
-          custSubmitBtn.disabled = false;
-          console.error('Error:', err);
-          goToProductScreen();
-        });
+        }, 100);
       });
     }
   });
