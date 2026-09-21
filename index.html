@@ -623,7 +623,7 @@ function googleTranslateElementInit() {
     }
   });
 
- // Step 1: Business Owner Form Submit (Instant Redirect & Single Entry Fix)
+ // Step 1: Business Owner Form Submit (Fixed Duplicate Entry + Auto-fill Flow Preserved)
   const ownerForm = document.getElementById('ownerStep1Form');
   if (ownerForm) {
     ownerForm.addEventListener('submit', function(e) {
@@ -631,38 +631,52 @@ function googleTranslateElementInit() {
 
       const ownerSubmitBtn = ownerForm.querySelector('button[type="submit"]');
       
-      // १. दुबार क्लिक रोखण्यासाठी बटण लगेच डिसेबल करा
+      // १. दुबार क्लिक रोखण्यासाठी बटण लगेच लॉक करा
       if (ownerSubmitBtn) {
         if (ownerSubmitBtn.disabled) return;
         ownerSubmitBtn.disabled = true;
         ownerSubmitBtn.innerText = "कृपया वाट पहा...";
       }
 
-      // २. फॉर्म डेटा गोळा करा
-      var formData = {
+      // २. स्टेप १ मधील वैयक्तिक माहिती गोळा करा
+      const ownerName = document.getElementById('init_name') ? document.getElementById('init_name').value : "";
+      const ownerMobile = document.getElementById('init_mobile') ? document.getElementById('init_mobile').value : "";
+      const bName = document.getElementById('init_business') ? document.getElementById('init_business').value : "";
+      const cityVal = document.getElementById('init_city') ? document.getElementById('init_city').value : "";
+      const catVal = document.getElementById('init_category') ? document.getElementById('init_category').value : "";
+
+      // ३. पुढील स्टेप २ (Personal Information Screen) मध्ये माहिती ऑटो-फिल (Auto-fill) करा
+      if(document.getElementById('custName')) document.getElementById('custName').value = ownerName;
+      if(document.getElementById('businessName')) document.getElementById('businessName').value = bName;
+      if(document.getElementById('shopName')) document.getElementById('shopName').value = bName;
+      if(document.getElementById('custMobile')) document.getElementById('custMobile').value = ownerMobile;
+      if(document.getElementById('custCity')) document.getElementById('custCity').value = cityVal;
+      if(document.getElementById('custCategory')) document.getElementById('custCategory').value = catVal;
+
+      var step1Data = {
         action: "STEP_1_REGISTRATION",
         type: "Business Owner",
-        init_name: document.getElementById('init_name') ? document.getElementById('init_name').value : "",
-        init_mobile: document.getElementById('init_mobile') ? document.getElementById('init_mobile').value : "",
-        init_business: document.getElementById('init_business') ? document.getElementById('init_business').value : "",
-        init_city: document.getElementById('init_city') ? document.getElementById('init_city').value : "",
-        init_category: document.getElementById('init_category') ? document.getElementById('init_category').value : ""
+        name: ownerName,
+        businessName: bName,
+        contact: ownerMobile,
+        city: cityVal,
+        category: catVal
       };
 
-      // ३. बॅकग्राउंडमध्ये डेटा पाठवा (वाट न पाहता - keepalive)
+      // ४. बॅकग्राउंडला डेटा पाठवा (वाट न पाहता)
       try {
         fetch(SCRIPT_URL, {
           method: 'POST',
           mode: 'no-cors',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(formData),
+          body: JSON.stringify(step1Data),
           keepalive: true
         });
       } catch (err) {
-        console.error('Data Send Error:', err);
+        console.error('Step 1 Send Error:', err);
       }
 
-      // ४. एका सेकंदाचाही विलंब न लावता लगेच पुढील स्क्रिनवर जा
+      // ५. थेट Step 2 (Personal Information Screen) वर रिडायरेक्ट करा
       const mainScr = document.getElementById('mainScreen');
       const step2Scr = document.getElementById('step2Screen');
       const step3Scr = document.getElementById('step3Screen');
@@ -671,15 +685,9 @@ function googleTranslateElementInit() {
       if (step2Scr) step2Scr.classList.remove('hide-section');
       if (step3Scr) step3Scr.classList.add('hide-section');
 
-      if (typeof goToStep2 === 'function') {
-        goToStep2();
-      } else if (typeof goToProductScreen === 'function') {
-        goToProductScreen();
-      }
-
       window.scrollTo({ top: 0, behavior: 'smooth' });
 
-      // ५. २ सेकंदानंतर बटण पुन्हा अ‍ॅक्टिव्ह करा
+      // ६. २ सेकंदानंतर बटण री-अ‍ॅक्टिव्ह करा
       setTimeout(function() {
         if (ownerSubmitBtn) {
           ownerSubmitBtn.disabled = false;
@@ -688,7 +696,6 @@ function googleTranslateElementInit() {
       }, 2000);
     });
   }
-
   // Student Form Submit
   const studentForm = document.getElementById('studentForm');
   if (studentForm) {
