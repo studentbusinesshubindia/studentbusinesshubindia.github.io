@@ -623,7 +623,7 @@ function googleTranslateElementInit() {
     }
   });
 
- // Step 1: Business Owner Form Submit (Fixed Duplicate Entry + Auto-fill Flow Preserved)
+ // Step 1: Business Owner Form Submit (Fixed Direct Step 2 Navigation)
   const ownerForm = document.getElementById('ownerStep1Form');
   if (ownerForm) {
     ownerForm.addEventListener('submit', function(e) {
@@ -631,21 +631,21 @@ function googleTranslateElementInit() {
 
       const ownerSubmitBtn = ownerForm.querySelector('button[type="submit"]');
       
-      // १. दुबार क्लिक रोखण्यासाठी बटण लगेच लॉक करा
+      // १. दुबार क्लिक रोखण्यासाठी बटण लॉक करा
       if (ownerSubmitBtn) {
         if (ownerSubmitBtn.disabled) return;
         ownerSubmitBtn.disabled = true;
         ownerSubmitBtn.innerText = "कृपया वाट पहा...";
       }
 
-      // २. स्टेप १ मधील वैयक्तिक माहिती गोळा करा
+      // २. वैयक्तिक माहिती गोळा करा
       const ownerName = document.getElementById('init_name') ? document.getElementById('init_name').value : "";
       const ownerMobile = document.getElementById('init_mobile') ? document.getElementById('init_mobile').value : "";
       const bName = document.getElementById('init_business') ? document.getElementById('init_business').value : "";
       const cityVal = document.getElementById('init_city') ? document.getElementById('init_city').value : "";
       const catVal = document.getElementById('init_category') ? document.getElementById('init_category').value : "";
 
-      // ३. पुढील स्टेप २ (Personal Information Screen) मध्ये माहिती ऑटो-फिल (Auto-fill) करा
+      // ३. Step 2 (Personal Info Screen) मधील फिल्ड्समध्ये ऑटो-फिल करा
       if(document.getElementById('custName')) document.getElementById('custName').value = ownerName;
       if(document.getElementById('businessName')) document.getElementById('businessName').value = bName;
       if(document.getElementById('shopName')) document.getElementById('shopName').value = bName;
@@ -663,7 +663,7 @@ function googleTranslateElementInit() {
         category: catVal
       };
 
-      // ४. बॅकग्राउंडला डेटा पाठवा (वाट न पाहता)
+      // ४. बॅकग्राउंडमध्ये डेटा पाठवा
       try {
         fetch(SCRIPT_URL, {
           method: 'POST',
@@ -676,7 +676,7 @@ function googleTranslateElementInit() {
         console.error('Step 1 Send Error:', err);
       }
 
-      // ५. थेट Step 2 (Personal Information Screen) वर रिडायरेक्ट करा
+      // ५. फक्त Step 2 (Personal Info Screen) उघडा आणि बाकी स्क्रिन्स लपवा
       const mainScr = document.getElementById('mainScreen');
       const step2Scr = document.getElementById('step2Screen');
       const step3Scr = document.getElementById('step3Screen');
