@@ -131,7 +131,7 @@
                                 <label for="loginPassword" class="form-label small fw-semibold">Password</label>
                                 <input type="password" id="loginPassword" class="form-control" placeholder="तुमचा पासवर्ड टाका" required>
                             </div>
-                            <button type="submit" id="reLoginSubmitBtn" class="btn btn-primary w-100">Login</button>
+                            <button type="submit" class="btn btn-primary w-100">Login</button>
                         </form>
                     </div>
                 </div>
@@ -175,8 +175,8 @@
                                 </select>
                             </div>
                             <button type="submit" id="ownerStep1Btn" class="btn btn-accent w-100 py-2">
-                                <span id="ownerBtnSpinner" class="spinner-border spinner-border-sm d-none me-1"></span>
-                                <span id="ownerBtnText">नोंदणी करा</span>
+                                <span id="ownerStep1Spinner" class="spinner-border spinner-border-sm d-none me-1" role="status"></span>
+                                <span id="ownerStep1BtnText">नोंदणी करा</span>
                             </button>
                         </form>
                     </div>
@@ -234,37 +234,6 @@
                     <div class="p-4 border rounded bg-light h-100 shadow-sm">
                         <h4 class="fw-bold text-success mb-3"><i class="fa-solid fa-bullseye me-2"></i>Our Mission (ध्येय)</h4>
                         <p class="mb-0 text-secondary">प्रत्यक्ष बिझनेस प्रोजेक्ट्सच्या माध्यमातून विद्यार्थी आणि बिझनेस ओनर्सना जोडणे, विद्यार्थ्यांना सक्षम ई-कॉमर्स बिझनेस एक्झिक्युटिव्ह बनवणे आणि विद्यार्थी, विक्रेते, उत्पादने व मार्केटप्लेसचा नेटवर्क विस्तार करणे.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row g-4 mb-4">
-                <div class="col-12">
-                    <div class="p-4 border rounded bg-light shadow-sm">
-                        <h4 class="fw-bold text-danger mb-3"><i class="fa-solid fa-triangle-exclamation me-2"></i>Core Problem We Solve (मुख्य समस्या निवारण)</h4>
-                        <div class="row g-3">
-                            <div class="col-md-6">
-                                <div class="p-3 bg-white border rounded">
-                                    <h6 class="fw-bold text-dark"><i class="fa-solid fa-graduation-cap text-primary me-2"></i>विद्यार्थ्यांसाठी:</h6>
-                                    <p class="small text-muted mb-0">विद्यार्थी ई-कॉमर्सचे सिद्धांत शिकतात, पण त्यांना प्रत्यक्ष उत्पादने आणि सेलर्ससोबत काम करण्याचा अनुभव मिळत नाही.</p>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="p-3 bg-white border rounded">
-                                    <h6 class="fw-bold text-dark"><i class="fa-solid fa-store text-warning me-2"></i>बिझनेस ओनर्ससाठी:</h6>
-                                    <p class="small text-muted mb-0">उद्योजकांकडे उत्पादने असतात, पण ऑनलाईन विक्री आणि प्रॉडक्ट लिस्टिंगसाठी तांत्रिक मदतीची गरज असते.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-12">
-                    <div class="p-4 border rounded bg-primary text-white shadow-sm text-center">
-                        <h4 class="fw-bold mb-2"><i class="fa-solid fa-lightbulb me-2"></i>Our Practical Solution (आमचा उपाय)</h4>
-                        <p class="mb-0">विद्यार्थ्यांना ई-कॉमर्सचे मोफत प्रशिक्षण देऊन बिझनेस ओनर्सच्या प्रोजेक्ट्सवर 'Student Business Executive' म्हणून काम करण्याची संधी देणे.</p>
                     </div>
                 </div>
             </div>
@@ -384,7 +353,8 @@
                     </div>
                     <div class="text-end mt-4">
                         <button type="button" id="custSubmitBtn" class="btn btn-primary fw-bold px-4">
-                            Next: Add Products <i class="fa-solid fa-arrow-right ms-1"></i>
+                            <span id="custSubmitSpinner" class="spinner-border spinner-border-sm d-none me-1" role="status"></span>
+                            <span id="custSubmitText">Next: Add Products <i class="fa-solid fa-arrow-right ms-1"></i></span>
                         </button>
                     </div>
                 </form>
@@ -416,7 +386,6 @@
                 <i class="fa-solid fa-box-open me-2"></i>Products Information (उत्पादनाची माहिती)
             </div>
             <div class="card-body p-3">
-                
                 <div id="priceAlert" class="alert alert-danger d-none py-2" role="alert">
                     <i class="fa-solid fa-circle-exclamation me-2"></i><strong>त्रुटी!</strong> Selling Price ही MRP पेक्षा जास्त असू शकत नाही.
                 </div>
@@ -477,21 +446,19 @@
                     </table>
                 </div>
 
-                <!-- Auto Total & Count Summary Box -->
                 <div class="row my-3">
                     <div class="col-md-6 mb-2 mb-md-0">
                         <div class="summary-box bg-total-products shadow-sm">
-                            <i class="fa-solid fa-cubes me-2"></i>Total Products (नगांची एकूण संख्या): <span id="totalProductsCount" class="fs-5">0</span>
+                            <i class="fa-solid fa-cubes me-2"></i>Total Products: <span id="totalProductsCount" class="fs-5">0</span>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="summary-box bg-total-value shadow-sm">
-                            <i class="fa-solid fa-indian-rupee-sign me-2"></i>Total Stock Value (एकूण किंमत): ₹<span id="totalStockValue" class="fs-5">0.00</span>
+                            <i class="fa-solid fa-indian-rupee-sign me-2"></i>Total Stock Value: ₹<span id="totalStockValue" class="fs-5">0.00</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Complete Button -->
                 <div class="text-end mt-3">
                     <button type="button" id="saveBtn" class="btn btn-success fw-bold px-4" onclick="saveCustomerAndResetForm()">
                         <span id="btnSaveSpinner" class="spinner-border spinner-border-sm d-none me-1" role="status"></span>
@@ -563,21 +530,29 @@ function googleTranslateElementInit() {
       });
     }
 
-    // Step 2 Submit (Next: Add Products)
+    // Step 2 Submit Logic
     const custSubmitBtn = document.getElementById('custSubmitBtn');
     if (custSubmitBtn) {
       custSubmitBtn.addEventListener('click', function(e) {
         e.preventDefault();
 
-        let cleanCustId = localStorage.getItem('activeCustomerId') || "";
+        const cleanCustId = localStorage.getItem('activeCustomerId') || "";
+        
+        const custNameVal = document.getElementById('custName') ? document.getElementById('custName').value.trim() : "";
+        const mobileVal = document.getElementById('custMobile') ? document.getElementById('custMobile').value.trim() : "";
+
+        if (!custNameVal || !mobileVal) {
+          alert("कृपया नाव आणि मोबाईल नंबर अचूक भरा!");
+          return;
+        }
 
         var formData = {
           action: "SAVE_CUSTOMER",
           customerId: cleanCustId,
-          custName: document.getElementById('custName') ? document.getElementById('custName').value : "",
+          custName: custNameVal,
           businessName: document.getElementById('businessName') ? document.getElementById('businessName').value : "",
           shopName: document.getElementById('shopName') ? document.getElementById('shopName').value : "",
-          custMobile: document.getElementById('custMobile') ? document.getElementById('custMobile').value : "",
+          custMobile: mobileVal,
           custEmail: document.getElementById('custEmail') ? document.getElementById('custEmail').value : "",
           panCard: document.getElementById('panCard') ? document.getElementById('panCard').value : "",
           gstNo: document.getElementById('gstNo') ? document.getElementById('gstNo').value : "",
@@ -589,9 +564,11 @@ function googleTranslateElementInit() {
           employeeId: document.getElementById('employeeId') ? document.getElementById('employeeId').value : ""
         };
 
-        custSubmitBtn.disabled = true;
+        const spinner = document.getElementById('custSubmitSpinner');
+        const textElem = document.getElementById('custSubmitText');
+        toggleLoading(custSubmitBtn, spinner, textElem, true, 'जतन होत आहे...');
 
-        // Async Background Call for Faster UX
+        // Background Submit for Personal Information
         fetch(SCRIPT_URL, {
           method: 'POST',
           body: new URLSearchParams(formData)
@@ -602,28 +579,20 @@ function googleTranslateElementInit() {
             localStorage.setItem('activeCustomerId', data.customerId);
           }
         })
-        .catch(err => console.error('Error:', err));
-
-        // Immediately go to next screen
-        goToProductScreen();
+        .catch(err => console.error('Personal Info Error:', err))
+        .finally(() => {
+          toggleLoading(custSubmitBtn, spinner, textElem, false, 'Next: Add Products <i class="fa-solid fa-arrow-right ms-1"></i>');
+          goToProductScreen();
+        });
       });
     }
   });
 
-  // Step 1: Business Owner Registration
+  // Step 1: Business Owner Form Submit (Fast UI Switch + Consistency)
   const ownerForm = document.getElementById('ownerStep1Form');
   if (ownerForm) {
     ownerForm.addEventListener('submit', function(e) {
       e.preventDefault();
-
-      const btn = document.getElementById('ownerStep1Btn');
-      const spinner = document.getElementById('ownerBtnSpinner');
-      const btnText = document.getElementById('ownerBtnText');
-
-      // Prevent multiple clicks immediately
-      if (btn) btn.disabled = true;
-      if (spinner) spinner.classList.remove('d-none');
-      if (btnText) btnText.innerText = "कृपया थांबा...";
 
       const ownerName = document.getElementById('init_name') ? document.getElementById('init_name').value : "";
       const ownerMobile = document.getElementById('init_mobile') ? document.getElementById('init_mobile').value : "";
@@ -631,15 +600,26 @@ function googleTranslateElementInit() {
       const cityVal = document.getElementById('init_city') ? document.getElementById('init_city').value : "";
       const catVal = document.getElementById('init_category') ? document.getElementById('init_category').value : "";
 
+      // १. Auto-fill Step 2 Fields
       if(document.getElementById('custName')) document.getElementById('custName').value = ownerName;
       if(document.getElementById('businessName')) document.getElementById('businessName').value = bName;
       if(document.getElementById('shopName')) document.getElementById('shopName').value = bName;
       if(document.getElementById('custMobile')) document.getElementById('custMobile').value = ownerMobile;
       if(document.getElementById('custCity')) document.getElementById('custCity').value = cityVal;
 
+      // २. Generate Local Customer ID immediately if not present
+      let localCustId = "CUST" + Math.floor(1000 + Math.random() * 9000);
+      localStorage.setItem('activeCustomerId', localCustId);
+
+      const step2Badge = document.getElementById('displayStep2CustId');
+      if (step2Badge) {
+        step2Badge.innerText = "तुमचा Customer ID: " + localCustId;
+      }
+
       var step1Data = {
         action: "STEP_1_REGISTRATION",
         type: "Business Owner",
+        customerId: localCustId,
         name: ownerName,
         businessName: bName,
         contact: ownerMobile,
@@ -647,6 +627,13 @@ function googleTranslateElementInit() {
         category: catVal
       };
 
+      // ३. Fast UI Transition (न थांबता तात्काळ पुढील screen वर जाणे)
+      document.getElementById('mainScreen').classList.add('hide-section');
+      document.getElementById('step2Screen').classList.remove('hide-section');
+      document.getElementById('step3Screen').classList.add('hide-section');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      // ४. Background API Request (User अनुभव न बिघडवता)
       fetch(SCRIPT_URL, {
         method: 'POST',
         body: new URLSearchParams(step1Data)
@@ -655,30 +642,12 @@ function googleTranslateElementInit() {
       .then(data => {
         if (data && data.generatedCustomerId) {
           localStorage.setItem('activeCustomerId', data.generatedCustomerId);
-          
-          const step2Badge = document.getElementById('displayStep2CustId');
           if (step2Badge) {
             step2Badge.innerText = "तुमचा Customer ID: " + data.generatedCustomerId;
           }
         }
-
-        document.getElementById('mainScreen').classList.add('hide-section');
-        document.getElementById('step2Screen').classList.remove('hide-section');
-        document.getElementById('step3Screen').classList.add('hide-section');
-
-        window.scrollTo({ top: 0, behavior: 'smooth' });
       })
-      .catch(err => {
-        console.error('Step 1 Error:', err);
-        // Fallback UI switch if fetch has error
-        document.getElementById('mainScreen').classList.add('hide-section');
-        document.getElementById('step2Screen').classList.remove('hide-section');
-      })
-      .finally(() => {
-        if (btn) btn.disabled = false;
-        if (spinner) spinner.classList.add('d-none');
-        if (btnText) btnText.innerText = "नोंदणी करा";
-      });
+      .catch(err => console.error('Step 1 Background Error:', err));
     });
   }
 
@@ -770,7 +739,7 @@ function googleTranslateElementInit() {
     toggleLoading(btnAdd, spinner, btnText, true, 'जोडत आहे...');
 
     setTimeout(() => {
-      const img = currentImageBase64 || "";
+      const img = currentImageBase64 || "https://via.placeholder.com/45?text=No+Img";
       
       productsList.push({ 
         id: Date.now(), 
@@ -781,8 +750,8 @@ function googleTranslateElementInit() {
         selling: selling,
         quantity: qty, 
         qty: qty, 
-        rawImg: img, 
-        img: img || "https://via.placeholder.com/45?text=No+Img", 
+        rawImg: currentImageBase64 || "", 
+        img: img, 
         total: qty * selling 
       });
       
@@ -860,15 +829,7 @@ function googleTranslateElementInit() {
     const activeCustId = localStorage.getItem('activeCustomerId') || "";
     formData.append('customerId', activeCustId);
     formData.append('password', passwordVal);
-
-    if (document.getElementById('init_name')) formData.append('init_name', document.getElementById('init_name').value);
-    if (document.getElementById('init_mobile')) formData.append('init_mobile', document.getElementById('init_mobile').value);
-    if (document.getElementById('init_business')) formData.append('init_business', document.getElementById('init_business').value);
-    if (document.getElementById('init_city')) formData.append('init_city', document.getElementById('init_city').value);
-    if (document.getElementById('init_category')) formData.append('init_category', document.getElementById('init_category').value);
-
     formData.append('productsJson', JSON.stringify(productsList));
-    formData.append('products', JSON.stringify(productsList));
 
     fetch(SCRIPT_URL, { method: 'POST', body: formData })
       .then(res => res.json())
