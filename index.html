@@ -623,59 +623,69 @@ function googleTranslateElementInit() {
     }
   });
 
-  // Step 1: Business Owner Form Submit
+ // Step 1: Business Owner Form Submit (Instant Redirect & Single Entry Fix)
   const ownerForm = document.getElementById('ownerStep1Form');
   if (ownerForm) {
     ownerForm.addEventListener('submit', function(e) {
       e.preventDefault();
 
-      const ownerName = document.getElementById('init_name') ? document.getElementById('init_name').value : "";
-      const ownerMobile = document.getElementById('init_mobile') ? document.getElementById('init_mobile').value : "";
-      const bName = document.getElementById('init_business') ? document.getElementById('init_business').value : "";
-      const cityVal = document.getElementById('init_city') ? document.getElementById('init_city').value : "";
-      const catVal = document.getElementById('init_category') ? document.getElementById('init_category').value : "";
+      const ownerSubmitBtn = ownerForm.querySelector('button[type="submit"]');
+      
+      // १. दुबार क्लिक रोखण्यासाठी बटण लगेच डिसेबल करा
+      if (ownerSubmitBtn) {
+        if (ownerSubmitBtn.disabled) return;
+        ownerSubmitBtn.disabled = true;
+        ownerSubmitBtn.innerText = "कृपया वाट पहा...";
+      }
 
-      if(document.getElementById('custName')) document.getElementById('custName').value = ownerName;
-      if(document.getElementById('businessName')) document.getElementById('businessName').value = bName;
-      if(document.getElementById('shopName')) document.getElementById('shopName').value = bName;
-      if(document.getElementById('custMobile')) document.getElementById('custMobile').value = ownerMobile;
-      if(document.getElementById('custCity')) document.getElementById('custCity').value = cityVal;
-      if(document.getElementById('custCategory')) document.getElementById('custCategory').value = catVal;
-
-      var step1Data = {
+      // २. फॉर्म डेटा गोळा करा
+      var formData = {
         action: "STEP_1_REGISTRATION",
         type: "Business Owner",
-        name: ownerName,
-        businessName: bName,
-        contact: ownerMobile,
-        city: cityVal,
-        category: catVal
+        init_name: document.getElementById('init_name') ? document.getElementById('init_name').value : "",
+        init_mobile: document.getElementById('init_mobile') ? document.getElementById('init_mobile').value : "",
+        init_business: document.getElementById('init_business') ? document.getElementById('init_business').value : "",
+        init_city: document.getElementById('init_city') ? document.getElementById('init_city').value : "",
+        init_category: document.getElementById('init_category') ? document.getElementById('init_category').value : ""
       };
 
-      fetch(SCRIPT_URL, {
-        method: 'POST',
-        body: new URLSearchParams(step1Data)
-      })
-      .then(res => res.json())
-      .then(data => {
-        if (data && data.generatedCustomerId) {
-          localStorage.setItem('activeCustomerId', data.generatedCustomerId);
-          
-          const step2Badge = document.getElementById('displayStep2CustId') || document.getElementById('displayCustomerId');
-          if (step2Badge) {
-            step2Badge.innerText = "तुमचा Customer ID: " + data.generatedCustomerId;
-          }
+      // ३. बॅकग्राउंडमध्ये डेटा पाठवा (वाट न पाहता - keepalive)
+      try {
+        fetch(SCRIPT_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formData),
+          keepalive: true
+        });
+      } catch (err) {
+        console.error('Data Send Error:', err);
+      }
+
+      // ४. एका सेकंदाचाही विलंब न लावता लगेच पुढील स्क्रिनवर जा
+      const mainScr = document.getElementById('mainScreen');
+      const step2Scr = document.getElementById('step2Screen');
+      const step3Scr = document.getElementById('step3Screen');
+
+      if (mainScr) mainScr.classList.add('hide-section');
+      if (step2Scr) step2Scr.classList.remove('hide-section');
+      if (step3Scr) step3Scr.classList.add('hide-section');
+
+      if (typeof goToStep2 === 'function') {
+        goToStep2();
+      } else if (typeof goToProductScreen === 'function') {
+        goToProductScreen();
+      }
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      // ५. २ सेकंदानंतर बटण पुन्हा अ‍ॅक्टिव्ह करा
+      setTimeout(function() {
+        if (ownerSubmitBtn) {
+          ownerSubmitBtn.disabled = false;
+          ownerSubmitBtn.innerText = "नोंदणी करा";
         }
-
-        document.getElementById('mainScreen').classList.add('hide-section');
-        document.getElementById('step2Screen').classList.remove('hide-section');
-        document.getElementById('step3Screen').classList.add('hide-section');
-
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      })
-      .catch(err => {
-        console.error('Step 1 Error:', err);
-      });
+      }, 2000);
     });
   }
 
