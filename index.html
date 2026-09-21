@@ -175,8 +175,8 @@
                                 </select>
                             </div>
                             <button type="submit" id="ownerStep1Btn" class="btn btn-accent w-100 py-2">
-                                <span id="ownerStep1Spinner" class="spinner-border spinner-border-sm d-none me-1" role="status"></span>
-                                <span id="ownerStep1BtnText">नोंदणी करा</span>
+                                <span id="ownerStep1BtnSpinner" class="spinner-border spinner-border-sm d-none me-1" role="status"></span>
+                                <span id="ownerStep1BtnText">पुढे जा (Next)</span>
                             </button>
                         </form>
                     </div>
@@ -353,8 +353,7 @@
                     </div>
                     <div class="text-end mt-4">
                         <button type="button" id="custSubmitBtn" class="btn btn-primary fw-bold px-4">
-                            <span id="custSubmitSpinner" class="spinner-border spinner-border-sm d-none me-1" role="status"></span>
-                            <span id="custSubmitText">Next: Add Products <i class="fa-solid fa-arrow-right ms-1"></i></span>
+                            <span>Next: Add Products <i class="fa-solid fa-arrow-right ms-1"></i></span>
                         </button>
                     </div>
                 </form>
@@ -530,14 +529,12 @@ function googleTranslateElementInit() {
       });
     }
 
-    // Step 2 Submit Logic
+    // Step 2 Click: Pure local UI navigation (No duplicated Sheet1 entry)
     const custSubmitBtn = document.getElementById('custSubmitBtn');
     if (custSubmitBtn) {
       custSubmitBtn.addEventListener('click', function(e) {
         e.preventDefault();
 
-        const cleanCustId = localStorage.getItem('activeCustomerId') || "";
-        
         const custNameVal = document.getElementById('custName') ? document.getElementById('custName').value.trim() : "";
         const mobileVal = document.getElementById('custMobile') ? document.getElementById('custMobile').value.trim() : "";
 
@@ -546,109 +543,73 @@ function googleTranslateElementInit() {
           return;
         }
 
-        var formData = {
-          action: "SAVE_CUSTOMER",
-          customerId: cleanCustId,
-          custName: custNameVal,
-          businessName: document.getElementById('businessName') ? document.getElementById('businessName').value : "",
-          shopName: document.getElementById('shopName') ? document.getElementById('shopName').value : "",
-          custMobile: mobileVal,
-          custEmail: document.getElementById('custEmail') ? document.getElementById('custEmail').value : "",
-          panCard: document.getElementById('panCard') ? document.getElementById('panCard').value : "",
-          gstNo: document.getElementById('gstNo') ? document.getElementById('gstNo').value : "",
-          state: document.getElementById('state') ? document.getElementById('state').value : "",
-          custCity: document.getElementById('custCity') ? document.getElementById('custCity').value : "",
-          custAddress: document.getElementById('custAddress') ? document.getElementById('custAddress').value : "",
-          custPincode: document.getElementById('custPincode') ? document.getElementById('custPincode').value : "",
-          password: document.getElementById('custPassword') ? document.getElementById('custPassword').value : "",
-          employeeId: document.getElementById('employeeId') ? document.getElementById('employeeId').value : ""
-        };
-
-        const spinner = document.getElementById('custSubmitSpinner');
-        const textElem = document.getElementById('custSubmitText');
-        toggleLoading(custSubmitBtn, spinner, textElem, true, 'जतन होत आहे...');
-
-        // Background Submit for Personal Information
-        fetch(SCRIPT_URL, {
-          method: 'POST',
-          body: new URLSearchParams(formData)
-        })
-        .then(response => response.json())
-        .then(data => {
-          if (data && data.customerId) {
-            localStorage.setItem('activeCustomerId', data.customerId);
-          }
-        })
-        .catch(err => console.error('Personal Info Error:', err))
-        .finally(() => {
-          toggleLoading(custSubmitBtn, spinner, textElem, false, 'Next: Add Products <i class="fa-solid fa-arrow-right ms-1"></i>');
-          goToProductScreen();
-        });
+        goToProductScreen();
       });
     }
   });
 
-  // Step 1: Business Owner Form Submit (Fast UI Switch + Consistency)
+  // Step 1: Save entry in Sheet1 & lock single Customer ID
   const ownerForm = document.getElementById('ownerStep1Form');
   if (ownerForm) {
     ownerForm.addEventListener('submit', function(e) {
       e.preventDefault();
 
+      const btn = document.getElementById('ownerStep1Btn');
+      const spinner = document.getElementById('ownerStep1BtnSpinner');
+      const btnText = document.getElementById('ownerStep1BtnText');
+
+      toggleLoading(btn, spinner, btnText, true, 'पुढे जात आहे...');
+
       const ownerName = document.getElementById('init_name') ? document.getElementById('init_name').value : "";
       const ownerMobile = document.getElementById('init_mobile') ? document.getElementById('init_mobile').value : "";
       const bName = document.getElementById('init_business') ? document.getElementById('init_business').value : "";
       const cityVal = document.getElementById('init_city') ? document.getElementById('init_city').value : "";
-      const catVal = document.getElementById('init_category') ? document.getElementById('init_category').value : "";
+      const categoryVal = document.getElementById('init_category') ? document.getElementById('init_category').value : "";
 
-      // १. Auto-fill Step 2 Fields
+      // Step 2 Fields Auto-fill
       if(document.getElementById('custName')) document.getElementById('custName').value = ownerName;
       if(document.getElementById('businessName')) document.getElementById('businessName').value = bName;
       if(document.getElementById('shopName')) document.getElementById('shopName').value = bName;
       if(document.getElementById('custMobile')) document.getElementById('custMobile').value = ownerMobile;
       if(document.getElementById('custCity')) document.getElementById('custCity').value = cityVal;
 
-      // २. Generate Local Customer ID immediately if not present
-      let localCustId = "CUST" + Math.floor(1000 + Math.random() * 9000);
-      localStorage.setItem('activeCustomerId', localCustId);
+      // Single Random Customer ID Generation
+      let fixedCustId = "CUST" + Math.floor(1000 + Math.random() * 9000);
+      localStorage.setItem('activeCustomerId', fixedCustId);
 
       const step2Badge = document.getElementById('displayStep2CustId');
       if (step2Badge) {
-        step2Badge.innerText = "तुमचा Customer ID: " + localCustId;
+        step2Badge.innerText = "तुमचा Customer ID: " + fixedCustId;
       }
 
-      var step1Data = {
-        action: "STEP_1_REGISTRATION",
-        type: "Business Owner",
-        customerId: localCustId,
-        name: ownerName,
-        businessName: bName,
-        contact: ownerMobile,
-        city: cityVal,
-        category: catVal
-      };
+      // Step 1 entry to Sheet1
+      const formData = new FormData();
+      formData.append('type', 'Business Owner');
+      formData.append('name', ownerName);
+      formData.append('businessName', bName);
+      formData.append('contact', ownerMobile);
+      formData.append('city', cityVal);
+      formData.append('category', categoryVal);
+      formData.append('customerId', fixedCustId);
 
-      // ३. Fast UI Transition (न थांबता तात्काळ पुढील screen वर जाणे)
-      document.getElementById('mainScreen').classList.add('hide-section');
-      document.getElementById('step2Screen').classList.remove('hide-section');
-      document.getElementById('step3Screen').classList.add('hide-section');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-
-      // ४. Background API Request (User अनुभव न बिघडवता)
-      fetch(SCRIPT_URL, {
-        method: 'POST',
-        body: new URLSearchParams(step1Data)
-      })
-      .then(res => res.json())
-      .then(data => {
-        if (data && data.generatedCustomerId) {
-          localStorage.setItem('activeCustomerId', data.generatedCustomerId);
-          if (step2Badge) {
-            step2Badge.innerText = "तुमचा Customer ID: " + data.generatedCustomerId;
-          }
-        }
-      })
-      .catch(err => console.error('Step 1 Background Error:', err));
+      fetch(SCRIPT_URL, { method: 'POST', body: formData })
+        .then(() => {
+          proceedToStep2Screen();
+        })
+        .catch(() => {
+          proceedToStep2Screen();
+        })
+        .finally(() => {
+          toggleLoading(btn, spinner, btnText, false, 'पुढे जा (Next)');
+        });
     });
+  }
+
+  function proceedToStep2Screen() {
+    document.getElementById('mainScreen').classList.add('hide-section');
+    document.getElementById('step2Screen').classList.remove('hide-section');
+    document.getElementById('step3Screen').classList.add('hide-section');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   // Student Form Submit
@@ -805,6 +766,7 @@ function googleTranslateElementInit() {
     renderTable();
   }
 
+  // Final Complete Submission
   function saveCustomerAndResetForm() {
     if (productsList.length === 0) {
       alert("कृपया सबमिट करण्यापूर्वी किमान १ प्रॉडक्ट टेबलमध्ये जोडा!");
@@ -826,9 +788,11 @@ function googleTranslateElementInit() {
     const formData = custForm ? new FormData(custForm) : new FormData();
 
     formData.append('action', 'FULL_SUBMIT');
+    formData.append('type', 'Business Owner');
     const activeCustId = localStorage.getItem('activeCustomerId') || "";
     formData.append('customerId', activeCustId);
     formData.append('password', passwordVal);
+    formData.append('category', document.getElementById('init_category') ? document.getElementById('init_category').value : "");
     formData.append('productsJson', JSON.stringify(productsList));
 
     fetch(SCRIPT_URL, { method: 'POST', body: formData })
