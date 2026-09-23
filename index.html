@@ -11,6 +11,7 @@
     <style>
         :root { --primary-color: #0f172a; --accent-color: #16a34a; --light-bg: #f8fafc; }
         
+        /* GOOGLE TRANSLATE HEADER WINDOW BAR HIDE */
         .goog-te-banner-frame, 
         .goog-te-banner-frame.skiptranslate, 
         iframe.goog-te-banner-frame,
@@ -45,6 +46,7 @@
             display: none !important;
         }
 
+        /* SUMMARY BOXES */
         .summary-box {
             border-radius: 8px;
             padding: 12px 15px;
@@ -54,6 +56,7 @@
         .bg-total-products { background-color: #0d6efd; }
         .bg-total-value { background-color: #198754; }
 
+        /* TRANSLATE WIDGET STYLING */
         #google_translate_element {
             display: inline-block;
             margin-left: 15px;
@@ -174,10 +177,7 @@
                                     <option value="Other / इतर">Other / इतर</option>
                                 </select>
                             </div>
-                            <button type="submit" id="ownerStep1Btn" class="btn btn-accent w-100 py-2">
-                                <span id="ownerStep1Spinner" class="spinner-border spinner-border-sm d-none me-1" role="status"></span>
-                                <span id="ownerStep1BtnText">नोंदणी करा</span>
-                            </button>
+                            <button type="submit" class="btn btn-accent w-100 py-2">नोंदणी करा</button>
                         </form>
                     </div>
                 </div>
@@ -237,6 +237,37 @@
                     </div>
                 </div>
             </div>
+
+            <div class="row g-4 mb-4">
+                <div class="col-12">
+                    <div class="p-4 border rounded bg-light shadow-sm">
+                        <h4 class="fw-bold text-danger mb-3"><i class="fa-solid fa-triangle-exclamation me-2"></i>Core Problem We Solve (मुख्य समस्या निवारण)</h4>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="p-3 bg-white border rounded">
+                                    <h6 class="fw-bold text-dark"><i class="fa-solid fa-graduation-cap text-primary me-2"></i>विद्यार्थ्यांसाठी:</h6>
+                                    <p class="small text-muted mb-0">विद्यार्थी ई-कॉमर्सचे सिद्धांत शिकतात, पण त्यांना प्रत्यक्ष उत्पादने आणि सेलर्ससोबत काम करण्याचा अनुभव मिळत नाही.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="p-3 bg-white border rounded">
+                                    <h6 class="fw-bold text-dark"><i class="fa-solid fa-store text-warning me-2"></i>बिझनेस ओनर्ससाठी:</h6>
+                                    <p class="small text-muted mb-0">उद्योजकांकडे उत्पादने असतात, पण ऑनलाईन विक्री आणि प्रॉडक्ट लिस्टिंगसाठी तांत्रिक मदतीची गरज असते.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="p-4 border rounded bg-primary text-white shadow-sm text-center">
+                        <h4 class="fw-bold mb-2"><i class="fa-solid fa-lightbulb me-2"></i>Our Practical Solution (आमचा उपाय)</h4>
+                        <p class="mb-0">विद्यार्थ्यांना ई-कॉमर्सचे मोफत प्रशिक्षण देऊन बिझनेस ओनर्सच्या प्रोजेक्ट्सवर 'Student Business Executive' म्हणून काम करण्याची संधी देणे.</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -271,12 +302,90 @@
     </section>
 </div>
 
+<!-- STEP 4: CUSTOMER SERVICES DASHBOARD (RELOGIN SCREEN) -->
+<div id="dashboardScreen" class="hide-section py-4 bg-light">
+    <div class="container px-4">
+        <!-- User Info Bar -->
+        <div class="card shadow-sm border-0 mb-4 bg-primary text-white">
+            <div class="card-body d-flex justify-content-between align-items-center flex-wrap">
+                <div class="mb-2 mb-md-0">
+                    <h5 class="mb-0 fw-bold"><i class="fa-solid fa-user-gear me-2"></i>Customer Services Hub</h5>
+                    <small>Welcome back! Tumhi sarv services ethun access karu shakta.</small>
+                </div>
+                <div>
+                    <span class="badge bg-light text-primary fs-6 me-2" id="dashboardCustId">ID: CUST----</span>
+                    <button class="btn btn-sm btn-outline-light" onclick="logoutUser()"><i class="fa-solid fa-right-from-bracket me-1"></i>Logout</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Services Grid Points -->
+        <div class="row g-4">
+            <!-- Point 1: Products Management -->
+            <div class="col-md-4">
+                <div class="card card-custom h-100 shadow-sm border-0 text-center p-3">
+                    <div class="card-body d-flex flex-column align-items-center justify-content-center">
+                        <div class="bg-primary text-white rounded-circle p-3 mb-3" style="width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fa-solid fa-box-open fa-2x"></i>
+                        </div>
+                        <h5 class="fw-bold">Products Management</h5>
+                        <p class="text-muted small">Nave products add kara kiwa existing products manage kara.</p>
+                        <button class="btn btn-outline-primary btn-sm mt-auto fw-semibold w-100" onclick="openServicePoint('products')">Open Products</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Point 2: Digital Visiting Card -->
+            <div class="col-md-4">
+                <div class="card card-custom h-100 shadow-sm border-0 text-center p-3">
+                    <div class="card-body d-flex flex-column align-items-center justify-content-center">
+                        <div class="bg-success text-white rounded-circle p-3 mb-3" style="width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fa-solid fa-address-card fa-2x"></i>
+                        </div>
+                        <h5 class="fw-bold">Digital Visiting Card</h5>
+                        <p class="text-muted small">Tumche digital card share, view aani update kara.</p>
+                        <button class="btn btn-outline-success btn-sm mt-auto fw-semibold w-100" onclick="openServicePoint('visitingCard')">View Card</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Point 3: E-Commerce Support -->
+            <div class="col-md-4">
+                <div class="card card-custom h-100 shadow-sm border-0 text-center p-3">
+                    <div class="card-body d-flex flex-column align-items-center justify-content-center">
+                        <div class="bg-warning text-white rounded-circle p-3 mb-3" style="width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fa-solid fa-cart-shopping fa-2x"></i>
+                        </div>
+                        <h5 class="fw-bold">E-Commerce Support</h5>
+                        <p class="text-muted small">Amazon va Flipkart var listing support sathi apply kara.</p>
+                        <button class="btn btn-outline-warning btn-sm mt-auto fw-semibold w-100 text-dark" onclick="openServicePoint('ecommerce')">Open Support</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Point 4: Personal / Business Profile -->
+            <div class="col-md-4">
+                <div class="card card-custom h-100 shadow-sm border-0 text-center p-3">
+                    <div class="card-body d-flex flex-column align-items-center justify-content-center">
+                        <div class="bg-info text-white rounded-circle p-3 mb-3" style="width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fa-solid fa-user-pen fa-2x"></i>
+                        </div>
+                        <h5 class="fw-bold">Profile & Details</h5>
+                        <p class="text-muted small">Tumchi वैयक्तिक व व्यवसाय माहिती पहा/अपडेट करा.</p>
+                        <button class="btn btn-outline-info btn-sm mt-auto fw-semibold w-100" onclick="openServicePoint('personalInfo')">Edit Profile</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- STEP 2: PERSONAL INFORMATION SCREEN -->
 <div id="step2Screen" class="hide-section py-4 bg-light">
     <div class="container px-4">
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <button type="button" class="btn btn-outline-secondary btn-sm" onclick="goBackToMainScreen()">
-                <i class="fa-solid fa-arrow-left me-1"></i> Back to Main Registration
+            <button type="button" class="btn btn-outline-secondary btn-sm" onclick="goBackToDashboardOrMain()">
+                <i class="fa-solid fa-arrow-left me-1"></i> Back
             </button>
             <span class="badge bg-primary fs-6">Step 2: Personal Information</span>
         </div>
@@ -353,8 +462,7 @@
                     </div>
                     <div class="text-end mt-4">
                         <button type="button" id="custSubmitBtn" class="btn btn-primary fw-bold px-4">
-                            <span id="custSubmitSpinner" class="spinner-border spinner-border-sm d-none me-1" role="status"></span>
-                            <span id="custSubmitText">Next: Add Products <i class="fa-solid fa-arrow-right ms-1"></i></span>
+                            Next: Add Products <i class="fa-solid fa-arrow-right ms-1"></i>
                         </button>
                     </div>
                 </form>
@@ -375,8 +483,8 @@
             </div>
         </div>
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <button type="button" class="btn btn-outline-secondary btn-sm" onclick="goBackToStep2()">
-                <i class="fa-solid fa-arrow-left me-1"></i> Back to Personal Info
+            <button type="button" class="btn btn-outline-secondary btn-sm" onclick="goBackToDashboardOrStep2()">
+                <i class="fa-solid fa-arrow-left me-1"></i> Back
             </button>
             <span class="badge bg-danger fs-6">Step 3: Products Information</span>
         </div>
@@ -386,6 +494,7 @@
                 <i class="fa-solid fa-box-open me-2"></i>Products Information (उत्पादनाची माहिती)
             </div>
             <div class="card-body p-3">
+                
                 <div id="priceAlert" class="alert alert-danger d-none py-2" role="alert">
                     <i class="fa-solid fa-circle-exclamation me-2"></i><strong>त्रुटी!</strong> Selling Price ही MRP पेक्षा जास्त असू शकत नाही.
                 </div>
@@ -446,19 +555,21 @@
                     </table>
                 </div>
 
+                <!-- Auto Total & Count Summary Box -->
                 <div class="row my-3">
                     <div class="col-md-6 mb-2 mb-md-0">
                         <div class="summary-box bg-total-products shadow-sm">
-                            <i class="fa-solid fa-cubes me-2"></i>Total Products: <span id="totalProductsCount" class="fs-5">0</span>
+                            <i class="fa-solid fa-cubes me-2"></i>Total Products (नगांची एकूण संख्या): <span id="totalProductsCount" class="fs-5">0</span>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="summary-box bg-total-value shadow-sm">
-                            <i class="fa-solid fa-indian-rupee-sign me-2"></i>Total Stock Value: ₹<span id="totalStockValue" class="fs-5">0.00</span>
+                            <i class="fa-solid fa-indian-rupee-sign me-2"></i>Total Stock Value (एकूण किंमत): ₹<span id="totalStockValue" class="fs-5">0.00</span>
                         </div>
                     </div>
                 </div>
 
+                <!-- Complete Button -->
                 <div class="text-end mt-3">
                     <button type="button" id="saveBtn" class="btn btn-success fw-bold px-4" onclick="saveCustomerAndResetForm()">
                         <span id="btnSaveSpinner" class="spinner-border spinner-border-sm d-none me-1" role="status"></span>
@@ -491,14 +602,15 @@ function googleTranslateElementInit() {
 <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
 <script>
-  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwX3IdN2MNV7hkfixA6q_2ipXTZWRykTDolv4Mqw883IGZgkLeC-Pft_xUsGBX3ug51VA/exec";
+  // Google Web App URL
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzqQ-jEw8-IcIfo0YCo3mIpyOOzMtIjwI6uHRIJ4gn9iZhmDIyMTaESKuy2-_ZcQx_qhw/exec";
   let productsList = [];
   let currentImageBase64 = "";
 
   document.addEventListener("DOMContentLoaded", function() {
     autoFillLoginId();
 
-    const imgInput = document.getElementById('prodImg');
+    const imgInput = document.getElementById('prodImg') || document.querySelector('input[type="file"]');
     if (imgInput) {
       imgInput.addEventListener('change', function(e) {
         const file = e.target.files[0];
@@ -530,29 +642,28 @@ function googleTranslateElementInit() {
       });
     }
 
-    // Step 2 Submit Logic
+    // Step 2 Submit Event
     const custSubmitBtn = document.getElementById('custSubmitBtn');
     if (custSubmitBtn) {
       custSubmitBtn.addEventListener('click', function(e) {
         e.preventDefault();
 
-        const cleanCustId = localStorage.getItem('activeCustomerId') || "";
-        
-        const custNameVal = document.getElementById('custName') ? document.getElementById('custName').value.trim() : "";
-        const mobileVal = document.getElementById('custMobile') ? document.getElementById('custMobile').value.trim() : "";
-
-        if (!custNameVal || !mobileVal) {
-          alert("कृपया नाव आणि मोबाईल नंबर अचूक भरा!");
-          return;
+        let rawCustText = document.getElementById('displayStep2CustId') ? document.getElementById('displayStep2CustId').innerText.trim() : "";
+        let cleanCustId = "";
+        let match = rawCustText.match(/CUST\d+/);
+        if (match) {
+          cleanCustId = match[0];
+        } else {
+          cleanCustId = localStorage.getItem('activeCustomerId') || rawCustText;
         }
 
         var formData = {
           action: "SAVE_CUSTOMER",
           customerId: cleanCustId,
-          custName: custNameVal,
+          custName: document.getElementById('custName') ? document.getElementById('custName').value : "",
           businessName: document.getElementById('businessName') ? document.getElementById('businessName').value : "",
           shopName: document.getElementById('shopName') ? document.getElementById('shopName').value : "",
-          custMobile: mobileVal,
+          custMobile: document.getElementById('custMobile') ? document.getElementById('custMobile').value : "",
           custEmail: document.getElementById('custEmail') ? document.getElementById('custEmail').value : "",
           panCard: document.getElementById('panCard') ? document.getElementById('panCard').value : "",
           gstNo: document.getElementById('gstNo') ? document.getElementById('gstNo').value : "",
@@ -564,50 +675,46 @@ function googleTranslateElementInit() {
           employeeId: document.getElementById('employeeId') ? document.getElementById('employeeId').value : ""
         };
 
-        const spinner = document.getElementById('custSubmitSpinner');
-        const textElem = document.getElementById('custSubmitText');
-        toggleLoading(custSubmitBtn, spinner, textElem, true, 'जतन होत आहे...');
+        custSubmitBtn.disabled = true;
 
-        // Background Submit for Personal Information
         fetch(SCRIPT_URL, {
           method: 'POST',
           body: new URLSearchParams(formData)
         })
         .then(response => response.json())
         .then(data => {
+          custSubmitBtn.disabled = false;
           if (data && data.customerId) {
             localStorage.setItem('activeCustomerId', data.customerId);
           }
+          goToProductScreen();
         })
-        .catch(err => console.error('Personal Info Error:', err))
-        .finally(() => {
-          toggleLoading(custSubmitBtn, spinner, textElem, false, 'Next: Add Products <i class="fa-solid fa-arrow-right ms-1"></i>');
+        .catch(err => {
+          custSubmitBtn.disabled = false;
+          console.error('Error:', err);
           goToProductScreen();
         });
       });
     }
   });
 
-  // Step 1: Business Owner Form Submit (Fast UI Switch + Consistency)
+  // Step 1: Business Owner Form Submit (Fixed to prevent duplicate entry in Sheet 1)
   const ownerForm = document.getElementById('ownerStep1Form');
   if (ownerForm) {
     ownerForm.addEventListener('submit', function(e) {
       e.preventDefault();
 
-      const ownerName = document.getElementById('init_name') ? document.getElementById('init_name').value : "";
-      const ownerMobile = document.getElementById('init_mobile') ? document.getElementById('init_mobile').value : "";
-      const bName = document.getElementById('init_business') ? document.getElementById('init_business').value : "";
-      const cityVal = document.getElementById('init_city') ? document.getElementById('init_city').value : "";
-      const catVal = document.getElementById('init_category') ? document.getElementById('init_category').value : "";
+      const ownerName = document.getElementById('init_name') ? document.getElementById('init_name').value.trim() : "";
+      const ownerMobile = document.getElementById('init_mobile') ? document.getElementById('init_mobile').value.trim() : "";
+      const bName = document.getElementById('init_business') ? document.getElementById('init_business').value.trim() : "";
+      const cityVal = document.getElementById('init_city') ? document.getElementById('init_city').value.trim() : "";
 
-      // १. Auto-fill Step 2 Fields
       if(document.getElementById('custName')) document.getElementById('custName').value = ownerName;
       if(document.getElementById('businessName')) document.getElementById('businessName').value = bName;
       if(document.getElementById('shopName')) document.getElementById('shopName').value = bName;
       if(document.getElementById('custMobile')) document.getElementById('custMobile').value = ownerMobile;
       if(document.getElementById('custCity')) document.getElementById('custCity').value = cityVal;
 
-      // २. Generate Local Customer ID immediately if not present
       let localCustId = "CUST" + Math.floor(1000 + Math.random() * 9000);
       localStorage.setItem('activeCustomerId', localCustId);
 
@@ -616,38 +723,12 @@ function googleTranslateElementInit() {
         step2Badge.innerText = "तुमचा Customer ID: " + localCustId;
       }
 
-      var step1Data = {
-        action: "STEP_1_REGISTRATION",
-        type: "Business Owner",
-        customerId: localCustId,
-        name: ownerName,
-        businessName: bName,
-        contact: ownerMobile,
-        city: cityVal,
-        category: catVal
-      };
-
-      // ३. Fast UI Transition (न थांबता तात्काळ पुढील screen वर जाणे)
       document.getElementById('mainScreen').classList.add('hide-section');
       document.getElementById('step2Screen').classList.remove('hide-section');
       document.getElementById('step3Screen').classList.add('hide-section');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      document.getElementById('dashboardScreen').classList.add('hide-section');
 
-      // ४. Background API Request (User अनुभव न बिघडवता)
-      fetch(SCRIPT_URL, {
-        method: 'POST',
-        body: new URLSearchParams(step1Data)
-      })
-      .then(res => res.json())
-      .then(data => {
-        if (data && data.generatedCustomerId) {
-          localStorage.setItem('activeCustomerId', data.generatedCustomerId);
-          if (step2Badge) {
-            step2Badge.innerText = "तुमचा Customer ID: " + data.generatedCustomerId;
-          }
-        }
-      })
-      .catch(err => console.error('Step 1 Background Error:', err));
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   }
 
@@ -684,12 +765,87 @@ function googleTranslateElementInit() {
     });
   }
 
-  function goToProductScreen() {
-    const step2 = document.getElementById('step2Screen');
-    const step3 = document.getElementById('step3Screen');
+  // Re-login Functionality - Shows Dashboard Screen
+  function handleReLogin(e) {
+    if (e && e.preventDefault) e.preventDefault();
 
-    if(step2) step2.classList.add('hide-section');
-    if(step3) step3.classList.remove('hide-section');
+    const custIdInput = document.getElementById('loginCustomerId');
+    const passInput = document.getElementById('loginPassword');
+
+    const custId = custIdInput ? custIdInput.value.trim() : "";
+    const pass = passInput ? passInput.value.trim() : "";
+
+    if (!custId || !pass) {
+      alert("कृपया Customer ID आणि Password दोन्ही टाका!");
+      return;
+    }
+
+    fetch(SCRIPT_URL + "?action=VERIFY_LOGIN&customerId=" + encodeURIComponent(custId) + "&password=" + encodeURIComponent(pass))
+    .then(res => res.json())
+    .then(response => {
+      if (response.status === "SUCCESS") {
+        localStorage.setItem('activeCustomerId', custId);
+        localStorage.setItem('activePassword', pass);
+
+        document.getElementById('mainScreen').classList.add('hide-section');
+        document.getElementById('step2Screen').classList.add('hide-section');
+        document.getElementById('step3Screen').classList.add('hide-section');
+        
+        const dashboard = document.getElementById('dashboardScreen');
+        if (dashboard) {
+          dashboard.classList.remove('hide-section');
+        }
+
+        const dashBadge = document.getElementById('dashboardCustId');
+        if (dashBadge) {
+          dashBadge.innerText = "ID: " + custId;
+        }
+
+        alert("लॉगिन यशस्वी! Customer ID: " + custId);
+      } else {
+        alert(response.message || "चुकीचा पासवर्ड!");
+      }
+    })
+    .catch(err => {
+      console.error(err);
+      alert("पडताळणी करताना अडचण आली. कृपया पुन्हा प्रयत्न करा.");
+    });
+  }
+
+  // Open Specific Service Point from Dashboard
+  function openServicePoint(serviceType) {
+    document.getElementById('dashboardScreen').classList.add('hide-section');
+
+    if (serviceType === 'products') {
+      goToProductScreen();
+    } else if (serviceType === 'personalInfo') {
+      const activeCustId = localStorage.getItem('activeCustomerId') || "CUST-----";
+      const step2Badge = document.getElementById('displayStep2CustId');
+      if (step2Badge) step2Badge.innerText = "तुमचा Customer ID: " + activeCustId;
+
+      document.getElementById('step2Screen').classList.remove('hide-section');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else if (serviceType === 'visitingCard') {
+      alert("Digital Visiting Card Service लवकरच सुरू होत आहे!");
+      document.getElementById('dashboardScreen').classList.remove('hide-section');
+    } else if (serviceType === 'ecommerce') {
+      alert("E-Commerce Listing Support Request Submitted!");
+      document.getElementById('dashboardScreen').classList.remove('hide-section');
+    }
+  }
+
+  function logoutUser() {
+    localStorage.removeItem('activeCustomerId');
+    localStorage.removeItem('activePassword');
+    document.getElementById('dashboardScreen').classList.add('hide-section');
+    document.getElementById('mainScreen').classList.remove('hide-section');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function goToProductScreen() {
+    document.getElementById('step2Screen').classList.add('hide-section');
+    document.getElementById('dashboardScreen').classList.add('hide-section');
+    document.getElementById('step3Screen').classList.remove('hide-section');
 
     const activeCustId = localStorage.getItem('activeCustomerId') || "CUST-XXXX";
     const displayElem = document.getElementById('displayCustId');
@@ -703,16 +859,32 @@ function googleTranslateElementInit() {
   function goBackToMainScreen() {
     document.getElementById('step2Screen').classList.add('hide-section');
     document.getElementById('step3Screen').classList.add('hide-section');
+    document.getElementById('dashboardScreen').classList.add('hide-section');
     document.getElementById('mainScreen').classList.remove('hide-section');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  function goBackToStep2() {
-    document.getElementById('step3Screen').classList.add('hide-section');
-    document.getElementById('step2Screen').classList.remove('hide-section');
+  function goBackToDashboardOrMain() {
+    document.getElementById('step2Screen').classList.add('hide-section');
+    if (localStorage.getItem('activeCustomerId')) {
+      document.getElementById('dashboardScreen').classList.remove('hide-section');
+    } else {
+      document.getElementById('mainScreen').classList.remove('hide-section');
+    }
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
+  function goBackToDashboardOrStep2() {
+    document.getElementById('step3Screen').classList.add('hide-section');
+    if (localStorage.getItem('activeCustomerId')) {
+      document.getElementById('dashboardScreen').classList.remove('hide-section');
+    } else {
+      document.getElementById('step2Screen').classList.remove('hide-section');
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // Add Product to Local List
   function addProductToTable() {
     const name = document.getElementById('prodName').value;
     const mrp = parseFloat(document.getElementById('prodMRP').value);
@@ -739,7 +911,7 @@ function googleTranslateElementInit() {
     toggleLoading(btnAdd, spinner, btnText, true, 'जोडत आहे...');
 
     setTimeout(() => {
-      const img = currentImageBase64 || "https://via.placeholder.com/45?text=No+Img";
+      const img = currentImageBase64 || "";
       
       productsList.push({ 
         id: Date.now(), 
@@ -750,8 +922,8 @@ function googleTranslateElementInit() {
         selling: selling,
         quantity: qty, 
         qty: qty, 
-        rawImg: currentImageBase64 || "", 
-        img: img, 
+        rawImg: img, 
+        img: img || "https://via.placeholder.com/45?text=No+Img", 
         total: qty * selling 
       });
       
@@ -760,9 +932,10 @@ function googleTranslateElementInit() {
       currentImageBase64 = "";
 
       toggleLoading(btnAdd, spinner, btnText, false, '<i class="fa-solid fa-plus me-1"></i> Add Product');
-    }, 200);
+    }, 300);
   }
 
+  // Render Product Table
   function renderTable() {
     const tbody = document.getElementById('productTableBody');
     if (!tbody) return;
@@ -805,6 +978,7 @@ function googleTranslateElementInit() {
     renderTable();
   }
 
+  // Save All (Customer + Products) in Google Sheet
   function saveCustomerAndResetForm() {
     if (productsList.length === 0) {
       alert("कृपया सबमिट करण्यापूर्वी किमान १ प्रॉडक्ट टेबलमध्ये जोडा!");
@@ -829,7 +1003,15 @@ function googleTranslateElementInit() {
     const activeCustId = localStorage.getItem('activeCustomerId') || "";
     formData.append('customerId', activeCustId);
     formData.append('password', passwordVal);
+
+    if (document.getElementById('init_name')) formData.append('init_name', document.getElementById('init_name').value);
+    if (document.getElementById('init_mobile')) formData.append('init_mobile', document.getElementById('init_mobile').value);
+    if (document.getElementById('init_business')) formData.append('init_business', document.getElementById('init_business').value);
+    if (document.getElementById('init_city')) formData.append('init_city', document.getElementById('init_city').value);
+    if (document.getElementById('init_category')) formData.append('init_category', document.getElementById('init_category').value);
+
     formData.append('productsJson', JSON.stringify(productsList));
+    formData.append('products', JSON.stringify(productsList));
 
     fetch(SCRIPT_URL, { method: 'POST', body: formData })
       .then(res => res.json())
@@ -868,59 +1050,6 @@ function googleTranslateElementInit() {
     }
   }
 
-  function handleReLogin(e) {
-    if (e && e.preventDefault) e.preventDefault();
-
-    const custIdInput = document.getElementById('loginCustomerId');
-    const passInput = document.getElementById('loginPassword');
-
-    const custId = custIdInput ? custIdInput.value.trim() : "";
-    const pass = passInput ? passInput.value.trim() : "";
-
-    if (!custId || !pass) {
-      alert("कृपया Customer ID आणि Password दोन्ही टाका!");
-      return;
-    }
-
-    fetch(SCRIPT_URL + "?action=VERIFY_LOGIN&customerId=" + encodeURIComponent(custId) + "&password=" + encodeURIComponent(pass))
-    .then(res => res.json())
-    .then(response => {
-      if (response.status === "SUCCESS") {
-        localStorage.setItem('activeCustomerId', custId);
-        localStorage.setItem('activePassword', pass);
-
-        const step2Badge = document.getElementById('displayStep2CustId');
-        if (step2Badge) {
-          step2Badge.innerText = "तुमचा Customer ID: " + custId;
-        }
-
-        const mainScr = document.getElementById('mainScreen');
-        const step2Scr = document.getElementById('step2Screen');
-        if (mainScr) mainScr.style.display = 'none';
-        if (step2Scr) step2Scr.style.display = 'none';
-
-        const step3Elem = document.getElementById('step3Screen');
-        if (step3Elem) {
-          step3Elem.style.display = 'block';
-          step3Elem.classList.remove('hide-section', 'd-none');
-        }
-
-        const step3Badge = document.getElementById('displayCustId');
-        if (step3Badge) {
-          step3Badge.innerText = custId;
-        }
-
-        alert("लॉगिन यशस्वी! Customer ID: " + custId);
-      } else {
-        alert(response.message || "चुकीचा पासवर्ड!");
-      }
-    })
-    .catch(err => {
-      console.error(err);
-      alert("पडताळणी करताना अडचण आली. कृपया पुन्हा प्रयत्न करा.");
-    });
-  }
-
   function autoFillLoginId() {
     const savedCustId = localStorage.getItem('activeCustomerId');
     const inputElem = document.getElementById('loginCustomerId');
@@ -931,4 +1060,3 @@ function googleTranslateElementInit() {
 </script>
 
 </body>
-</html>
