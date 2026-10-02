@@ -14,13 +14,14 @@
     
     <style>
         :root { 
-            --bg-dark: #0b0f19;
-            --card-glass: rgba(255, 255, 255, 0.05);
-            --border-glass: rgba(255, 255, 255, 0.12);
-            --primary-accent: #00f2fe;
-            --secondary-accent: #4facfe;
-            --accent-green: #10b981;
-            --light-bg: #f8fafc;
+            --bg-light: #f8fafc;
+            --card-bg: #ffffff;
+            --border-light: #e2e8f0;
+            --primary-accent: #2563eb;
+            --secondary-accent: #1d4ed8;
+            --accent-green: #059669;
+            --text-dark: #0f172a;
+            --text-muted: #64748b;
         }
         
         /* Hide Google Translate Top Banner */
@@ -36,8 +37,8 @@
             top: 0px !important;
             position: static !important;
             font-family: 'Poppins', 'Noto Sans Devanagari', sans-serif; 
-            background-color: var(--bg-dark); 
-            color: #f1f5f9; 
+            background-color: var(--bg-light); 
+            color: var(--text-dark); 
             overflow-x: hidden;
         }
 
@@ -45,85 +46,75 @@
             display: none !important;
         }
 
-        /* Modern Navbar */
+        /* Light Premium Navbar */
         .navbar-custom { 
-            background: rgba(11, 15, 25, 0.85) !important; 
+            background: rgba(255, 255, 255, 0.95) !important; 
             backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--border-glass);
+            border-bottom: 1px solid var(--border-light);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
         }
         .navbar-brand span { 
-            background: linear-gradient(90deg, var(--primary-accent), var(--secondary-accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: var(--primary-accent);
             font-weight: 700;
         }
-        .nav-link { color: #cbd5e1 !important; transition: all 0.3s ease; }
+        .nav-link { color: #334155 !important; transition: all 0.3s ease; font-weight: 500; }
         .nav-link:hover { color: var(--primary-accent) !important; }
 
-        /* Modern Hero Section */
+        /* Light Hero Section */
         .hero-section { 
-            background: radial-gradient(circle at 20% 20%, rgba(79, 172, 254, 0.15) 0%, transparent 40%),
-                        radial-gradient(circle at 80% 80%, rgba(0, 242, 254, 0.15) 0%, transparent 40%),
-                        linear-gradient(135deg, #0b0f19 0%, #111827 100%);
-            color: white; 
-            padding: 50px 0 30px 0; 
+            background: linear-gradient(135deg, #eff6ff 0%, #e0f2fe 100%);
+            color: var(--text-dark); 
+            padding: 50px 0 40px 0; 
+            border-bottom: 1px solid var(--border-light);
         }
 
-        /* Glassmorphism Cards */
-        .glass-card {
-            background: var(--card-glass);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid var(--border-glass);
+        /* Premium White Cards */
+        .glass-card, .card-custom {
+            background: var(--card-bg);
+            border: 1px solid var(--border-light);
             border-radius: 16px;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-        }
-
-        .card-custom { 
-            background: rgba(17, 24, 39, 0.7); 
-            border: 1px solid var(--border-glass); 
-            border-radius: 16px; 
-            color: #f8fafc;
+            box-shadow: 0 4px 20px rgba(15, 23, 42, 0.05);
+            color: var(--text-dark);
         }
 
         .form-control, .form-select {
-            background: rgba(255, 255, 255, 0.07) !important;
-            border: 1px solid var(--border-glass) !important;
-            color: #fff !important;
+            background: #ffffff !important;
+            border: 1px solid #cbd5e1 !important;
+            color: var(--text-dark) !important;
             border-radius: 8px;
         }
         .form-control:focus, .form-select:focus {
-            background: rgba(255, 255, 255, 0.12) !important;
+            background: #ffffff !important;
             border-color: var(--primary-accent) !important;
-            box-shadow: 0 0 10px rgba(0, 242, 254, 0.2) !important;
-            color: #fff !important;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15) !important;
+            color: var(--text-dark) !important;
         }
         .form-control::placeholder { color: #94a3b8 !important; }
-        .form-select option { background-color: #111827; color: #fff; }
+        .form-select option { background-color: #ffffff; color: var(--text-dark); }
 
         /* Buttons */
         .btn-gradient { 
-            background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%); 
-            color: #0b0f19; 
-            font-weight: 700; 
+            background: linear-gradient(90deg, var(--primary-accent) 0%, var(--secondary-accent) 100%); 
+            color: #ffffff; 
+            font-weight: 600; 
             border: none;
             border-radius: 8px;
             transition: all 0.3s ease;
         }
         .btn-gradient:hover { 
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0, 242, 254, 0.4);
-            color: #0b0f19; 
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+            color: #ffffff; 
         }
 
         .btn-accent { 
             background-color: var(--accent-green); 
-            color: white; 
+            color: #ffffff; 
             font-weight: 600; 
             border: none; 
             border-radius: 8px;
         }
-        .btn-accent:hover { background-color: #059669; color: white; }
+        .btn-accent:hover { background-color: #047857; color: #ffffff; }
 
         .img-preview-thumb { width: 45px; height: 45px; object-fit: cover; border-radius: 4px; border: 1px solid #cbd5e1; }
         .site-logo { height: 40px; width: auto; object-fit: contain; }
@@ -136,42 +127,42 @@
             color: white;
             font-weight: bold;
         }
-        .bg-total-products { background-color: #0d6efd; }
-        .bg-total-value { background-color: #198754; }
+        .bg-total-products { background-color: #2563eb; }
+        .bg-total-value { background-color: #059669; }
 
         /* Google Translate Container Fix */
         #google_translate_element {
             display: inline-block;
             margin-left: 15px;
         }
-        .goog-te-gadget { color: #fff !important; font-size: 13px !important; }
+        .goog-te-gadget { color: var(--text-dark) !important; font-size: 13px !important; }
         .goog-te-gadget .goog-te-combo {
             padding: 5px 10px;
             border-radius: 6px;
-            border: 1px solid var(--border-glass);
-            color: #ffffff;
+            border: 1px solid var(--border-light);
+            color: var(--text-dark);
             font-weight: 600;
-            background: rgba(255,255,255,0.1);
+            background: #ffffff;
             outline: none;
         }
         .goog-te-gadget span { display: none !important; }
         
-        /* Light Sections in Step 2, 3 & Dashboard override */
+        /* Step Sections Background Override */
         #step2Screen, #step3Screen, #dashboardScreen {
-            background-color: #0b0f19 !important;
+            background-color: var(--bg-light) !important;
         }
         #step2Screen .card, #step3Screen .card {
-            background-color: #111827;
-            color: #fff;
-            border: 1px solid var(--border-glass);
+            background-color: #ffffff;
+            color: var(--text-dark);
+            border: 1px solid var(--border-light);
         }
-        #step3Screen table { color: #fff; }
+        #step3Screen table { color: var(--text-dark); }
     </style>
 </head>
 <body>
 
 <!-- NAVBAR -->
-<nav class="navbar navbar-expand-lg navbar-dark navbar-custom sticky-top">
+<nav class="navbar navbar-expand-lg navbar-light navbar-custom sticky-top">
     <div class="container">
         <a class="navbar-brand fw-bold fs-4 d-flex align-items-center notranslate" translate="no" href="#">
             <img src="logo.png" alt="Logo" class="site-logo me-2" onerror="this.style.display='none'">
@@ -202,13 +193,13 @@
         <div class="container">
             <div class="row align-items-center g-4">
                 <div class="col-lg-7 text-center text-lg-start">
-                    <span class="badge bg-info bg-opacity-20 text-info border border-info border-opacity-25 px-3 py-2 rounded-pill mb-3 fs-6">
+                    <span class="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25 px-3 py-2 rounded-pill mb-3 fs-6 fw-semibold">
                         <i class="fa-solid fa-bolt me-1"></i> डिजिटल क्रांती स्थानिक व्यवसायांसाठी
                     </span>
-                    <h1 class="display-5 fw-bold mb-3 text-white">
+                    <h1 class="display-5 fw-bold mb-3 text-dark">
                         स्थानिक व्यवसाय आणि विद्यार्थी शक्तीचा <span style="color: var(--primary-accent);">महासंगम!</span>
                     </h1>
-                    <p class="lead text-light mb-4">
+                    <p class="lead text-secondary mb-4">
                         तुमचा व्यवसाय डिजिटल करा — मोफत Business Profile, Digital Card आणि Amazon/Flipkart Listing सपोर्ट मिळवा.
                     </p>
                 </div>
@@ -217,16 +208,16 @@
                 <div class="col-lg-5">
                     <div class="glass-card p-4">
                         <div class="text-center mb-3">
-                            <h5 class="fw-bold text-white mb-1"><i class="fa-solid fa-right-to-bracket text-info me-2"></i>Existing User Login</h5>
-                            <small class="text-secondary">पुन्हा लॉगिन करा</small>
+                            <h5 class="fw-bold text-dark mb-1"><i class="fa-solid fa-right-to-bracket text-primary me-2"></i>Existing User Login</h5>
+                            <small class="text-muted">पुन्हा लॉगिन करा</small>
                         </div>
                         <form id="reLoginForm" onsubmit="handleReLogin(event)">
                             <div class="mb-3">
-                                <label for="loginCustomerId" class="form-label small text-light fw-semibold">Customer ID</label>
+                                <label for="loginCustomerId" class="form-label small text-dark fw-semibold">Customer ID</label>
                                 <input type="text" id="loginCustomerId" class="form-control" placeholder="उदा. CUST1001" required>
                             </div>
                             <div class="mb-3">
-                                <label for="loginPassword" class="form-label small text-light fw-semibold">Password</label>
+                                <label for="loginPassword" class="form-label small text-dark fw-semibold">Password</label>
                                 <input type="password" id="loginPassword" class="form-control" placeholder="तुमचा पासवर्ड टाका" required>
                             </div>
                             <button type="submit" id="loginSubmitBtn" class="btn btn-gradient w-100 py-2">Login</button>
@@ -243,27 +234,27 @@
             <div class="row g-4">
                 <!-- BUSINESS OWNER FORM (STEP 1) -->
                 <div class="col-md-6" id="register-owner">
-                    <div class="card card-custom p-4 shadow h-100">
-                        <h3 class="fw-bold mb-3 text-center text-info"><i class="fa-solid fa-store me-2"></i>Business Owner Registration</h3>
+                    <div class="card card-custom p-4 shadow-sm h-100">
+                        <h3 class="fw-bold mb-3 text-center text-primary"><i class="fa-solid fa-store me-2"></i>Business Owner Registration</h3>
                         <form id="ownerStep1Form">
                             <div class="mb-3">
-                                <label class="form-label small text-light">पूर्ण नाव (Full Name)</label>
+                                <label class="form-label small text-dark fw-semibold">पूर्ण नाव (Full Name)</label>
                                 <input type="text" id="init_name" name="name" class="form-control" placeholder="तुमचे नाव टाका" required>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label small text-light">व्यवसाय नाव (Business Name)</label>
+                                <label class="form-label small text-dark fw-semibold">व्यवसाय नाव (Business Name)</label>
                                 <input type="text" id="init_business" name="businessName" class="form-control" placeholder="व्यवसायाचे/दुकानाचे नाव टाका" required>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label small text-light">संपर्क क्रमांक (Contact Number)</label>
+                                <label class="form-label small text-dark fw-semibold">संपर्क क्रमांक (Contact Number)</label>
                                 <input type="tel" id="init_mobile" name="contact" class="form-control" placeholder="मोबाइल नंबर" pattern="[0-9]{10}" required>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label small text-light">शहर (City)</label>
+                                <label class="form-label small text-dark fw-semibold">शहर (City)</label>
                                 <input type="text" id="init_city" name="city" class="form-control" placeholder="तुमचे शहर" required>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label small text-light">व्यवसाय वर्ग (Category)</label>
+                                <label class="form-label small text-dark fw-semibold">व्यवसाय वर्ग (Category)</label>
                                 <select id="init_category" name="category" class="form-select" required>
                                     <option value="" selected disabled>वर्ग निवडा (Select Category)</option>
                                     <option value="Retail / दुकान">Retail / दुकान</option>
@@ -280,27 +271,27 @@
 
                 <!-- STUDENT EXECUTIVE FORM -->
                 <div class="col-md-6" id="register-student">
-                    <div class="card card-custom p-4 shadow h-100">
+                    <div class="card card-custom p-4 shadow-sm h-100">
                         <h3 class="fw-bold mb-3 text-center text-primary"><i class="fa-solid fa-user-graduate me-2"></i>Student Executive Registration</h3>
                         <form id="studentForm">
                             <div class="mb-3">
-                                <label class="form-label small text-light">विद्यार्थ्याचे नाव (Student Name)</label>
+                                <label class="form-label small text-dark fw-semibold">विद्यार्थ्याचे नाव (Student Name)</label>
                                 <input type="text" name="name" class="form-control" placeholder="तुमचे नाव टाका" required>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label small text-light">कॉलेज / संस्था (College / Institute)</label>
+                                <label class="form-label small text-dark fw-semibold">कॉलेज / संस्था (College / Institute)</label>
                                 <input type="text" name="collegeName" class="form-control" placeholder="कॉलेजचे नाव" required>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label small text-light">संपर्क क्रमांक (Contact Number)</label>
+                                <label class="form-label small text-dark fw-semibold">संपर्क क्रमांक (Contact Number)</label>
                                 <input type="tel" name="contact" class="form-control" placeholder="मोबाइल नंबर" pattern="[0-9]{10}" required>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label small text-light">शहर (City)</label>
+                                <label class="form-label small text-dark fw-semibold">शहर (City)</label>
                                 <input type="text" name="city" class="form-control" placeholder="तुमचे शहर" required>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label small text-light">रस क्षेत्र (Area of Interest)</label>
+                                <label class="form-label small text-dark fw-semibold">रस क्षेत्र (Area of Interest)</label>
                                 <select name="category" class="form-select" required>
                                     <option value="" selected disabled>क्षेत्र निवडा</option>
                                     <option value="Digital Marketing">Digital Marketing</option>
@@ -316,20 +307,20 @@
     </section>
 
     <!-- ABOUT US SECTION -->
-    <section class="py-5" id="about" style="background: rgba(255,255,255,0.02);">
+    <section class="py-5 bg-white border-top border-bottom border-slate-200" id="about">
         <div class="container">
-            <h2 class="fw-bold text-center mb-4 text-white">आमच्याबद्दल (About Us)</h2>
+            <h2 class="fw-bold text-center mb-4 text-dark">आमच्याबद्दल (About Us)</h2>
             <div class="row g-4 mb-4">
                 <div class="col-md-6">
-                    <div class="p-4 card-custom h-100 shadow-sm">
-                        <h4 class="fw-bold text-info mb-3"><i class="fa-solid fa-eye me-2"></i>Our Vision (दृष्टी)</h4>
-                        <p class="mb-0 text-secondary">कॉलेजच्या विद्यार्थ्यांना ई-कॉमर्सचा प्रत्यक्ष व्यावसायिक अनुभव देणे आणि बिझनेस ओनर्सना त्यांचा ऑनलाईन व्यवसाय वाढवण्यासाठी प्रत्यक्ष मदत मिळेल अशी मजबूत यंत्रणा (Ecosystem) तयार करणे.</p>
+                    <div class="p-4 card-custom h-100 shadow-sm border">
+                        <h4 class="fw-bold text-primary mb-3"><i class="fa-solid fa-eye me-2"></i>Our Vision (दृष्टी)</h4>
+                        <p class="mb-0 text-muted">कॉलेजच्या विद्यार्थ्यांना ई-कॉमर्सचा प्रत्यक्ष व्यावसायिक अनुभव देणे आणि बिझनेस ओनर्सना त्यांचा ऑनलाईन व्यवसाय वाढवण्यासाठी प्रत्यक्ष मदत मिळेल अशी मजबूत यंत्रणा (Ecosystem) तयार करणे.</p>
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <div class="p-4 card-custom h-100 shadow-sm">
+                    <div class="p-4 card-custom h-100 shadow-sm border">
                         <h4 class="fw-bold text-success mb-3"><i class="fa-solid fa-bullseye me-2"></i>Our Mission (ध्येय)</h4>
-                        <p class="mb-0 text-secondary">प्रत्यक्ष बिझनेस प्रोजेक्ट्सच्या माध्यमातून विद्यार्थी आणि बिझनेस ओनर्सना जोडणे, विद्यार्थ्यांना सक्षम ई-कॉमर्स बिझनेस एक्झिक्युटिव्ह बनवणे आणि विद्यार्थी, विक्रेते, उत्पादने व मार्केटप्लेसचा नेटवर्क विस्तार करणे.</p>
+                        <p class="mb-0 text-muted">प्रत्यक्ष बिझनेस प्रोजेक्ट्सच्या माध्यमातून विद्यार्थी आणि बिझनेस ओनर्सना जोडणे, विद्यार्थ्यांना सक्षम ई-कॉमर्स बिझनेस एक्झिक्युटिव्ह बनवणे आणि विद्यार्थी, विक्रेते, उत्पादने व मार्केटप्लेसचा नेटवर्क विस्तार करणे.</p>
                     </div>
                 </div>
             </div>
@@ -339,27 +330,27 @@
     <!-- SERVICES SECTION -->
     <section class="py-5" id="services">
         <div class="container">
-            <h2 class="fw-bold text-center mb-4 text-white">आमच्या सेवा (Our Services)</h2>
+            <h2 class="fw-bold text-center mb-4 text-dark">आमच्या सेवा (Our Services)</h2>
             <div class="row g-4 text-center">
                 <div class="col-md-4">
-                    <div class="p-4 card-custom h-100">
-                        <i class="fa-solid fa-store fa-2x text-info mb-3"></i>
-                        <h5 class="fw-bold text-white">Digital Business Profile</h5>
-                        <p class="text-secondary small mb-0">तुमच्या व्यवसायाची डिजिटल प्रोफाइल तयार करून मिळवा.</p>
+                    <div class="p-4 card-custom h-100 shadow-sm">
+                        <i class="fa-solid fa-store fa-2x text-primary mb-3"></i>
+                        <h5 class="fw-bold text-dark">Digital Business Profile</h5>
+                        <p class="text-muted small mb-0">तुमच्या व्यवसायाची डिजिटल प्रोफाइल तयार करून मिळवा.</p>
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="p-4 card-custom h-100">
+                    <div class="p-4 card-custom h-100 shadow-sm">
                         <i class="fa-solid fa-address-card fa-2x text-success mb-3"></i>
-                        <h5 class="fw-bold text-white">Digital Visiting Card</h5>
-                        <p class="text-secondary small mb-0">स्मार्ट आणि आधुनिक डिजिटल व्हिजिटिंग कार्ड तयार करा.</p>
+                        <h5 class="fw-bold text-dark">Digital Visiting Card</h5>
+                        <p class="text-muted small mb-0">स्मार्ट आणि आधुनिक डिजिटल व्हिजिटिंग कार्ड तयार करा.</p>
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="p-4 card-custom h-100">
+                    <div class="p-4 card-custom h-100 shadow-sm">
                         <i class="fa-solid fa-cart-shopping fa-2x text-warning mb-3"></i>
-                        <h5 class="fw-bold text-white">E-Commerce Support</h5>
-                        <p class="text-secondary small mb-0">Amazon व Flipkart वर उत्पादने लिस्ट करण्यासाठी मदत.</p>
+                        <h5 class="fw-bold text-dark">E-Commerce Support</h5>
+                        <p class="text-muted small mb-0">Amazon व Flipkart वर उत्पादने लिस्ट करण्यासाठी मदत.</p>
                     </div>
                 </div>
             </div>
@@ -391,8 +382,8 @@
                         <div class="bg-primary text-white rounded-circle p-3 mb-3" style="width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;">
                             <i class="fa-solid fa-box-open fa-2x"></i>
                         </div>
-                        <h5 class="fw-bold text-white">Products Management</h5>
-                        <p class="text-secondary small">नवीन प्रॉडक्ट्स ॲड करा किंवा लिस्ट पहा.</p>
+                        <h5 class="fw-bold text-dark">Products Management</h5>
+                        <p class="text-muted small">नवीन प्रॉडक्ट्स ॲड करा किंवा लिस्ट पहा.</p>
                         <button class="btn btn-outline-primary btn-sm mt-auto fw-semibold w-100" onclick="openServicePoint('products')">Open Products</button>
                     </div>
                 </div>
@@ -405,8 +396,8 @@
                         <div class="bg-success text-white rounded-circle p-3 mb-3" style="width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;">
                             <i class="fa-solid fa-address-card fa-2x"></i>
                         </div>
-                        <h5 class="fw-bold text-white">Digital Visiting Card</h5>
-                        <p class="text-secondary small">तुमचे डिजिटल कार्ड पहा व शेअर करा.</p>
+                        <h5 class="fw-bold text-dark">Digital Visiting Card</h5>
+                        <p class="text-muted small">तुमचे डिजिटल कार्ड पहा व शेअर करा.</p>
                         <button class="btn btn-outline-success btn-sm mt-auto fw-semibold w-100" onclick="openServicePoint('visitingCard')">View Card</button>
                     </div>
                 </div>
@@ -419,8 +410,8 @@
                         <div class="bg-warning text-white rounded-circle p-3 mb-3" style="width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;">
                             <i class="fa-solid fa-cart-shopping fa-2x"></i>
                         </div>
-                        <h5 class="fw-bold text-white">E-Commerce Support</h5>
-                        <p class="text-secondary small">Amazon व Flipkart लिस्टिंगसाठी ॲप्लाय करा.</p>
+                        <h5 class="fw-bold text-dark">E-Commerce Support</h5>
+                        <p class="text-muted small">Amazon व Flipkart लिस्टिंगसाठी ॲप्लाय करा.</p>
                         <button class="btn btn-outline-warning btn-sm mt-auto fw-semibold w-100 text-dark" onclick="openServicePoint('ecommerce')">Open Support</button>
                     </div>
                 </div>
@@ -433,8 +424,8 @@
                         <div class="bg-info text-white rounded-circle p-3 mb-3" style="width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;">
                             <i class="fa-solid fa-user-pen fa-2x"></i>
                         </div>
-                        <h5 class="fw-bold text-white">Profile & Details</h5>
-                        <p class="text-secondary small">तुमची वैयक्तिक व व्यवसाय माहिती पहा/अपडेट करा.</p>
+                        <h5 class="fw-bold text-dark">Profile & Details</h5>
+                        <p class="text-muted small">तुमची वैयक्तिक व व्यवसाय माहिती पहा/अपडेट करा.</p>
                         <button class="btn btn-outline-info btn-sm mt-auto fw-semibold w-100" onclick="openServicePoint('personalInfo')">Edit Profile</button>
                     </div>
                 </div>
@@ -537,7 +528,7 @@
 <!-- STEP 3: PRODUCTS INFORMATION SCREEN -->
 <div id="step3Screen" class="hide-section py-4">
     <div class="container px-4">
-        <div class="card p-3 mb-3 border-primary shadow-sm">
+        <div class="card p-3 mb-3 border-primary shadow-sm bg-white">
             <div class="row align-items-center text-center text-md-start">
                 <div class="col-12 text-center mb-2">
                     <h6 class="mb-0 text-muted">तुमचा Customer ID:</h6>
@@ -644,8 +635,8 @@
 </div>
 
 <!-- FOOTER -->
-<footer class="py-4 text-center border-top border-secondary border-opacity-25" style="background: rgba(11, 15, 25, 0.95);">
-    <div class="container text-secondary small">
+<footer class="py-4 text-center border-top bg-white border-slate-200">
+    <div class="container text-muted small">
         <p class="mb-0">&copy; 2026 <span class="notranslate" translate="no">Student Business Hub India</span>. सर्व हक्क सुरक्षित.</p>
     </div>
 </footer>
@@ -665,7 +656,7 @@ function googleTranslateElementInit() {
 <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
 <script>
-  // Google Apps Script Deploy Web App URL (Tantotant same as original)
+  // Google Apps Script Deploy Web App URL
   const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz3Qr1pRAxUThBk6eIGTke9o1WplUGOfNC8vO8bAZH6XT17SZPaZJaSsFRfX3vRpptOjA/exec";
 
   let productsList = [];
