@@ -75,6 +75,12 @@
             border-radius: 16px;
             box-shadow: 0 4px 20px rgba(15, 23, 42, 0.05);
             color: var(--text-dark);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .card-custom:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(15, 23, 42, 0.08);
         }
 
         .form-control, .form-select {
@@ -247,7 +253,7 @@
                             </div>
                             <div class="mb-3">
                                 <label class="form-label small text-dark fw-semibold">संपर्क क्रमांक (Contact Number)</label>
-                                <input type="tel" id="init_mobile" name="contact" class="form-control" placeholder="मोबाइल नंबर" pattern="[0-9]{10}" required>
+                                <input type="tel" id="init_mobile" name="contact" class="form-control" placeholder="उदा. 9876543210" pattern="[0-9]{10}" maxlength="10" required>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label small text-dark fw-semibold">शहर (City)</label>
@@ -284,7 +290,7 @@
                             </div>
                             <div class="mb-3">
                                 <label class="form-label small text-dark fw-semibold">संपर्क क्रमांक (Contact Number)</label>
-                                <input type="tel" name="contact" class="form-control" placeholder="मोबाइल नंबर" pattern="[0-9]{10}" required>
+                                <input type="tel" name="contact" class="form-control" placeholder="उदा. 9876543210" pattern="[0-9]{10}" maxlength="10" required>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label small text-dark fw-semibold">शहर (City)</label>
@@ -468,7 +474,7 @@
                         </div>
                         <div class="col-md-3">
                             <label class="form-label small fw-semibold">Mobile No. <span class="text-danger">*</span></label>
-                            <input type="tel" id="custMobile" name="custMobile" class="form-control form-control-sm" placeholder="Mobile No." pattern="[0-9]{10}" required>
+                            <input type="tel" id="custMobile" name="custMobile" class="form-control form-control-sm" placeholder="Mobile No." pattern="[0-9]{10}" maxlength="10" required>
                         </div>
 
                         <div class="col-md-3">
@@ -477,11 +483,11 @@
                         </div>
                         <div class="col-md-3">
                             <label class="form-label small fw-semibold">Pan Card No.</label>
-                            <input type="text" id="panCard" name="panCard" class="form-control form-control-sm" placeholder="PAN CARD">
+                            <input type="text" id="panCard" name="panCard" class="form-control form-control-sm" placeholder="PAN CARD" style="text-transform: uppercase;">
                         </div>
                         <div class="col-md-3">
                             <label class="form-label small fw-semibold">GST No.</label>
-                            <input type="text" id="gstNo" name="gstNo" class="form-control form-control-sm" placeholder="GST NO.">
+                            <input type="text" id="gstNo" name="gstNo" class="form-control form-control-sm" placeholder="GST NO." style="text-transform: uppercase;">
                         </div>
                         <div class="col-md-3">
                             <label class="form-label small fw-semibold">State</label>
@@ -503,7 +509,7 @@
                         </div>
                         <div class="col-md-3">
                             <label class="form-label small fw-semibold">Pin Code <span class="text-danger">*</span></label>
-                            <input type="text" id="custPincode" name="custPincode" class="form-control form-control-sm" placeholder="PIN CODE" required>
+                            <input type="text" id="custPincode" name="custPincode" class="form-control form-control-sm" placeholder="PIN CODE" pattern="[0-9]{6}" maxlength="6" required>
                         </div>
                         <div class="col-md-3">
                             <label class="form-label small fw-semibold">Set Password <span class="text-danger">*</span></label>
@@ -838,7 +844,7 @@ function googleTranslateElementInit() {
     }
 
     // =========================================================
-    // 🎓 STUDENT EXECUTIVE REGISTRATION FORM (UPDATED)
+    // 🎓 STUDENT EXECUTIVE REGISTRATION FORM
     // =========================================================
     const studentForm = document.getElementById('studentForm');
     if (studentForm) {
