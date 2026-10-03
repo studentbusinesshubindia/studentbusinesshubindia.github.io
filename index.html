@@ -657,7 +657,7 @@ function googleTranslateElementInit() {
 
 <script>
   // Google Apps Script Deploy Web App URL
-  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz3Qr1pRAxUThBk6eIGTke9o1WplUGOfNC8vO8bAZH6XT17SZPaZJaSsFRfX3vRpptOjA/exec";
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxcb5-rCw6wxLpOYjMs_00Yl0bGY6rvesvI3kSeMEG8OxnP3hEKos5qSXR9epZz60gEmw/exec";
 
   let productsList = [];
   let currentImageBase64 = "";
@@ -836,6 +836,52 @@ function googleTranslateElementInit() {
         });
       });
     }
+
+    // =========================================================
+    // 🎓 STUDENT EXECUTIVE REGISTRATION FORM (UPDATED)
+    // =========================================================
+    const studentForm = document.getElementById('studentForm');
+    if (studentForm) {
+      studentForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const submitBtn = document.getElementById('studentSubmitBtn');
+        if(submitBtn) { submitBtn.innerText = "सबमिट होत आहे..."; submitBtn.disabled = true; }
+
+        const payload = {
+          action: "STUDENT_REGISTRATION",
+          type: "Student Executive",
+          studentName: studentForm.querySelector('[name="name"]').value,
+          college: studentForm.querySelector('[name="collegeName"]').value,
+          contact: studentForm.querySelector('[name="contact"]').value,
+          city: studentForm.querySelector('[name="city"]').value,
+          areaOfInterest: studentForm.querySelector('[name="category"]').value
+        };
+
+        fetch(SCRIPT_URL, { 
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify(payload)
+        })
+        .then(res => res.json())
+        .then(data => {
+          if (data && data.status === "SUCCESS") {
+            alert("विद्यार्थी नोंदणी यशस्वीरीत्या पूर्ण झाली आहे!\nतुमचा Executive ID: " + (data.executiveId || data.studentId));
+          } else {
+            alert("नोंदणी पूर्ण झाली आहे!");
+          }
+          studentForm.reset();
+        })
+        .catch((err) => {
+          console.error(err);
+          alert("नोंदणी पूर्ण झाली आहे!");
+          studentForm.reset();
+        })
+        .finally(() => {
+          if(submitBtn) { submitBtn.innerText = "Executive बना"; submitBtn.disabled = false; }
+        });
+      });
+    }
   });
 
   // =========================================================
@@ -935,33 +981,6 @@ function googleTranslateElementInit() {
     })
     .finally(() => {
       toggleLoading(saveBtn, spinner, btnText, false, '<i class="fa-solid fa-floppy-disk me-1"></i> Save All & Complete');
-    });
-  }
-
-  // Student Form Submit
-  const studentForm = document.getElementById('studentForm');
-  if (studentForm) {
-    studentForm.addEventListener('submit', function(e) {
-      e.preventDefault();
-      
-      const submitBtn = document.getElementById('studentSubmitBtn');
-      if(submitBtn) { submitBtn.innerText = "सबमिट होत आहे..."; submitBtn.disabled = true; }
-
-      const formData = new FormData(this);
-      formData.append('type', 'Student Executive');
-
-      fetch(SCRIPT_URL, { method: 'POST', body: formData })
-        .then(() => {
-          alert("विद्यार्थी नोंदणी यशस्वीरीत्या पूर्ण झाली आहे!");
-          studentForm.reset();
-        })
-        .catch(() => {
-          alert("नोंदणी पूर्ण झाली आहे!");
-          studentForm.reset();
-        })
-        .finally(() => {
-          if(submitBtn) { submitBtn.innerText = "Executive बना"; submitBtn.disabled = false; }
-        });
     });
   }
 
