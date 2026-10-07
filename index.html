@@ -366,7 +366,7 @@
         </div>
     </section>
 
-    <!-- NEW SECTION: MONTHLY COMPLIANCE & ACCOUNTING SERVICES -->
+    <!-- MONTHLY COMPLIANCE & ACCOUNTING SERVICES -->
     <section class="py-5 bg-white border-top" id="monthly-compliance">
         <div class="container">
             <div class="text-center mb-5">
@@ -378,7 +378,6 @@
             </div>
 
             <div class="row g-4">
-                <!-- Service 1: GSTR-1 -->
                 <div class="col-md-6 col-lg-4">
                     <div class="card card-custom h-100 shadow-sm p-3">
                         <div class="card-body d-flex flex-column">
@@ -402,7 +401,6 @@
                     </div>
                 </div>
 
-                <!-- Service 2: GSTR-3B -->
                 <div class="col-md-6 col-lg-4">
                     <div class="card card-custom h-100 shadow-sm p-3">
                         <div class="card-body d-flex flex-column">
@@ -427,7 +425,6 @@
                     </div>
                 </div>
 
-                <!-- Service 3: GST Billing & PMT06 -->
                 <div class="col-md-6 col-lg-4">
                     <div class="card card-custom h-100 shadow-sm p-3">
                         <div class="card-body d-flex flex-column">
@@ -451,7 +448,6 @@
                     </div>
                 </div>
 
-                <!-- Service 4: Bookkeeping & ITC Reconciliation -->
                 <div class="col-md-6 col-lg-4">
                     <div class="card card-custom h-100 shadow-sm p-3">
                         <div class="card-body d-flex flex-column">
@@ -475,7 +471,6 @@
                     </div>
                 </div>
 
-                <!-- Service 5: Payroll & Statutory Compliances -->
                 <div class="col-md-6 col-lg-4">
                     <div class="card card-custom h-100 shadow-sm p-3">
                         <div class="card-body d-flex flex-column">
@@ -499,7 +494,6 @@
                     </div>
                 </div>
 
-                <!-- WhatsApp Direct Support -->
                 <div class="col-md-6 col-lg-4">
                     <div class="card card-custom h-100 shadow-sm p-3 bg-light border-primary">
                         <div class="card-body d-flex flex-column text-center justify-content-center align-items-center">
@@ -520,7 +514,7 @@
     </section>
 </div>
 
-<!-- STEP 4: CUSTOMER SERVICES DASHBOARD (RELOGIN SCREEN) -->
+<!-- STEP 4: CUSTOMER SERVICES DASHBOARD -->
 <div id="dashboardScreen" class="hide-section py-4">
     <div class="container px-4">
         <div class="card shadow-sm border-0 mb-4 bg-primary text-white">
@@ -537,7 +531,6 @@
         </div>
 
         <div class="row g-4">
-            <!-- Point 1: Products Management -->
             <div class="col-md-6 col-lg-3">
                 <div class="card card-custom h-100 shadow-sm text-center p-3">
                     <div class="card-body d-flex flex-column align-items-center justify-content-center">
@@ -551,7 +544,6 @@
                 </div>
             </div>
 
-            <!-- Point 2: Digital Visiting Card -->
             <div class="col-md-6 col-lg-3">
                 <div class="card card-custom h-100 shadow-sm text-center p-3">
                     <div class="card-body d-flex flex-column align-items-center justify-content-center">
@@ -565,7 +557,6 @@
                 </div>
             </div>
 
-            <!-- Point 3: E-Commerce Support -->
             <div class="col-md-6 col-lg-3">
                 <div class="card card-custom h-100 shadow-sm text-center p-3">
                     <div class="card-body d-flex flex-column align-items-center justify-content-center">
@@ -579,7 +570,6 @@
                 </div>
             </div>
 
-            <!-- Point 4: Personal Profile -->
             <div class="col-md-6 col-lg-3">
                 <div class="card card-custom h-100 shadow-sm text-center p-3">
                     <div class="card-body d-flex flex-column align-items-center justify-content-center">
@@ -593,7 +583,6 @@
                 </div>
             </div>
 
-            <!-- Point 5: Monthly Compliance Services (Added) -->
             <div class="col-md-6 col-lg-3">
                 <div class="card card-custom h-100 shadow-sm text-center p-3 border-danger">
                     <div class="card-body d-flex flex-column align-items-center justify-content-center">
@@ -629,7 +618,7 @@
             <div class="card-body p-3">
                 <p class="text-danger small fw-semibold mb-3">* Customer Mobile no. should be unique</p>
                 
-                <form id="addCustForm">
+                <form id="addCustForm" onsubmit="handleStep2Submit(event)">
                     <div class="row g-3">
                         <div class="col-md-3">
                             <label class="form-label small fw-semibold">Customer Name <span class="text-danger">*</span></label>
@@ -692,7 +681,7 @@
                         </div>
                     </div>
                     <div class="text-end mt-4">
-                        <button type="button" id="custSubmitBtn" class="btn btn-primary fw-bold px-4">
+                        <button type="submit" id="custSubmitBtn" class="btn btn-primary fw-bold px-4">
                             Next: Add Products <i class="fa-solid fa-arrow-right ms-1"></i>
                         </button>
                     </div>
@@ -949,72 +938,6 @@ function googleTranslateElementInit() {
     }
 
     // =========================================================
-    // 👥 STEP 2: PERSONAL INFORMATION FORM
-    // =========================================================
-    const custSubmitBtn = document.getElementById('custSubmitBtn');
-    if (custSubmitBtn) {
-      custSubmitBtn.addEventListener('click', function(e) {
-        e.preventDefault();
-
-        const addCustForm = document.getElementById('addCustForm');
-        if (!addCustForm.checkValidity()) {
-          addCustForm.reportValidity();
-          return;
-        }
-
-        const activeCustId = localStorage.getItem('activeCustomerId') || "";
-        const passVal = document.getElementById('custPassword').value.trim();
-
-        const payload = {
-          action: "SAVE_CUSTOMER",
-          customerId: activeCustId,
-          custName: document.getElementById('custName').value.trim(),
-          businessName: document.getElementById('businessName').value.trim(),
-          shopName: document.getElementById('shopName').value.trim(),
-          custMobile: document.getElementById('custMobile').value.trim(),
-          custEmail: document.getElementById('custEmail').value.trim(),
-          panCard: document.getElementById('panCard').value.trim(),
-          gstNo: document.getElementById('gstNo').value.trim(),
-          state: document.getElementById('state').value,
-          custCity: document.getElementById('custCity').value.trim(),
-          custAddress: document.getElementById('custAddress').value.trim(),
-          custPincode: document.getElementById('custPincode').value.trim(),
-          password: passVal,
-          employeeId: document.getElementById('employeeId').value.trim()
-        };
-
-        custSubmitBtn.disabled = true;
-        custSubmitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span> Saving...';
-
-        fetch(SCRIPT_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-          body: JSON.stringify(payload)
-        })
-        .then(response => response.json())
-        .then(data => {
-          custSubmitBtn.disabled = false;
-          custSubmitBtn.innerHTML = 'Next: Add Products <i class="fa-solid fa-arrow-right ms-1"></i>';
-          
-          if (data && data.customerId) {
-            localStorage.setItem('activeCustomerId', data.customerId);
-          }
-          if (passVal) {
-            localStorage.setItem('activePassword', passVal);
-          }
-
-          goToProductScreen();
-        })
-        .catch(err => {
-          custSubmitBtn.disabled = false;
-          custSubmitBtn.innerHTML = 'Next: Add Products <i class="fa-solid fa-arrow-right ms-1"></i>';
-          console.error('Step 2 Error:', err);
-          goToProductScreen();
-        });
-      });
-    }
-
-    // =========================================================
     // 🎓 STUDENT EXECUTIVE REGISTRATION FORM
     // =========================================================
     const studentForm = document.getElementById('studentForm');
@@ -1060,6 +983,70 @@ function googleTranslateElementInit() {
       });
     }
   });
+
+  // =========================================================
+  // 👥 STEP 2: PERSONAL INFORMATION FORM HANDLER
+  // =========================================================
+  function handleStep2Submit(e) {
+    if (e) e.preventDefault();
+
+    const addCustForm = document.getElementById('addCustForm');
+    if (!addCustForm.checkValidity()) {
+      addCustForm.reportValidity();
+      return;
+    }
+
+    const activeCustId = localStorage.getItem('activeCustomerId') || "";
+    const passVal = document.getElementById('custPassword').value.trim();
+    const custSubmitBtn = document.getElementById('custSubmitBtn');
+
+    const payload = {
+      action: "SAVE_CUSTOMER",
+      customerId: activeCustId,
+      custName: document.getElementById('custName').value.trim(),
+      businessName: document.getElementById('businessName').value.trim(),
+      shopName: document.getElementById('shopName').value.trim(),
+      custMobile: document.getElementById('custMobile').value.trim(),
+      custEmail: document.getElementById('custEmail').value.trim(),
+      panCard: document.getElementById('panCard').value.trim(),
+      gstNo: document.getElementById('gstNo').value.trim(),
+      state: document.getElementById('state').value,
+      custCity: document.getElementById('custCity').value.trim(),
+      custAddress: document.getElementById('custAddress').value.trim(),
+      custPincode: document.getElementById('custPincode').value.trim(),
+      password: passVal,
+      employeeId: document.getElementById('employeeId').value.trim()
+    };
+
+    custSubmitBtn.disabled = true;
+    custSubmitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span> Saving to Sheet...';
+
+    fetch(SCRIPT_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(payload)
+    })
+    .then(response => response.json())
+    .then(data => {
+      custSubmitBtn.disabled = false;
+      custSubmitBtn.innerHTML = 'Next: Add Products <i class="fa-solid fa-arrow-right ms-1"></i>';
+      
+      if (data && data.customerId) {
+        localStorage.setItem('activeCustomerId', data.customerId);
+      }
+      if (passVal) {
+        localStorage.setItem('activePassword', passVal);
+      }
+
+      goToProductScreen();
+    })
+    .catch(err => {
+      custSubmitBtn.disabled = false;
+      custSubmitBtn.innerHTML = 'Next: Add Products <i class="fa-solid fa-arrow-right ms-1"></i>';
+      console.error('Step 2 Error:', err);
+      goToProductScreen();
+    });
+  }
 
   // =========================================================
   // 🔐 LOGIN HANDLER
@@ -1359,4 +1346,3 @@ function googleTranslateElementInit() {
 </script>
 
 </body>
-</html>
